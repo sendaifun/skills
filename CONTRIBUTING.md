@@ -54,7 +54,7 @@ Thank you for your interest in contributing to Solana Skills by SendAI! This doc
 
 ### 🆕 New Skills
 
-Create skills for Solana development tasks. Check the [Roadmap](README.md#-solana-skills-roadmap) for ideas or propose your own.
+Create skills for Solana development tasks. Check the [Ideas](README.md#ideas) for ideas or propose your own.
 
 ### 🐛 Bug Fixes
 
@@ -80,7 +80,7 @@ Test existing skills and report issues or suggest improvements.
 
 ### Step 1: Choose Your Skill
 
-- Check the [Roadmap](README.md#-solana-skills-roadmap) for planned skills
+- Check the [Ideas](README.md#ideas) for planned skills
 - Open an issue to discuss new skill ideas
 - Ensure the skill doesn't duplicate existing functionality
 
@@ -105,7 +105,16 @@ Follow this structure:
 name: your-skill-name
 description: A comprehensive description of what this skill does and when an AI agent should use it
 ---
+```
 
+> **Tips for Writing Effective Frontmatter:**
+>
+> - **Include protocol/project names** in the description (e.g., "Jupiter", "Raydium", "Metaplex"). Agents use the description to determine when to load the skill, so explicit mentions help with recognition.
+> - **Use action-oriented language** - Start with verbs like "Build", "Create", "Integrate", "Deploy" to clarify the skill's purpose.
+> - **Mention key technologies** - Include SDK names, frameworks, or standards (e.g., "Anchor", "Token-2022", "SPL") that developers might reference.
+> - **Keep it scannable** - The description should convey the skill's value in one or two sentences. Agents and users should understand at a glance when to use it.
+
+```markdown
 # Your Skill Name
 
 Brief introduction to what this skill accomplishes.

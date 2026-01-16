@@ -1,5 +1,7 @@
 # Solana Skills by SendAI
 
+![Solana Skills](https://assets.sendai.fun/solanaskills/readme-img.png)
+
 A collection of open-source skills for AI agents, specifically designed for **Solana development**. This project follows the [Agent Skills](https://agentskills.io) specification and adapts the structure from [Anthropic's Skills Repository](https://github.com/anthropics/skills).
 
 Skills are folders of instructions, scripts, and resources that Claude (and compatible AI agents) load dynamically to improve performance on specialized tasks. This repository focuses on skills that make Solana development faster, safer, and more accessible.
