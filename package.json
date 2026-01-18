@@ -1,0 +1,26 @@
+{
+  "name": "sendai-skills-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SendAI Skills Plugin System for Claude Code",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build",
+    "clean": "rm -rf packages/*/dist",
+    "cli": "node packages/cli/dist/index.js",
+    "mcp": "node packages/mcp-server/dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sendaifun/skills.git"
+  },
+  "keywords": [
+    "solana",
+    "claude-code",
+    "mcp",
+    "skills"
+  ],
+  "license": "Apache-2.0"
+}
