@@ -1,3 +1,8 @@
+---
+name: code-recon
+description: Deep architectural context building for security audits. Use when conducting security reviews, building codebase understanding, mapping trust boundaries, or preparing for vulnerability analysis. Inspired by Trail of Bits methodology.
+---
+
 # CodeRecon - Deep Architectural Context Building
 
 Build comprehensive architectural understanding through ultra-granular code analysis. Designed for security auditors, code reviewers, and developers who need to rapidly understand unfamiliar codebases before diving deep.

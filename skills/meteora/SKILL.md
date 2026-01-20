@@ -240,7 +240,39 @@ StrategyType.BidAskImBalanced // Imbalanced bid/ask distribution
 
 ## DAMM v2 SDK (CP-AMM)
 
-The DAMM v2 SDK provides a comprehensive interface for Meteora's next-generation constant product AMM.
+The DAMM v2 SDK provides a comprehensive interface for Meteora's next-generation constant product AMM with significant improvements over V1.
+
+### Key DAMM V2 Features (New in 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **Dynamic Fees** | Optional fee scheduler with anti-sniper mechanism |
+| **Position NFTs** | LPs receive transferrable NFT instead of LP token |
+| **Token2022 Support** | Full support for Token Extensions standard |
+| **Locked Liquidity** | Built-in liquidity locking options |
+| **Permissionless Farms** | Create farms without protocol approval |
+| **Lower Costs** | Pool creation costs only 0.022 SOL (vs 0.25 SOL on old DLMM) |
+
+### Fee Scheduler (Anti-Snipe)
+
+The fee scheduler starts with high swap fees that taper over time, protecting against sniping:
+
+```typescript
+// Create pool with fee scheduler
+const createPoolTx = await cpAmm.createCustomPool({
+  // ... other params
+  poolFees: {
+    baseFee: {
+      cliffFeeNumerator: new BN(10000000), // 1% initial fee
+      numberOfPeriod: 10,
+      reductionFactor: new BN(500000),     // Reduce by 0.05% each period
+      periodFrequency: new BN(300),        // Every 5 minutes
+      feeSchedulerMode: 1,                 // Linear reduction
+    },
+    // ...
+  },
+});
+```
 
 ### Basic Setup
 
@@ -901,6 +933,66 @@ async function monitorPool(dlmm: DLMM, interval: number = 5000) {
 
 ---
 
+## New Features (2025-2026)
+
+### DLMM Limit Orders
+
+DLMM now supports fee-free on-chain limit orders:
+
+```typescript
+// Place limit order on DLMM
+const limitOrderTx = await dlmm.placeLimitOrder({
+  user: wallet.publicKey,
+  binId: targetBinId,
+  amount: new BN(1_000_000),
+  side: "buy", // or "sell"
+});
+```
+
+### Auto Vaults (Coming Q1 2026)
+
+Auto vaults automatically compound fees and support custom market-making strategies through APIs. These vaults help users earn more with less effort.
+
+### Universal Curve (DBC)
+
+The Dynamic Bonding Curve now supports programmable 16-point curves, giving LPs precise control over price trajectories:
+
+```typescript
+// Create pool with custom curve
+const createPoolTx = await dbc.createPoolWithCurve({
+  creator: wallet.publicKey,
+  baseMint,
+  quoteMint,
+  curvePoints: [
+    { price: 0.001, supply: 0 },
+    { price: 0.01, supply: 100_000_000 },
+    { price: 0.1, supply: 500_000_000 },
+    // ... up to 16 points
+  ],
+});
+```
+
+### Zap SDK (New)
+
+The zap-sdk enables single-token entry/exit from DAMM v2, DLMM, or Jupiter:
+
+```bash
+npm install @meteora-ag/zap-sdk
+```
+
+```typescript
+import { Zap } from '@meteora-ag/zap-sdk';
+
+// Zap into position with single token
+const zapTx = await Zap.zapIn({
+  pool: poolAddress,
+  inputMint: SOL_MINT,
+  inputAmount: new BN(1_000_000_000),
+  user: wallet.publicKey,
+  slippage: 0.01,
+});
+```
+
 ## Resources
 
 - [Meteora Documentation](https://docs.meteora.ag)
@@ -910,6 +1002,7 @@ async function monitorPool(dlmm: DLMM, interval: number = 5000) {
 - [Vault SDK GitHub](https://github.com/MeteoraAg/vault-sdk)
 - [Alpha Vault SDK GitHub](https://github.com/MeteoraAg/alpha-vault-sdk)
 - [Stake-for-Fee SDK GitHub](https://github.com/MeteoraAg/stake-for-fee-sdk)
+- [Zap SDK GitHub](https://github.com/MeteoraAg/zap-sdk)
 - [Meteora Discord](https://discord.gg/meteora)
 - [Manual Migrator Tool](https://migrator.meteora.ag)
 

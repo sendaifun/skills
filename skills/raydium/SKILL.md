@@ -1,3 +1,8 @@
+---
+name: raydium
+description: Complete Raydium Protocol SDK for building AMM integrations, liquidity pools, and token swaps on Solana. Covers CLMM (concentrated liquidity), CPMM (constant product with Token22), AMM pools, LaunchLab token launches, and farming operations.
+---
+
 # Raydium Protocol Integration Guide
 
 A comprehensive guide for building applications with Raydium - Solana's leading AMM and liquidity protocol.
@@ -198,6 +203,40 @@ console.log(`https://solscan.io/tx/${txId}`);
 | OpenBook Required | No | No | Yes |
 | Custom Price Ranges | Yes | No | No |
 | LP NFT Positions | Yes | No | No |
+
+## LaunchLab (New)
+
+LaunchLab simplifies token launches on Solana with customizable bonding curves:
+
+```typescript
+// Create token with bonding curve via LaunchLab
+const { execute } = await raydium.launchLab.createToken({
+  name: "My Token",
+  symbol: "MTK",
+  uri: "https://arweave.net/metadata.json",
+  initialSupply: 1_000_000_000n,
+  bondingCurve: "linear", // or "exponential"
+  graduationThreshold: 85_000_000_000n, // 85 SOL
+  txVersion: "V0",
+});
+
+const { txId } = await execute({ sendAndConfirm: true });
+```
+
+### Bonding Curve Migration
+
+Tokens automatically migrate to AMM pools once they hit the graduation threshold (default: 85 SOL). Creators earn 10% of trading fees post-migration.
+
+### Key Milestones (2025)
+- **35,000+** tokens launched via LaunchLab
+- **Orb Explorer** launched for on-chain analytics
+
+## V3 Protocol (Coming)
+
+Raydium V3 introduces a hybrid liquidity model combining:
+- AMM pools with OpenBook's decentralized order book
+- Access to **40% more liquidity** across Solana DeFi
+- Enhanced capital efficiency for LPs
 
 ## Resources
 

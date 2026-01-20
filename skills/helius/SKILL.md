@@ -489,12 +489,14 @@ await accountSub.unsubscribe();
 
 ## LaserStream (gRPC)
 
-High-performance data streaming for institutional use.
+LaserStream is a next-generation gRPC streaming service - a drop-in replacement for Yellowstone that adds historical replay, auto-reconnect, and multi-region endpoints.
 
 ### Features
-- Redundant node clusters
-- Historical replay capability
-- Regional endpoints (FRA, AMS, TYO, SG, LAX, LON, EWR, PITT, SLC)
+- **Ultra-low latency**: Taps directly into Solana leaders to receive shreds as they're produced
+- **Historical replay**: Replay past blocks and transactions
+- **Auto-reconnect**: Automatic failover and recovery
+- **Redundant node clusters**: High availability infrastructure
+- **Regional endpoints**: Global coverage for minimal latency
 - Block, transaction, and account streaming
 
 ### Endpoints
@@ -506,6 +508,48 @@ High-performance data streaming for institutional use.
 | Tokyo | `tyo.laserstream.helius.dev` |
 | Singapore | `sg.laserstream.helius.dev` |
 | Los Angeles | `lax.laserstream.helius.dev` |
+| London | `lon.laserstream.helius.dev` |
+| Newark | `ewr.laserstream.helius.dev` |
+| Pittsburgh | `pitt.laserstream.helius.dev` |
+| Salt Lake City | `slc.laserstream.helius.dev` |
+
+### Atlas Infrastructure
+
+Atlas endpoints provide the backbone for Enhanced WebSockets and high-performance streaming:
+
+```typescript
+// Atlas WebSocket endpoints
+const ATLAS_MAINNET_WS = "wss://atlas-mainnet.helius-rpc.com";
+const ATLAS_DEVNET_WS = "wss://atlas-devnet.helius-rpc.com";
+```
+
+### Enhanced WebSockets (New)
+
+Enhanced WebSockets are now powered by LaserStream infrastructure, offering:
+- **1.5–2× faster** than standard WebSockets
+- gRPC reliability in a WebSocket wrapper
+- Same filtering and event types as regular WebSockets
+
+```typescript
+// Connect to Enhanced WebSocket
+const ws = new WebSocket(
+  `wss://atlas-mainnet.helius-rpc.com/?api-key=${process.env.HELIUS_API_KEY}`
+);
+
+ws.on("open", () => {
+  // Subscribe to account changes
+  ws.send(JSON.stringify({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "accountSubscribe",
+    params: [accountAddress, { commitment: "confirmed" }],
+  }));
+});
+```
+
+### Shred Delivery (Beta)
+
+For teams chasing single-digit millisecond latency, Helius offers a UDP feed of raw shreds directly from validators.
 
 ## Staking API
 

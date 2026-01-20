@@ -1,3 +1,8 @@
+---
+name: dflow
+description: Complete DFlow trading infrastructure SDK for building swap applications on Solana. Covers imperative swaps, declarative swaps, Trade API, prediction markets, and optimal routing with MEV protection.
+---
+
 # DFlow - Next-Generation Solana Trading Infrastructure
 
 Comprehensive guide for building trading applications on Solana using DFlow's Swap API. Enables token swaps with optimal routing, lower slippage, and access to both spot markets and prediction markets.

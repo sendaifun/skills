@@ -610,9 +610,37 @@ pinocchio-development/
     └── edge-cases.md                  # Gotchas and solutions
 ```
 
+## Performance Benchmarks (2025)
+
+Latest benchmarks demonstrate Pinocchio's efficiency:
+
+| Program | Anchor CU | Pinocchio CU | Reduction |
+|---------|-----------|--------------|-----------|
+| Token Transfer | ~6,000 | ~600-800 | **88-95%** |
+| Memo Program | ~650 | ~108 | **83%** |
+| Counter | ~800 | ~104 | **87%** |
+
+*Assembly implementation: 104 CU, Pinocchio: 108 CU, Basic Anchor: 649 CU*
+
+## SDK Roadmap (Anza Plans)
+
+The Anza team has announced plans for SDK v3:
+
+### Coming Improvements
+- **Unified Base Types**: Reusable types across Anchor and Pinocchio
+- **New Serialization Library**: Zero-copy, simpler enums, variable-length types
+- **ATA Program Optimization**: Pinocchio-optimized Associated Token Account
+- **Token22 Optimization**: Full Token Extensions support with minimal CU usage
+
+### Integration Progress
+- Pinocchio types are being integrated into the core Solana SDK
+- Improved interoperability between Anchor and Pinocchio programs
+
 ## Notes
 
 - Pinocchio is **unaudited** - use with caution in production
-- Version 0.10.x is current (check for updates)
+- Version 0.10.x is current (latest: `pinocchio = "0.10"`)
+- `pinocchio-system = "0.4"` and `pinocchio-token = "0.4"` for CPI helpers
 - Token-2022 support via `pinocchio-token` is under active development
 - For client generation, use **Codama** with your Shank-generated IDL
+- Maintained by Anza (Solana Agave client developers)
