@@ -52,25 +52,25 @@ Thank you for your interest in contributing to Solana Skills by SendAI! This doc
 
 ## Types of Contributions
 
-### 🆕 New Skills
+### New Skills
 
 Create skills for Solana development tasks. Check the [Ideas](README.md#ideas) for ideas or propose your own.
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 Improve existing skills that have incorrect or outdated instructions.
 
-### 📝 Documentation
+### Documentation
 
 - Improve skill clarity and examples
 - Fix typos or grammatical errors
 - Add missing context or edge cases
 
-### 💡 Proposals
+### Proposals
 
 Open an issue to propose new skills or improvements before starting work.
 
-### 🧪 Testing
+### Testing
 
 Test existing skills and report issues or suggest improvements.
 
@@ -292,8 +292,6 @@ Violations may result in:
 1. Warning from maintainers
 2. Temporary ban from contributing
 3. Permanent ban for repeated violations
-
-Report issues to: [maintainers@sendai.com]
 
 ---
 
