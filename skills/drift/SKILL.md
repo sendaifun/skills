@@ -1,5 +1,6 @@
 ---
 name: drift
+creator: raunit-dev
 description: Complete Drift Protocol SDK for building perpetual futures, spot trading, and DeFi applications on Solana. Use when building trading bots, integrating Drift markets, managing positions, or working with vaults.
 ---
 

@@ -1,5 +1,6 @@
 ---
 name: light-protocol
+creator: raunit-dev
 description: Complete guide for Light Protocol on Solana - includes ZK Compression for rent-free compressed tokens and PDAs using zero-knowledge proofs, and the Light Token Program for high-performance token standard (200x cheaper than SPL). Covers TypeScript SDK, JSON RPC methods, and complete integration patterns.
 ---
 

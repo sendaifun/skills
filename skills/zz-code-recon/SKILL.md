@@ -1,5 +1,5 @@
 ---
-name: code-recon
+name: zz-code-recon
 description: Deep architectural context building for security audits. Use when conducting security reviews, building codebase understanding, mapping trust boundaries, or preparing for vulnerability analysis. Inspired by Trail of Bits methodology.
 ---
 
