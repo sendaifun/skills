@@ -1,5 +1,0 @@
-{
-  "name": "vulnhunter",
-  "description": "Security vulnerability detection and variant analysis skill for dangerous APIs and footgun patterns.",
-  "skills": ["SKILL.md"]
-}

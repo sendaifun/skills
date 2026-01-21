@@ -1,5 +1,0 @@
-{
-  "name": "solana-kit-migration",
-  "description": "Migration guide for @solana/kit vs @solana/web3.js with API mappings and edge cases.",
-  "skills": ["SKILL.md"]
-}

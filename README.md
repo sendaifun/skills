@@ -189,44 +189,12 @@ Community-requested and planned skills for Solana development. **Contributions w
 Skills can be loaded into Claude Code via the plugin marketplace:
 
 ```bash
-# Step 1: Register this repository as a marketplace
+# Register this repository as a marketplace
 /plugin marketplace add sendai/solana-skills
 
-# Step 2: Install individual skills from the marketplace
-/plugin install helius@sendai-solana-skills
-/plugin install drift@sendai-solana-skills
-/plugin install metaplex@sendai-solana-skills
-# ... install any skill by name
+# Install specific skill sets
+/plugin install solana-skills@sendai-solana-skills
 ```
-
-#### Available Skills
-
-| Skill Name | Description |
-|------------|-------------|
-| `coingecko` | Token prices, DEX pool data, OHLCV charts |
-| `debridge` | Cross-chain bridges and message passing |
-| `dflow` | DFlow trading protocol and prediction markets |
-| `drift` | Perpetual futures and spot trading |
-| `helius` | RPC infrastructure, DAS API, webhooks |
-| `kamino` | Lending, borrowing, liquidity management |
-| `light-protocol` | ZK Compression for compressed tokens |
-| `lulo` | Lending aggregator for yield optimization |
-| `magicblock` | Ephemeral Rollups with sub-10ms latency |
-| `metaplex` | NFTs, digital assets, Umi framework |
-| `meteora` | Liquidity pools, AMMs, bonding curves |
-| `orca` | Whirlpools concentrated liquidity AMM |
-| `pinocchio-development` | High-performance Solana programs |
-| `pumpfun` | Token launches and bonding curves |
-| `pyth` | Decentralized oracle price feeds |
-| `ranger-finance` | Perps aggregator across protocols |
-| `raydium` | CLMM, CPMM, AMM pools, LaunchLab |
-| `sanctum` | Liquid staking and LST swaps |
-| `solana-agent-kit` | AI agents on Solana |
-| `solana-kit` | Modern @solana/kit SDK |
-| `solana-kit-migration` | Migration from web3.js |
-| `squads` | Multisig and smart accounts |
-| `surfpool` | Development environment with forking |
-| `switchboard` | Oracle feeds and VRF randomness |
 
 Or reference skills directly by mentioning them in your prompts when working on Solana projects.
 
