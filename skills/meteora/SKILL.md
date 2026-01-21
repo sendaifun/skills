@@ -1,45 +1,78 @@
 ---
 name: meteora
-description: Complete Meteora DeFi SDK suite for building liquidity pools, AMMs, bonding curves, vaults, and token launches on Solana. Use when integrating DLMM, DAMM v2, Dynamic Bonding Curves, Alpha Vaults, or Stake-for-Fee functionality.
+description: Complete Meteora DeFi SDK suite for building liquidity pools, AMMs, bonding curves, vaults, token launches, and zap operations on Solana. Use when integrating DLMM, DAMM v2, DAMM v1, Dynamic Bonding Curves, Alpha Vaults, Zap, or Stake-for-Fee functionality.
 ---
 
 # Meteora Protocol Development Guide
 
 A comprehensive guide for building Solana DeFi applications with Meteora's suite of SDKs - the leading liquidity infrastructure on Solana.
 
+## What is Meteora?
+
+Meteora is Solana's premier liquidity layer, powering the infrastructure that connects liquidity providers (LPs), token launchers, and traders. It offers:
+
+- **$2B+ Total Value Locked** across all protocols
+- **Multiple AMM Types** - DLMM (concentrated), DAMM v2/v1 (constant product)
+- **Token Launch Infrastructure** - Dynamic Bonding Curves, Alpha Vault anti-bot protection
+- **Yield Optimization** - Dynamic Vaults, Stake-for-Fee (M3M3)
+- **Developer Tools** - TypeScript/Go SDKs, CLI tools, Zap for single-token entry
+
+### Why Use Meteora?
+
+| Feature | Benefit |
+|---------|---------|
+| **Low Pool Creation Cost** | 0.022 SOL (vs 0.25+ SOL on competitors) |
+| **Dynamic Fees** | Volatility-adjusted fees maximize LP returns |
+| **Anti-Snipe Protection** | Fee schedulers and Alpha Vault prevent bot exploitation |
+| **Token-2022 Support** | Full Token Extensions compatibility |
+| **Permissionless** | Create pools, farms, and launches without approval |
+| **Auto-Graduation** | Bonding curves auto-migrate to AMM pools |
+
 ## Overview
 
 Meteora provides a complete DeFi infrastructure stack on Solana:
 
 - **DLMM (Dynamic Liquidity Market Maker)**: Concentrated liquidity with dynamic fees
-- **DAMM v2 (Dynamic AMM)**: Next-generation AMM with advanced pool management
+- **DAMM v2 (Dynamic AMM)**: Next-generation constant product AMM with position NFTs
+- **DAMM v1 (Legacy AMM)**: Original constant product AMM with stable/weighted pools
 - **Dynamic Bonding Curve**: Customizable token launch curves with auto-graduation
 - **Dynamic Vault**: Yield-optimized token vaults
 - **Alpha Vault**: Anti-bot protection for token launches
 - **Stake-for-Fee (M3M3)**: Staking rewards from trading fees
+- **Zap SDK**: Single-token entry/exit for liquidity positions
+- **Presale Vault** *(Beta)*: Token presale infrastructure
 
 ## Quick Start
 
 ### Installation
 
 ```bash
-# DLMM SDK
+# DLMM SDK - Concentrated liquidity
 npm install @meteora-ag/dlmm @coral-xyz/anchor @solana/web3.js
 
-# DAMM v2 SDK
+# DAMM v2 SDK - Next-gen constant product AMM
 npm install @meteora-ag/cp-amm-sdk @solana/web3.js
 
-# Dynamic Bonding Curve SDK
+# DAMM v1 SDK - Legacy AMM (stable pools, weighted pools)
+npm install @meteora-ag/dynamic-amm @solana/web3.js @coral-xyz/anchor
+
+# Dynamic Bonding Curve SDK - Token launches
 npm install @meteora-ag/dynamic-bonding-curve-sdk
 
-# Vault SDK
+# Vault SDK - Yield optimization
 npm install @meteora-ag/vault-sdk @coral-xyz/anchor @solana/web3.js @solana/spl-token
 
-# Alpha Vault SDK
+# Alpha Vault SDK - Anti-bot protection
 npm install @meteora-ag/alpha-vault
 
-# Stake-for-Fee (M3M3) SDK
+# Stake-for-Fee (M3M3) SDK - Fee staking
 npm install @meteora-ag/m3m3 @coral-xyz/anchor @solana/web3.js @solana/spl-token
+
+# Zap SDK - Single-token entry/exit (requires Jupiter API key)
+npm install @meteora-ag/zap-sdk
+
+# Pool Farms SDK - Farm creation and staking
+npm install @meteora-ag/farming
 ```
 
 ### Program Addresses
@@ -48,9 +81,11 @@ npm install @meteora-ag/m3m3 @coral-xyz/anchor @solana/web3.js @solana/spl-token
 |---------|------------------------|
 | DLMM | `LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo` |
 | DAMM v2 | `cpamdpZCGKUy5JxQXB4dcpGPiikHawvSWAd6mEn1sGG` |
+| DAMM v1 | `Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB` |
 | Dynamic Bonding Curve | `dbcij3LWUppWqq96dh6gJWwBifmcGfLSB5D4DuSMaqN` |
 | Dynamic Vault | `24Uqj9JCLxUeoC3hGfh5W3s9FM9uCHDS2SG3LYwBpyTi` |
 | Stake-for-Fee | `FEESngU3neckdwib9X3KWqdL7Mjmqk9XNp3uh5JbP4KP` |
+| Zap | `zapvX9M3uf5pvy4wRPAbQgdQsM1xmuiFnkfHKPvwMiz` |
 
 ---
 
@@ -857,6 +892,298 @@ await m3m3.refreshStates();
 
 ---
 
+## DAMM v1 SDK (Legacy Dynamic AMM)
+
+The DAMM v1 SDK is the original constant product AMM, still widely used for stable pools, weighted pools, and LST pools. While DAMM v2 is recommended for new pools, v1 remains fully supported.
+
+### Basic Setup
+
+```typescript
+import { Connection, PublicKey, Keypair } from '@solana/web3.js';
+import AmmImpl from '@meteora-ag/dynamic-amm';
+
+const connection = new Connection('https://api.mainnet-beta.solana.com');
+
+// Create pool instance
+const pool = await AmmImpl.create(connection, new PublicKey('POOL_ADDRESS'));
+
+// Or create multiple pools
+const pools = await AmmImpl.createMultiple(connection, [poolAddress1, poolAddress2]);
+```
+
+### Pool Creation
+
+```typescript
+// Create permissionless constant product pool
+const createPoolTx = await AmmImpl.createPermissionlessConstantProductPoolWithConfig(
+  connection,
+  wallet.publicKey,
+  tokenAMint,
+  tokenBMint,
+  tokenAAmount,
+  tokenBAmount,
+  configAddress, // Fee configuration
+  {
+    lockLiquidity: false, // Lock initial liquidity
+    activationPoint: null, // Optional delayed activation
+  }
+);
+
+// Create memecoin pool (optimized for token launches)
+const memePoolTx = await AmmImpl.createPermissionlessConstantProductMemecoinPoolWithConfig(
+  connection,
+  wallet.publicKey,
+  tokenAMint,
+  tokenBMint,
+  tokenAAmount,
+  tokenBAmount,
+  configAddress,
+  {
+    lockLiquidity: true, // Lock liquidity for trust
+  }
+);
+```
+
+### Pool State Queries
+
+```typescript
+// Get LP token supply
+const lpSupply = await pool.getLpSupply();
+
+// Get user's LP token balance
+const userBalance = await pool.getUserBalance(wallet.publicKey);
+
+// Get swap quote
+const swapQuote = pool.getSwapQuote(
+  inputMint,
+  inputAmount,
+  slippageBps // 100 = 1%
+);
+console.log('Output amount:', swapQuote.outAmount.toString());
+console.log('Fee:', swapQuote.fee.toString());
+console.log('Price impact:', swapQuote.priceImpact);
+
+// Get deposit quote
+const depositQuote = pool.getDepositQuote(
+  tokenAAmount,
+  tokenBAmount,
+  true, // balanced deposit
+  slippageBps
+);
+console.log('LP tokens to receive:', depositQuote.lpAmount.toString());
+
+// Get withdraw quote
+const withdrawQuote = pool.getWithdrawQuote(
+  lpAmount,
+  slippageBps
+);
+console.log('Token A out:', withdrawQuote.tokenAAmount.toString());
+console.log('Token B out:', withdrawQuote.tokenBAmount.toString());
+
+// Refresh pool state
+await pool.updateState();
+```
+
+### Liquidity Operations
+
+```typescript
+// Deposit liquidity
+const depositTx = await pool.deposit(
+  wallet.publicKey,
+  tokenAAmount,
+  tokenBAmount,
+  lpAmountMin // Minimum LP tokens to receive
+);
+
+// Withdraw liquidity
+const withdrawTx = await pool.withdraw(
+  wallet.publicKey,
+  lpAmount,
+  tokenAMin, // Minimum token A to receive
+  tokenBMin  // Minimum token B to receive
+);
+```
+
+### Swapping
+
+```typescript
+// Execute swap
+const swapTx = await pool.swap(
+  wallet.publicKey,
+  inputMint,
+  inputAmount,
+  minOutputAmount
+);
+```
+
+### Pool Types
+
+| Pool Type | Use Case | Features |
+|-----------|----------|----------|
+| **Constant Product** | General trading pairs | Standard x*y=k AMM |
+| **Stable** | Stablecoin pairs (USDC/USDT) | Lower slippage for pegged assets |
+| **Weighted** | Unbalanced pools (80/20) | Custom token weights |
+| **LST** | Liquid staking tokens | Optimized for staking derivatives |
+
+---
+
+## Zap SDK
+
+The Zap SDK enables single-token entry and exit for liquidity positions, automatically handling swaps through Jupiter or the pool's built-in routing.
+
+### Basic Setup
+
+```typescript
+import { Connection, PublicKey } from '@solana/web3.js';
+import { Zap } from '@meteora-ag/zap-sdk';
+
+const connection = new Connection('https://api.mainnet-beta.solana.com');
+
+// Jupiter API key is required (get from Jupiter Portal)
+const JUPITER_API_URL = 'https://quote-api.jup.ag/v6';
+const JUPITER_API_KEY = 'your-api-key';
+
+const zap = new Zap(connection, JUPITER_API_URL, JUPITER_API_KEY);
+```
+
+### Zap Into DLMM Position
+
+```typescript
+// Zap single token into DLMM concentrated liquidity position
+const zapInDlmmTx = await zap.zapInDlmm({
+  user: wallet.publicKey,
+  lbPairAddress: dlmmPoolAddress,
+  inputMint: SOL_MINT,
+  inputAmount: new BN(1_000_000_000), // 1 SOL
+  slippageBps: 100, // 1%
+  positionPubkey: positionAddress, // Existing or new position
+  strategyType: 'SpotBalanced', // Distribution strategy
+  minBinId: activeBinId - 10,
+  maxBinId: activeBinId + 10,
+});
+
+await sendAndConfirmTransaction(connection, zapInDlmmTx, [wallet]);
+```
+
+### Zap Into DAMM v2 Position
+
+```typescript
+// Zap single token into DAMM v2 pool
+const zapInDammV2Tx = await zap.zapInDammV2({
+  user: wallet.publicKey,
+  poolAddress: dammV2PoolAddress,
+  inputMint: USDC_MINT,
+  inputAmount: new BN(100_000_000), // 100 USDC
+  slippageBps: 100,
+  positionPubkey: positionAddress,
+});
+
+await sendAndConfirmTransaction(connection, zapInDammV2Tx, [wallet]);
+```
+
+### Zap Out Operations
+
+```typescript
+// Zap out from DLMM to single token
+const zapOutDlmmTx = await zap.zapOutDlmm({
+  user: wallet.publicKey,
+  lbPairAddress: dlmmPoolAddress,
+  outputMint: SOL_MINT, // Receive everything as SOL
+  positionPubkey: positionAddress,
+  percentageToZap: 100, // 100% of position
+  slippageBps: 100,
+});
+
+// Zap out from DAMM v2 to single token
+const zapOutDammV2Tx = await zap.zapOutDammV2({
+  user: wallet.publicKey,
+  poolAddress: dammV2PoolAddress,
+  outputMint: USDC_MINT,
+  positionPubkey: positionAddress,
+  percentageToZap: 50, // 50% of position
+  slippageBps: 100,
+});
+```
+
+### Zap Through Jupiter
+
+```typescript
+// Get Jupiter quote for optimal routing
+const jupiterQuote = await zap.getJupiterQuote({
+  inputMint: SOL_MINT,
+  outputMint: USDC_MINT,
+  amount: new BN(1_000_000_000),
+  slippageBps: 50,
+});
+
+// Zap out through Jupiter aggregator
+const zapOutJupiterTx = await zap.zapOutThroughJupiter({
+  user: wallet.publicKey,
+  inputMint: tokenMint,
+  outputMint: SOL_MINT,
+  jupiterSwapResponse: jupiterQuote,
+  maxSwapAmount: new BN(1_000_000_000),
+  percentageToZap: 100,
+});
+```
+
+### Helper Functions
+
+```typescript
+// Get token program from mint
+const tokenProgram = await zap.getTokenProgramFromMint(connection, mintAddress);
+
+// Get Jupiter swap instruction
+const swapIx = await zap.getJupiterSwapInstruction(jupiterQuote, wallet.publicKey);
+```
+
+---
+
+## Pool Farms SDK
+
+The Pool Farms SDK enables creating and managing liquidity mining farms on DAMM v1 pools.
+
+### Basic Setup
+
+```typescript
+import { Connection, PublicKey } from '@solana/web3.js';
+import { FarmImpl } from '@meteora-ag/farming';
+
+const connection = new Connection('https://api.mainnet-beta.solana.com');
+const farmAddress = new PublicKey('FARM_ADDRESS');
+
+const farm = await FarmImpl.create(connection, farmAddress);
+```
+
+### Farm Operations
+
+```typescript
+// Deposit LP tokens to farm
+const depositTx = await farm.deposit(
+  wallet.publicKey,
+  lpAmount
+);
+
+// Withdraw LP tokens from farm
+const withdrawTx = await farm.withdraw(
+  wallet.publicKey,
+  lpAmount
+);
+
+// Claim farming rewards
+const claimTx = await farm.claim(wallet.publicKey);
+
+// Get pending rewards
+const pendingRewards = await farm.getPendingRewards(wallet.publicKey);
+console.log('Pending rewards:', pendingRewards.toString());
+
+// Get user stake info
+const stakeInfo = await farm.getUserStakeInfo(wallet.publicKey);
+console.log('Staked amount:', stakeInfo.amount.toString());
+```
+
+---
+
 ## Common Patterns
 
 ### Pattern 1: Initialize with Wallet
@@ -972,37 +1299,129 @@ const createPoolTx = await dbc.createPoolWithCurve({
 });
 ```
 
-### Zap SDK (New)
+### Presale Vault *(Beta)*
 
-The zap-sdk enables single-token entry/exit from DAMM v2, DLMM, or Jupiter:
+Presale Vault is Meteora's token presale infrastructure, currently in beta. It enables projects to run presales with built-in protection mechanisms.
+
+> **Note:** Presale Vault is in active development. Check the [Meteora documentation](https://docs.meteora.ag) for the latest information.
+
+---
+
+## GitHub Repositories
+
+### TypeScript SDKs
+
+| Repository | Description | Stars |
+|------------|-------------|-------|
+| [dlmm-sdk](https://github.com/MeteoraAg/dlmm-sdk) | DLMM concentrated liquidity SDK | 280+ |
+| [damm-v2-sdk](https://github.com/MeteoraAg/cp-amm-sdk) | DAMM v2 constant product AMM SDK | 44+ |
+| [damm-v1-sdk](https://github.com/MeteoraAg/damm-v1-sdk) | Legacy DAMM v1 SDK | 126+ |
+| [dynamic-bonding-curve-sdk](https://github.com/MeteoraAg/dynamic-bonding-curve-sdk) | Token launch bonding curves | 35+ |
+| [zap-sdk](https://github.com/MeteoraAg/zap-sdk) | Single-token entry/exit | 2+ |
+| [vault-sdk](https://github.com/MeteoraAg/vault-sdk) | Dynamic vault SDK | - |
+| [alpha-vault-sdk](https://github.com/MeteoraAg/alpha-vault-sdk) | Anti-bot launch protection | - |
+| [m3m3](https://github.com/MeteoraAg/stake-for-fee-sdk) | Stake-for-fee SDK | - |
+
+### Go SDKs
+
+| Repository | Description |
+|------------|-------------|
+| [damm-v2-go](https://github.com/MeteoraAg/damm-v2-go) | DAMM v2 Go implementation |
+| [dbc-go](https://github.com/MeteoraAg/dbc-go) | Dynamic Bonding Curve Go SDK |
+
+### Core Programs (Rust)
+
+| Repository | Description | Stars |
+|------------|-------------|-------|
+| [damm-v2](https://github.com/MeteoraAg/damm-v2) | DAMM v2 program | 98+ |
+| [dynamic-bonding-curve](https://github.com/MeteoraAg/dynamic-bonding-curve) | DBC program | 86+ |
+| [zap-program](https://github.com/MeteoraAg/zap-program) | Zap on-chain program | - |
+
+---
+
+## Meteora Invent (CLI Tool)
+
+**Metsumi** is Meteora's CLI tool for launching tokens and executing on-chain actions with minimal configuration.
+
+### Installation
 
 ```bash
-npm install @meteora-ag/zap-sdk
+# Prerequisites: Node.js ≥ 18.0.0, pnpm ≥ 10.0.0
+git clone https://github.com/MeteoraAg/meteora-invent.git
+cd meteora-invent
+npm install -g pnpm
+pnpm install
 ```
 
-```typescript
-import { Zap } from '@meteora-ag/zap-sdk';
+### Available Commands
 
-// Zap into position with single token
-const zapTx = await Zap.zapIn({
-  pool: poolAddress,
-  inputMint: SOL_MINT,
-  inputAmount: new BN(1_000_000_000),
-  user: wallet.publicKey,
-  slippage: 0.01,
-});
+#### DLMM Operations
+```bash
+# Create permissionless pool
+pnpm dlmm-create-pool
+
+# Seed liquidity
+pnpm dlmm-seed-liquidity-lfg
+pnpm dlmm-seed-liquidity-single-bin
+
+# Control pool trading
+pnpm dlmm-set-pool-status
 ```
+
+#### DAMM v2 Operations
+```bash
+# Create pools
+pnpm damm-v2-create-balanced-pool
+pnpm damm-v2-create-one-sided-pool
+
+# Manage liquidity
+pnpm damm-v2-add-liquidity
+pnpm damm-v2-remove-liquidity
+pnpm damm-v2-split-position
+
+# Claim fees
+pnpm damm-v2-claim-position-fee
+```
+
+#### Dynamic Bonding Curve Operations
+```bash
+# Create bonding curve
+pnpm dbc-create-config
+pnpm dbc-create-pool
+
+# Trade on curve
+pnpm dbc-swap
+
+# Graduate to AMM
+pnpm dbc-migrate-to-damm-v1
+pnpm dbc-migrate-to-damm-v2
+```
+
+#### Vault Operations
+```bash
+# Alpha Vault for anti-bot launches
+pnpm alpha-vault-create
+
+# Presale Vault (beta)
+pnpm presale-vault-create
+```
+
+### Configuration Files
+
+Configurations are stored in `studio/config/`:
+- `dlmm_config.jsonc` - DLMM pool settings
+- `damm_v1_config.jsonc` - DAMM v1 settings
+- `damm_v2_config.jsonc` - DAMM v2 settings
+- `dbc_config.jsonc` - Bonding curve settings
+- `alpha_vault_config.jsonc` - Alpha vault settings
+
+---
 
 ## Resources
 
 - [Meteora Documentation](https://docs.meteora.ag)
-- [DLMM SDK GitHub](https://github.com/MeteoraAg/dlmm-sdk)
-- [DAMM v2 SDK GitHub](https://github.com/MeteoraAg/cp-amm-sdk)
-- [Dynamic Bonding Curve SDK GitHub](https://github.com/MeteoraAg/dynamic-bonding-curve-sdk)
-- [Vault SDK GitHub](https://github.com/MeteoraAg/vault-sdk)
-- [Alpha Vault SDK GitHub](https://github.com/MeteoraAg/alpha-vault-sdk)
-- [Stake-for-Fee SDK GitHub](https://github.com/MeteoraAg/stake-for-fee-sdk)
-- [Zap SDK GitHub](https://github.com/MeteoraAg/zap-sdk)
+- [Meteora App](https://app.meteora.ag)
+- [GitHub Organization](https://github.com/MeteoraAg)
 - [Meteora Discord](https://discord.gg/meteora)
 - [Manual Migrator Tool](https://migrator.meteora.ag)
 
@@ -1016,10 +1435,14 @@ meteora/
 ├── resources/
 │   ├── dlmm-api-reference.md         # DLMM SDK complete API
 │   ├── damm-v2-api-reference.md      # DAMM v2 SDK complete API
+│   ├── damm-v1-api-reference.md      # DAMM v1 SDK complete API
+│   ├── zap-api-reference.md          # Zap SDK API reference
+│   ├── pool-farms-reference.md       # Pool Farms SDK reference
 │   ├── bonding-curve-reference.md    # DBC SDK reference
 │   ├── vault-api-reference.md        # Vault SDK reference
 │   ├── alpha-vault-reference.md      # Alpha Vault SDK reference
 │   ├── m3m3-api-reference.md         # Stake-for-Fee SDK reference
+│   ├── github-repos.md               # All GitHub repositories
 │   └── program-addresses.md          # All program addresses
 ├── examples/
 │   ├── dlmm/
@@ -1030,6 +1453,10 @@ meteora/
 │   │   ├── create-pool.ts            # Pool creation
 │   │   ├── swap.ts                   # Swapping tokens
 │   │   └── manage-position.ts        # Position management
+│   ├── damm-v1/
+│   │   └── basic-operations.ts       # DAMM v1 pool operations
+│   ├── zap/
+│   │   └── zap-operations.ts         # Zap in/out examples
 │   ├── bonding-curve/
 │   │   ├── create-token.ts           # Launch token on curve
 │   │   ├── trade.ts                  # Buy/sell on curve
