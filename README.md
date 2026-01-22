@@ -42,14 +42,23 @@ The Solana ecosystem moves fast. New protocols, SDKs, and best practices emerge 
 
 ```
 skills/
-├── skills/              # Skill implementations
-│   └── example-skill/
-│       └── SKILL.md
-├── template/            # Starter template for new skills
-│   └── SKILL.md
-├── spec/                # Agent Skills specification
+├── skills/                  # Skill implementations
+│   └── example-skill/       # Example skill structure
+│       ├── SKILL.md         # Main skill instructions (required)
+│       ├── docs/            # Documentation
+│       │   └── troubleshooting.md
+│       ├── examples/        # Code examples
+│       │   └── basic/
+│       │       └── example.ts
+│       ├── resources/       # API references and configs
+│       │   └── api-reference.md
+│       └── templates/       # Starter templates
+│           └── setup.ts
+├── spec/                    # Agent Skills specification
 │   └── SPECIFICATION.md
-├── .gitignore
+├── template/                # Starter template for new skills
+│   └── SKILL.md
+├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
 ```
@@ -131,11 +140,33 @@ Skills that are currently implemented and available in this repository.
 
 | Skill | Description | Category |
 |-------|-------------|----------|
-| [example-skill](skills/example-skill/SKILL.md) | An example skill demonstrating the basic structure and format | General |
-| [pinocchio-development](skills/pinocchio-development/SKILL.md) | Build high-performance Solana programs with Pinocchio - zero-dependency, zero-copy framework with 88-95% compute unit reduction | Program Development |
-| [solana-agent-kit](skills/solana-agent-kit/SKILL.md) | Build AI agents that execute 60+ Solana blockchain operations using SendAI's toolkit with LangChain, Vercel AI, and MCP support | AI Agents |
-| [solana-kit](skills/solana-kit/SKILL.md) | Modern, tree-shakeable JavaScript SDK for Solana - formerly web3.js 2.0 with functional design and full TypeScript support | Client Development |
-| [solana-kit-migration](skills/solana-kit-migration/SKILL.md) | Migration guide between @solana/web3.js v1.x and @solana/kit with API mappings and edge case handling | Client Development |
+| [coingecko](skills/coingecko/SKILL.md) | CoinGecko Solana API for token prices, DEX pool data, OHLCV charts, trades, and market analytics | Data & Analytics |
+| [debridge](skills/debridge/SKILL.md) | deBridge Protocol SDK for cross-chain bridges, message passing, and token transfers between Solana and EVM chains | Cross-Chain |
+| [dflow](skills/dflow/SKILL.md) | DFlow trading protocol for spot trading, prediction markets, Swap API, and WebSocket streaming | Trading |
+| [drift](skills/drift/SKILL.md) | Drift Protocol SDK for perpetual futures, spot trading, cross-collateral, and vaults | DeFi |
+| [example-skill](skills/example-skill/SKILL.md) | Template and guide for creating new skills with standard structure | General |
+| [helius](skills/helius/SKILL.md) | Helius RPC infrastructure, DAS API, Enhanced Transactions, Priority Fees, Webhooks, and LaserStream gRPC | Infrastructure |
+| [kamino](skills/kamino/SKILL.md) | Kamino Finance for lending, borrowing, liquidity management, leverage trading, and oracle aggregation | DeFi |
+| [light-protocol](skills/light-protocol/SKILL.md) | Light Protocol for ZK Compression, rent-free compressed tokens, and high-performance token standard | Infrastructure |
+| [lulo](skills/lulo/SKILL.md) | Lulo lending aggregator for automated yield optimization across Kamino, Drift, MarginFi, and Jupiter | DeFi |
+| [magicblock](skills/magicblock/SKILL.md) | MagicBlock Ephemeral Rollups for sub-10ms latency, gasless transactions, and real-time applications | Infrastructure |
+| [metaplex](skills/metaplex/SKILL.md) | Metaplex Protocol for NFTs, Core, Token Metadata, Bubblegum, Candy Machine, and Umi framework | NFT & Tokens |
+| [meteora](skills/meteora/SKILL.md) | Meteora DeFi SDK for DLMM, DAMM pools, Dynamic Bonding Curves, Alpha Vaults, and token launches | DeFi |
+| [orca](skills/orca/SKILL.md) | Orca Whirlpools SDK for concentrated liquidity AMM, swaps, liquidity provision, and position management | DeFi |
+| [pinocchio-development](skills/pinocchio-development/SKILL.md) | Pinocchio zero-dependency, zero-copy framework for high-performance Solana programs (88-95% CU reduction) | Program Development |
+| [pumpfun](skills/pumpfun/SKILL.md) | PumpFun Protocol for token launches, bonding curves, and PumpSwap AMM integration | Defi |
+| [pyth](skills/pyth/SKILL.md) | Pyth Network oracle for real-time price feeds, confidence intervals, and EMA prices | Oracles |
+| [ranger-finance](skills/ranger-finance/SKILL.md) | Ranger Finance perps aggregator for smart order routing across Drift, Flash, Adrena, and Jupiter | Trading |
+| [raydium](skills/raydium/SKILL.md) | Raydium Protocol for AMM pools, CLMM, CPMM, LaunchLab token launches, and liquidity infrastructure | DeFi |
+| [sanctum](skills/sanctum/SKILL.md) | Sanctum SDK for liquid staking, LST swaps, Infinity pool, and 1,361+ liquid staking tokens | DeFi |
+| [solana-agent-kit](skills/solana-agent-kit/SKILL.md) | Build AI agents that execute 60+ Solana blockchain operations with LangChain, Vercel AI, and MCP support | AI Agents |
+| [solana-kit](skills/solana-kit/SKILL.md) | Modern tree-shakeable JavaScript SDK from Anza with zero dependencies and full TypeScript support | Client Development |
+| [solana-kit-migration](skills/solana-kit-migration/SKILL.md) | Migration guide between @solana/web3.js v1.x and @solana/kit with API mappings | Client Development |
+| [squads](skills/squads/SKILL.md) | Squads Protocol for multisig wallets, smart accounts, account abstraction, and Grid stablecoin rails | Infrastructure |
+| [surfpool](skills/surfpool/SKILL.md) | Surfpool development environment with mainnet forking, cheatcodes, and Infrastructure as Code | DevOps |
+| [switchboard](skills/switchboard/SKILL.md) | Switchboard Oracle for price feeds, on-demand data, VRF randomness, and Surge streaming | Oracles |
+| [vulnhunter](skills/vulnhunter/SKILL.md) | Security vulnerability detection, dangerous API hunting, and variant analysis for audits | Security |
+| [code-recon](skills/zz-code-recon/SKILL.md) | Deep architectural context building for security audits and codebase reconnaissance | Security |
 
 ### Ideas
 
@@ -182,28 +213,6 @@ Community-requested and planned skills for Solana development. **Contributions w
 
 ---
 
-## Usage
-
-### Claude Code
-
-Skills can be loaded into Claude Code via the plugin marketplace:
-
-```bash
-# Register this repository as a marketplace
-/plugin marketplace add sendai/solana-skills
-
-# Install specific skill sets
-/plugin install solana-skills@sendai-solana-skills
-```
-
-Or reference skills directly by mentioning them in your prompts when working on Solana projects.
-
-### Other Compatible Agents
-
-Any AI agent that supports the [Agent Skills](https://agentskills.io) specification can use these skills by loading the `SKILL.md` files.
-
----
-
 ## Contributing
 
 We welcome contributions from the Solana community! Here's how you can help:
@@ -220,8 +229,8 @@ We welcome contributions from the Solana community! Here's how you can help:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/SendAI/solana-skills.git
-   cd solana-skills
+   git clone https://github.com/sendaifun/skills.git
+   cd skills
    ```
 
 2. **Create a feature branch**
