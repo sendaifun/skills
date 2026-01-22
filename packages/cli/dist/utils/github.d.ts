@@ -19,6 +19,14 @@ export declare function fetchSkillMetadata(skillName: string): Promise<SkillMeta
  */
 export declare function downloadSkill(skillName: string, targetDir: string): Promise<void>;
 /**
+ * Recursively fetch all files in a directory from GitHub
+ */
+export declare function fetchDirectoryContents(skillNameOrPath: string, subPath?: string): Promise<Array<{
+    path: string;
+    type: string;
+    name: string;
+}>>;
+/**
  * Check if a skill exists on GitHub
  */
 export declare function skillExists(skillName: string): Promise<boolean>;

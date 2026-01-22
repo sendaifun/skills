@@ -1,6 +1,7 @@
 # OS files
 .DS_Store
 Thumbs.db
+Desktop.ini
 
 # Editor files
 *.swp
@@ -8,13 +9,64 @@ Thumbs.db
 *~
 .idea/
 .vscode/
+*.sublime-project
+*.sublime-workspace
 
 # Dependencies
 node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
 
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
 
 # Temporary files
 *.tmp
 *.temp
+.cache/
+.turbo/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Package manager locks (keep pnpm-lock.yaml)
+package-lock.json
+yarn.lock
+
+# Local development
+.local/
+
+# Claude Code local files
+.claude/
+!template/.claude/
+
+# Cursor AI
+.cursorignore
+.cursor/
+
+# macOS
+._*
+
+# npm
+.npm/
+.npmrc.local

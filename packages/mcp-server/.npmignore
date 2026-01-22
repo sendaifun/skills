@@ -1,0 +1,43 @@
+# Source files (only publish dist)
+src/
+tsconfig.json
+
+# Development files
+*.ts
+!*.d.ts
+
+# Tests
+__tests__/
+*.test.ts
+*.spec.ts
+coverage/
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local development
+.env
+.env.*
+
+# Git
+.git/
+.gitignore
+
+# Documentation (keep README)
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Build artifacts we don't need
+*.tsbuildinfo
+.turbo/
+.cache/

@@ -1,7 +1,7 @@
 {
   "name": "sendai-skills-mcp",
   "version": "1.0.0",
-  "description": "MCP server exposing SendAI Solana skills for Claude Code",
+  "description": "MCP server exposing SendAI Solana development skills for Claude Code - Dynamic skill serving via Model Context Protocol",
   "type": "module",
   "bin": {
     "sendai-skills-mcp": "./dist/index.js"
@@ -14,6 +14,9 @@
     "dev": "tsc --watch",
     "prepublishOnly": "npm run build"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "gray-matter": "^4.0.3",
@@ -25,14 +28,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sendaifun/skills.git",
+    "url": "git+https://github.com/sendaifun/skills.git",
     "directory": "packages/mcp-server"
+  },
+  "homepage": "https://github.com/sendaifun/skills#readme",
+  "bugs": {
+    "url": "https://github.com/sendaifun/skills/issues"
   },
   "keywords": [
     "solana",
     "claude-code",
+    "claude",
+    "anthropic",
     "mcp",
-    "skills"
+    "model-context-protocol",
+    "skills",
+    "server",
+    "plugin",
+    "blockchain",
+    "web3",
+    "defi",
+    "ai",
+    "sendai"
   ],
+  "author": "SendAI",
   "license": "Apache-2.0"
 }

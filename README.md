@@ -14,6 +14,8 @@ Skills are folders of instructions, scripts, and resources that Claude (and comp
 ## Table of Contents
 
 - [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Plugin Marketplace](#plugin-marketplace)
 - [Project Structure](#project-structure)
 - [What is a Skill?](#what-is-a-skill)
 - [Creating a New Skill](#creating-a-new-skill)
@@ -38,17 +40,97 @@ The Solana ecosystem moves fast. New protocols, SDKs, and best practices emerge 
 
 ---
 
+## Quick Start
+
+Get started with SendAI Skills in seconds:
+
+```bash
+# Option 1: Install a complete plugin (recommended)
+npx sendai-skills plugin install solana-agent-kit
+
+# Option 2: Add MCP server to Claude Code
+npx sendai-skills init
+
+# Option 3: Install individual skills
+npx sendai-skills install kamino raydium helius
+```
+
+---
+
+## Plugin Marketplace
+
+Plugins bundle related skills, commands, and agents into cohesive packages for specific use cases.
+
+### Available Plugins
+
+| Plugin | Description | Includes |
+|--------|-------------|----------|
+| **solana-agent-kit** | Build AI agents for Solana blockchain operations | solana-agent-kit, coingecko skills + trading-agent + commands |
+
+### Plugin Commands
+
+```bash
+# List available plugins
+npx sendai-skills plugin list
+
+# Install a plugin
+npx sendai-skills plugin install solana-agent-kit
+
+# Get plugin info
+npx sendai-skills plugin info solana-agent-kit
+
+# Remove a plugin
+npx sendai-skills plugin remove solana-agent-kit
+```
+
+### What Plugins Include
+
+- **Skills**: Domain knowledge Claude applies automatically
+- **Commands**: Custom slash commands (e.g., `/setup-agent`, `/check-price`)
+- **Agents**: Specialized subagents for specific tasks
+- **MCP Server**: Pre-configured Claude Code integration
+
+---
+
 ## Project Structure
 
 ```
 skills/
-├── skills/              # Skill implementations
-│   └── example-skill/
-│       └── SKILL.md
+├── packages/            # npm packages
+│   ├── cli/             # sendai-skills CLI tool
+│   │   └── src/
+│   │       ├── commands/
+│   │       │   ├── plugin.ts    # Plugin marketplace commands
+│   │       │   ├── init.ts      # MCP setup command
+│   │       │   ├── search.ts    # Search skills
+│   │       │   ├── info.ts      # Skill details
+│   │       │   ├── list.ts      # List skills
+│   │       │   ├── install.ts   # Install skills
+│   │       │   ├── remove.ts    # Remove skills
+│   │       │   └── update.ts    # Update skills
+│   │       └── utils/
+│   └── mcp-server/      # sendai-skills-mcp MCP server
+│       └── src/
+│           ├── index.ts         # MCP server
+│           └── skills.ts        # Skill loading
+├── plugins/             # Plugin packages
+│   └── solana-agent-kit/
+│       ├── PLUGIN.json          # Plugin manifest
+│       ├── README.md
+│       ├── commands/            # Slash commands
+│       └── agents/              # Subagents
+├── skills/              # Skill implementations (28+ skills)
+│   ├── kamino/
+│   ├── raydium/
+│   ├── helius/
+│   ├── solana-agent-kit/
+│   ├── coingecko/
+│   └── ...
 ├── template/            # Starter template for new skills
 │   └── SKILL.md
 ├── spec/                # Agent Skills specification
 │   └── SPECIFICATION.md
+├── .github/workflows/   # CI/CD pipelines
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -184,19 +266,81 @@ Community-requested and planned skills for Solana development. **Contributions w
 
 ## Usage
 
-### Claude Code
+There are two ways to use SendAI Skills with Claude Code:
 
-Skills can be loaded into Claude Code via the plugin marketplace:
+### Option 1: Plugin Marketplace (Recommended)
+
+Add SendAI Skills as a Claude Code plugin with a single command:
 
 ```bash
-# Register this repository as a marketplace
-/plugin marketplace add sendai/solana-skills
-
-# Install specific skill sets
-/plugin install solana-skills@sendai-solana-skills
+# Install and configure the plugin
+npx sendai-skills init
 ```
 
-Or reference skills directly by mentioning them in your prompts when working on Solana projects.
+This automatically configures the MCP server so Claude can access all skills dynamically.
+
+**What you can do after setup:**
+- Ask Claude: "List all available SendAI skills"
+- Ask Claude: "Get the kamino skill for DeFi development"
+- Ask Claude: "Help me build a Solana swap using Raydium"
+
+**Plugin CLI Commands:**
+
+```bash
+# Add plugin to Claude Code
+npx sendai-skills init
+
+# Add with specific skills only
+npx sendai-skills init --skills kamino,raydium,helius
+
+# Remove plugin from Claude Code
+npx sendai-skills init --remove
+
+# Search for skills
+npx sendai-skills search defi
+npx sendai-skills search "token swap"
+
+# Get detailed skill information
+npx sendai-skills info kamino
+```
+
+### Option 2: Local Installation
+
+Install skills directly to your Claude Code skills directory:
+
+```bash
+# List all available skills
+npx sendai-skills list
+
+# Install specific skills
+npx sendai-skills install kamino raydium helius
+
+# Install all skills
+npx sendai-skills install --all
+
+# Update installed skills
+npx sendai-skills update
+
+# Remove skills
+npx sendai-skills remove kamino
+```
+
+Skills are installed to `~/.claude/skills/sendai-<skill-name>/`
+
+### MCP Server (Advanced)
+
+For advanced use cases, you can run the MCP server directly:
+
+```bash
+# Add MCP server to Claude Code manually
+claude mcp add sendai-skills -- npx sendai-skills-mcp
+
+# With specific skills only
+claude mcp add sendai-skills -- npx sendai-skills-mcp --skills kamino,helius
+
+# Verify configuration
+claude mcp list
+```
 
 ### Other Compatible Agents
 

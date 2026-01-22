@@ -1,0 +1,74 @@
+{
+  "name": "solana-agent-kit",
+  "version": "1.0.0",
+  "description": "Build AI agents for Solana blockchain operations with 60+ actions, market data, and autonomous trading capabilities",
+  "author": "SendAI",
+  "repository": "https://github.com/sendaifun/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "solana",
+    "ai-agent",
+    "blockchain",
+    "defi",
+    "trading",
+    "coingecko",
+    "langchain",
+    "vercel-ai"
+  ],
+  "skills": [
+    "solana-agent-kit",
+    "coingecko"
+  ],
+  "commands": [
+    "setup-agent",
+    "check-price"
+  ],
+  "agents": [
+    "trading-agent"
+  ],
+  "mcp": {
+    "name": "solana-agent-kit",
+    "command": "npx",
+    "args": ["solana-mcp"],
+    "env": {
+      "RPC_URL": "${RPC_URL}",
+      "SOLANA_PRIVATE_KEY": "${SOLANA_PRIVATE_KEY}"
+    }
+  },
+  "dependencies": {
+    "npm": [
+      "solana-agent-kit",
+      "@solana-agent-kit/plugin-token",
+      "@solana-agent-kit/plugin-defi",
+      "@solana-agent-kit/plugin-misc"
+    ]
+  },
+  "setup": {
+    "env": [
+      {
+        "name": "RPC_URL",
+        "description": "Solana RPC endpoint URL",
+        "required": true,
+        "default": "https://api.mainnet-beta.solana.com"
+      },
+      {
+        "name": "SOLANA_PRIVATE_KEY",
+        "description": "Base58 encoded Solana private key for the agent wallet",
+        "required": true,
+        "secret": true
+      },
+      {
+        "name": "OPENAI_API_KEY",
+        "description": "OpenAI API key for LLM inference",
+        "required": true,
+        "secret": true
+      },
+      {
+        "name": "COINGECKO_API_KEY",
+        "description": "CoinGecko API key for market data",
+        "required": false,
+        "secret": true
+      }
+    ]
+  }
+}

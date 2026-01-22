@@ -13,12 +13,24 @@ The SendAI Skills Plugin System provides two complementary tools for exposing So
 
 ### CLI Installer (`sendai-skills`)
 
-A command-line tool for managing SendAI skills locally.
+A command-line tool for managing SendAI skills and plugins locally.
 
 #### Commands
 
 | Command | Description |
 |---------|-------------|
+| **Plugin Marketplace** | |
+| `plugin list` | List all available plugins |
+| `plugin install <plugin>` | Install a plugin (skills, commands, agents, MCP) |
+| `plugin remove <plugin>` | Remove an installed plugin |
+| `plugin info <plugin>` | Show detailed plugin information |
+| **MCP Setup** | |
+| `init` | Configure SendAI Skills as a Claude Code plugin (MCP server) |
+| `init --skills <list>` | Configure with specific skills only |
+| `init --remove` | Remove SendAI Skills from Claude Code |
+| **Skill Management** | |
+| `search <query>` | Search for skills by keyword |
+| `info <skill>` | Show detailed information about a skill |
 | `list` | List all available skills with installation status |
 | `install <skills...>` | Install specific skills to Claude Code |
 | `install --all` | Install all available skills |
@@ -27,6 +39,7 @@ A command-line tool for managing SendAI skills locally.
 
 #### Features
 
+- **Plugin Marketplace**: Install complete plugin packages with skills, commands, agents
 - Fetches skills directly from GitHub repository
 - Installs to `~/.claude/skills/sendai-<skill-name>/`
 - Preserves full skill structure (SKILL.md, examples/, resources/, docs/, templates/)
@@ -36,16 +49,30 @@ A command-line tool for managing SendAI skills locally.
 #### Local Usage
 
 ```bash
-# Using pnpm scripts (from repo root)
-pnpm cli list
+# Plugin Marketplace (from repo root)
+pnpm cli plugin list                    # List available plugins
+pnpm cli plugin install solana-agent-kit # Install plugin
+pnpm cli plugin info solana-agent-kit   # Plugin details
+pnpm cli plugin remove solana-agent-kit # Remove plugin
+
+# MCP Setup
+pnpm cli init                    # Configure MCP server
+pnpm cli init --remove           # Remove MCP server
+
+# Skill Management
+pnpm cli search defi             # Search for skills
+pnpm cli info kamino             # Get skill details
+pnpm cli list                    # List all skills
 pnpm cli install kamino raydium helius
 pnpm cli install --all
 pnpm cli remove kamino
 pnpm cli update
 
 # Using node directly
-node packages/cli/dist/index.js list
-node packages/cli/dist/index.js install kamino
+node packages/cli/dist/index.js plugin list
+node packages/cli/dist/index.js plugin install solana-agent-kit
+node packages/cli/dist/index.js init
+node packages/cli/dist/index.js search "token swap"
 ```
 
 ---
@@ -170,11 +197,26 @@ pnpm publish --access public
 #### Using Published Packages
 
 ```bash
-# CLI
-npx sendai-skills list
-npx sendai-skills install kamino
+# Plugin Marketplace (Recommended)
+npx sendai-skills plugin list                    # Browse available plugins
+npx sendai-skills plugin install solana-agent-kit # Install complete plugin
+npx sendai-skills plugin info solana-agent-kit   # Get plugin details
+npx sendai-skills plugin remove solana-agent-kit # Remove plugin
 
-# MCP Server
+# MCP Server Setup
+npx sendai-skills init                           # Configure MCP server
+npx sendai-skills init --skills kamino,raydium   # With specific skills only
+npx sendai-skills init --remove                  # Remove from Claude Code
+
+# Search & Discovery
+npx sendai-skills search defi                    # Search for skills
+npx sendai-skills info kamino                    # Get skill details
+
+# Individual Skill Installation
+npx sendai-skills list                           # List all skills
+npx sendai-skills install kamino                 # Install skills locally
+
+# MCP Server (Direct)
 claude mcp add sendai-skills -- npx sendai-skills-mcp
 ```
 

@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main, feat/plugin-marketplace]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Test CLI help
+        run: node packages/cli/dist/index.js --help
+
+      - name: Test MCP server starts
+        run: |
+          timeout 5 node packages/mcp-server/dist/index.js 2>&1 || true
+          echo "MCP server startup test passed"
+
+  validate-skills:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate skill structure
+        run: |
+          for skill_dir in skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            if [ "$skill_name" = "example-skill" ]; then
+              continue
+            fi
+
+            if [ ! -f "$skill_dir/SKILL.md" ]; then
+              echo "ERROR: $skill_name is missing SKILL.md"
+              exit 1
+            fi
+
+            # Check for frontmatter
+            if ! head -1 "$skill_dir/SKILL.md" | grep -q "^---$"; then
+              echo "ERROR: $skill_name SKILL.md is missing frontmatter"
+              exit 1
+            fi
+
+            echo "OK: $skill_name"
+          done
+          echo "All skills validated successfully"

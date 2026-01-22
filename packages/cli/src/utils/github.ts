@@ -149,9 +149,14 @@ export async function downloadSkill(
 /**
  * Recursively fetch all files in a directory from GitHub
  */
-async function fetchDirectoryContents(
-  path: string
-): Promise<Array<{ path: string; type: string }>> {
+export async function fetchDirectoryContents(
+  skillNameOrPath: string,
+  subPath?: string
+): Promise<Array<{ path: string; type: string; name: string }>> {
+  // If subPath is provided, construct path as skills/skillName/subPath
+  const path = subPath
+    ? `skills/${skillNameOrPath}/${subPath}`
+    : skillNameOrPath;
   const url = `${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
 
   const response = await fetch(url, {
@@ -171,11 +176,11 @@ async function fetchDirectoryContents(
     path: string;
   }>;
 
-  const files: Array<{ path: string; type: string }> = [];
+  const files: Array<{ path: string; type: string; name: string }> = [];
 
   for (const item of contents) {
     if (item.type === "file") {
-      files.push({ path: item.path, type: "file" });
+      files.push({ path: item.path, type: "file", name: item.name });
     } else if (item.type === "dir") {
       const subFiles = await fetchDirectoryContents(item.path);
       files.push(...subFiles);
