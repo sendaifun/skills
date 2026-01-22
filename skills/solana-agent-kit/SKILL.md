@@ -518,10 +518,57 @@ solana-agent-kit/
     └── troubleshooting.md             # Common issues
 ```
 
+## V2 Highlights
+
+Version 2 represents a complete evolution of the toolkit with key improvements:
+
+### Plugin Architecture
+
+V2 directly addresses two major V1 challenges:
+1. **Security**: Input private key method wasn't 100% secure
+2. **Hallucinations**: 100+ aggregate tools caused LLM confusion
+
+The modular plugin system lets you install only what you need, reducing context bloat and hallucinations.
+
+### Embedded Wallet Support (New)
+
+V2 integrates with secure wallet providers for enhanced security:
+
+```typescript
+import { TurnkeyWallet, PrivyWallet } from "solana-agent-kit/wallets";
+
+// Turnkey - fine-grained rules and policies
+const turnkeyWallet = new TurnkeyWallet({
+  organizationId: process.env.TURNKEY_ORG_ID,
+  privateKeyId: process.env.TURNKEY_PRIVATE_KEY_ID,
+});
+
+// Privy - human-in-the-loop confirmation
+const privyWallet = new PrivyWallet({
+  appId: process.env.PRIVY_APP_ID,
+  requireConfirmation: true,
+});
+
+// Initialize agent with secure wallet
+const agent = new SolanaAgentKit(turnkeyWallet, rpcUrl, options)
+  .use(TokenPlugin)
+  .use(DefiPlugin);
+```
+
+### Key V2 Benefits
+
+| Feature | V1 | V2 |
+|---------|----|----|
+| Wallet Security | Private key input | Embedded wallets (Turnkey, Privy) |
+| Tool Loading | All 100+ tools | Plugin-based, load what you need |
+| LLM Context | Large, caused hallucinations | Minimal, focused context |
+| Human-in-loop | Not supported | Native with Privy |
+
 ## Notes
 
-- Solana Agent Kit is actively maintained (1,400+ commits)
+- Solana Agent Kit is actively maintained (1,400+ commits, 800+ forks)
 - V2 introduced plugin architecture (migration guide available)
 - Python version available: `solana-agent-kit-py`
 - MCP server enables Claude Desktop integration
-- Apache-2.0 licensed, 1.6k+ GitHub stars
+- 100,000+ downloads, 1.6k+ GitHub stars
+- Apache-2.0 licensed

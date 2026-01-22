@@ -1,3 +1,8 @@
+---
+name: magicblock
+description: Complete guide for MagicBlock Ephemeral Rollups - high-performance Solana execution with sub-10ms latency, gasless transactions, and Solana Plugins. Use when building real-time games, high-frequency trading, or any application requiring ultra-low latency on Solana.
+---
+
 # MagicBlock Ephemeral Rollups Guide
 
 A comprehensive guide for building high-performance Solana applications with MagicBlock Ephemeral Rollups - enabling sub-10ms latency and gasless transactions.
@@ -197,6 +202,42 @@ pub fn undelegate(ctx: Context<Undelegate>) -> Result<()> {
 | **Private ER (PER)** | Privacy-preserving computation with Intel TDX |
 | **VRF** | Verifiable random function for on-chain randomness |
 | **BOLT Framework** | ECS architecture for fully on-chain games |
+| **Solana Plugins** | App-specific extensions for enhanced capabilities |
+
+## Solana Plugins (New)
+
+Solana Plugins are modular capabilities that can be added to your dApp to extend what's possible on Solana. Think of them as your custom toolkit: plug in what you need, when you need it.
+
+### Available Plugins
+
+| Plugin | Description | Use Cases |
+|--------|-------------|-----------|
+| **Verifiable Randomness (VRF)** | Provably fair on-chain randomness | Games, lotteries, NFT drops |
+| **Real-Time Price Feeds** | Up-to-the-millisecond market data | DEXs, trading bots, DeFi |
+| **AI Oracles** | Call AI models directly from smart contracts | Dynamic NFTs, AI agents |
+
+### Using VRF Plugin
+
+```typescript
+import { requestRandomness, getRandomnessResult } from "@magicblock-labs/vrf-sdk";
+
+// Request randomness
+const requestTx = await requestRandomness({
+  payer: wallet.publicKey,
+  seed: Buffer.from("my_game_seed"),
+});
+
+// Get result after confirmation
+const result = await getRandomnessResult(requestId);
+console.log("Random value:", result.randomness);
+```
+
+### Privacy with Intel TDX
+
+MagicBlock enables privacy in any Solana program state account through Ephemeral Rollups running in Trusted Execution Environments (TEE) on Intel TDX. This allows:
+- Private computation without exposing state
+- Verifiable execution guarantees
+- Selective disclosure of results
 
 ## Resources
 

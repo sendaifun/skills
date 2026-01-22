@@ -966,6 +966,40 @@ import type {
 } from "@kamino-finance/klend-sdk";
 ```
 
+## Kamino 2.0 / K-Lend (New Features)
+
+### Architecture Updates
+
+Kamino 2.0 introduced a fully integrated application with two key layers:
+- **Market Layer**: Core lending markets with advanced risk parameters
+- **Vault Layer**: Curator-managed vault strategies for optimized yield
+
+### New Collateral Support (2025)
+
+| Asset | Type | Notes |
+|-------|------|-------|
+| **nxSOL** | LST | Nansen liquid staking token |
+| **Huma RWA** | RWA | Real-world asset backed collateral |
+| **JitoSOL** | LST | Jito liquid staking token |
+
+### K-Lend V2 Features (Q4 2025)
+
+- **Modular Lending**: Isolated markets for RWAs and institutional use cases
+- **Enhanced Risk Engine**: Improved liquidation parameters
+- **Multi-collateral Positions**: Borrow against multiple assets
+
+### Governance (Q1 2026)
+
+Decentralized decision-making via KMNO stakers will be activated, allowing token holders to vote on:
+- Reserve parameters
+- New market listings
+- Protocol fees
+
+## Security Milestones
+
+- Fourth protocol verification completed (October 2025)
+- $1.5M bug bounty program active
+
 ## Resources
 
 - [Kamino Finance Website](https://kamino.finance)
@@ -973,6 +1007,7 @@ import type {
 - [klend-sdk GitHub](https://github.com/Kamino-Finance/klend-sdk)
 - [kliquidity-sdk GitHub](https://github.com/Kamino-Finance/kliquidity-sdk)
 - [scope-sdk GitHub](https://github.com/Kamino-Finance/scope-sdk)
+- [farms-sdk GitHub](https://github.com/Kamino-Finance/farms-sdk)
 - [Kamino Discord](https://discord.gg/kamino)
 
 ## Skill Structure

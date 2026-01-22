@@ -1,19 +1,53 @@
-# DFlow - Next-Generation Solana Trading Infrastructure
+---
+name: dflow
+description: Complete DFlow trading protocol SDK - the single source of truth for integrating DFlow on Solana. Covers spot trading, prediction markets, Swap API, Metadata API, WebSocket streaming, and all DFlow tools.
+---
 
-Comprehensive guide for building trading applications on Solana using DFlow's Swap API. Enables token swaps with optimal routing, lower slippage, and access to both spot markets and prediction markets.
+# DFlow - Complete Integration Guide
 
-## Overview
+The definitive guide for integrating DFlow - a trading protocol that enables traders to exchange value across spot and prediction markets natively on Solana.
 
-DFlow provides a suite of APIs for next-generation trading on Solana:
+## What is DFlow?
+
+DFlow is a comprehensive trading infrastructure that provides:
+
+- **Trading Applications & Wallets** - Token swaps with intelligent routing and 99.9% token coverage
+- **Exchanges & Aggregators** - Access to billions in monthly routed volume across DEXes and Prop AMMs
+- **Financial Institutions & Market Makers** - Programmable execution layers with CLPs and async trades
+- **Prediction Market Platforms** - Discovery, pricing, routing, and settlement infrastructure
+
+### Key Capabilities
+
+| Feature | Description |
+|---------|-------------|
+| Token Coverage | 99.9% with millisecond detection |
+| Infrastructure | Globally distributed, high-throughput optimization |
+| Execution | Advanced algorithms with JIT routing for best-price execution |
+| Markets | Support for both spot and prediction market trading |
+| MEV Protection | Enhanced sandwich protection with Jito bundles |
+
+## API Overview
+
+DFlow provides two main API categories:
+
+### 1. Swap API (Trading)
+**Base URL:** `https://quote-api.dflow.net`
+
+For executing trades:
 - **Imperative Swaps** - Full control over route selection at signature time
 - **Declarative Swaps** - Intent-based swaps with deferred route optimization
 - **Trade API** - Unified interface for spot and prediction market trading
-- **Prediction Markets** - Infrastructure for trading outcome tokens
+- **Order API** - Quote and transaction generation
 
-### Base URL
-```
-https://quote-api.dflow.net
-```
+### 2. Prediction Market Metadata API
+**Base URL:** `https://api.prod.dflow.net`
+
+For querying prediction market data:
+- **Events API** - Query prediction events and forecasts
+- **Markets API** - Get market details, orderbooks, outcome mints
+- **Trades API** - Historical trade data
+- **Live Data API** - Real-time milestones and updates
+- **WebSocket** - Streaming price and orderbook updates
 
 ### Authentication
 Most endpoints require an API key via the `x-api-key` header. Contact `hello@dflow.net` to obtain credentials.
@@ -468,13 +502,257 @@ The DFlow Swap Orchestrator contract manages declarative swap execution:
 Program ID: DF1ow3DqMj3HvTj8i8J9yM2hE9hCrLLXpdbaKZu4ZPnz
 ```
 
+---
+
+## Prediction Market Metadata API
+
+The Prediction Market Metadata API provides comprehensive access to prediction market information.
+
+**Base URL:** `https://api.prod.dflow.net`
+
+### Market Structure
+
+```
+Series (Collection)
+  └── Event (Occurrence)
+        └── Market (Outcome Trade)
+              ├── Yes Token (outcome mint)
+              └── No Token (outcome mint)
+```
+
+### Events API
+
+#### GET /api/v1/event/{ticker}
+Returns a single event by its ticker with optional nested markets.
+
+```typescript
+const METADATA_API = "https://api.prod.dflow.net";
+
+// Get event details
+const event = await fetch(`${METADATA_API}/api/v1/event/TRUMP-2024`, {
+  headers: { "x-api-key": API_KEY }
+}).then(r => r.json());
+
+// Response includes: ticker, title, status, markets, close_time, etc.
+```
+
+#### GET /api/v1/events
+Returns a paginated list of all events.
+
+```typescript
+const events = await fetch(`${METADATA_API}/api/v1/events?limit=50&offset=0`, {
+  headers: { "x-api-key": API_KEY }
+}).then(r => r.json());
+```
+
+#### GET /api/v1/event/{ticker}/forecast
+Returns historical forecast percentile data.
+
+#### GET /api/v1/event/{ticker}/candlesticks
+Returns candlestick data from Kalshi.
+
+### Markets API
+
+#### GET /api/v1/market/{ticker}
+Returns a single market by ticker.
+
+```typescript
+const market = await fetch(`${METADATA_API}/api/v1/market/TRUMP-2024-WIN`, {
+  headers: { "x-api-key": API_KEY }
+}).then(r => r.json());
+
+// Response: ticker, yes_mint, no_mint, status, last_price, volume, etc.
+```
+
+#### GET /api/v1/market/by-mint/{mint_address}
+Lookup market by any mint (ledger or outcome mints).
+
+```typescript
+const market = await fetch(
+  `${METADATA_API}/api/v1/market/by-mint/${outcomeMint}`,
+  { headers: { "x-api-key": API_KEY } }
+).then(r => r.json());
+```
+
+#### POST /api/v1/markets/batch
+Batch retrieve multiple markets (max 100).
+
+```typescript
+const markets = await fetch(`${METADATA_API}/api/v1/markets/batch`, {
+  method: "POST",
+  headers: { "content-type": "application/json", "x-api-key": API_KEY },
+  body: JSON.stringify({
+    tickers: ["MARKET-1", "MARKET-2"],
+    mints: ["mint1...", "mint2..."]
+  })
+}).then(r => r.json());
+```
+
+#### GET /api/v1/outcome_mints
+Returns all yes_mint and no_mint pubkeys from all supported markets.
+
+```typescript
+// Get all outcome mints, optionally filter by close time
+const mints = await fetch(
+  `${METADATA_API}/api/v1/outcome_mints?min_close_timestamp=${Date.now()}`,
+  { headers: { "x-api-key": API_KEY } }
+).then(r => r.json());
+```
+
+#### POST /api/v1/filter_outcome_mints
+Check if addresses are outcome mints (max 200).
+
+```typescript
+const filtered = await fetch(`${METADATA_API}/api/v1/filter_outcome_mints`, {
+  method: "POST",
+  headers: { "content-type": "application/json", "x-api-key": API_KEY },
+  body: JSON.stringify({ addresses: ["mint1...", "mint2..."] })
+}).then(r => r.json());
+```
+
+### Orderbook API
+
+#### GET /api/v1/orderbook/{ticker}
+Get orderbook by market ticker.
+
+```typescript
+const orderbook = await fetch(
+  `${METADATA_API}/api/v1/orderbook/TRUMP-2024-WIN`,
+  { headers: { "x-api-key": API_KEY } }
+).then(r => r.json());
+
+// Response: bids: [{price, quantity}], asks: [{price, quantity}]
+```
+
+#### GET /api/v1/orderbook/by-mint/{mint_address}
+Get orderbook using mint address lookup.
+
+### Trades API
+
+#### GET /api/v1/trades
+Returns paginated trade history with filtering.
+
+```typescript
+const trades = await fetch(
+  `${METADATA_API}/api/v1/trades?ticker=TRUMP-2024-WIN&limit=100`,
+  { headers: { "x-api-key": API_KEY } }
+).then(r => r.json());
+```
+
+#### GET /api/v1/trades/by-mint/{mint_address}
+Get trades using mint address lookup.
+
+### Live Data API
+
+#### GET /api/v1/milestones/{ticker}
+Real-time milestone data from Kalshi.
+
+```typescript
+const milestones = await fetch(
+  `${METADATA_API}/api/v1/milestones/TRUMP-2024`,
+  { headers: { "x-api-key": API_KEY } }
+).then(r => r.json());
+```
+
+### Series & Categories
+
+#### GET /api/v1/series
+Returns series templates for recurring events.
+
+#### GET /api/v1/categories
+Returns category tags for filtering.
+
+### WebSocket Streaming
+
+Connect for real-time updates:
+
+```typescript
+const ws = new WebSocket("wss://api.prod.dflow.net/ws");
+
+ws.onopen = () => {
+  // Subscribe to market updates
+  ws.send(JSON.stringify({
+    action: "subscribe",
+    channel: "market",
+    ticker: "TRUMP-2024-WIN"
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  // Handle: price_update, orderbook_update, trade, etc.
+  console.log("Update:", data);
+};
+```
+
+### Market Lifecycle
+
+| Status | Description |
+|--------|-------------|
+| `initialized` | Market created |
+| `active` | Trading enabled |
+| `inactive` | Trading paused |
+| `closed` | No more trading |
+| `determined` | Outcome known |
+| `finalized` | Payouts available |
+
+---
+
+## GitHub Tools & SDKs
+
+DFlow provides several open-source tools on GitHub:
+
+### solana-agent-kit
+**Repository:** [DFlowProtocol/solana-agent-kit](https://github.com/DFlowProtocol/solana-agent-kit)
+
+Toolkit enabling AI agents to connect to Solana protocols:
+
+```typescript
+// Use with AI agents for automated trading
+import { SolanaAgentKit } from "@dflow/solana-agent-kit";
+
+const agent = new SolanaAgentKit({
+  rpcUrl: process.env.RPC_URL,
+  privateKey: process.env.PRIVATE_KEY,
+});
+
+// Agent can execute DFlow swaps, query markets, etc.
+```
+
+### clearpools
+**Repository:** [DFlowProtocol/clearpools](https://github.com/DFlowProtocol/clearpools)
+
+Orca Whirlpools with support for flow segmentation:
+
+```typescript
+// Extends Orca protocol with DFlow routing
+import { ClearPools } from "@dflow/clearpools";
+
+const pools = new ClearPools(connection);
+await pools.initializePool(/* params */);
+```
+
+### dflow-amm-interface
+**Repository:** [DFlowProtocol/dflow-amm-interface](https://github.com/DFlowProtocol/dflow-amm-interface)
+
+Rust trait definitions for DFlow's AMM implementation. Use when building custom AMMs that integrate with DFlow routing.
+
+### Infrastructure Tools
+- **solana-accountsdb-plugin-bigtable** - Geyser plugin for Bigtable
+- **solana-bigtable-connection** - Bigtable connection library
+- **solana-bigtable-geyser-models** - Object models for Geyser data
+
+---
+
 ## Skill Structure
 
 ```
 dflow/
-├── SKILL.md                           # This file
+├── SKILL.md                           # This file - complete integration guide
 ├── resources/
-│   ├── api-reference.md               # Complete API reference
+│   ├── api-reference.md               # Swap API reference
+│   ├── prediction-market-api.md       # Prediction Market Metadata API reference
+│   ├── github-sdks.md                 # GitHub tools & SDKs documentation
 │   ├── token-mints.md                 # Common token addresses
 │   └── error-codes.md                 # Error handling guide
 ├── examples/
@@ -482,8 +760,12 @@ dflow/
 │   ├── declarative-swaps/             # Declarative swap examples
 │   ├── trade-api/                     # Unified Trade API examples
 │   └── prediction-markets/            # Prediction market examples
+│       ├── query-markets.ts           # Query events, markets, orderbook
+│       ├── trade-outcomes.ts          # Trade outcome tokens
+│       └── websocket-client.ts        # Real-time data streaming
 ├── templates/
-│   └── swap-client.ts                 # Copy-paste starter
+│   ├── swap-client.ts                 # Swap client starter
+│   └── prediction-market-client.ts    # Prediction market client starter
 └── docs/
     ├── advanced-patterns.md           # Complex integrations
     └── troubleshooting.md             # Common issues

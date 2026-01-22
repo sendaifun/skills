@@ -1,3 +1,8 @@
+---
+name: solana-kit
+description: Complete guide for @solana/kit - the modern, tree-shakeable, zero-dependency JavaScript SDK from Anza. Covers RPC connections, signers, transaction building with pipe, signing, sending, and account fetching with full TypeScript support.
+---
+
 # Solana Kit Development Guide
 
 A comprehensive guide for building Solana applications with `@solana/kit` - the modern, tree-shakeable, zero-dependency JavaScript SDK from Anza.
@@ -434,14 +439,47 @@ try {
 See the separate migration skill or use `@solana/compat` for interoperability:
 
 ```typescript
-import { fromLegacyKeypair, toLegacyPublicKey } from "@solana/compat";
+import {
+  fromLegacyPublicKey,
+  fromLegacyKeypair,
+  fromVersionedTransaction,
+  fromLegacyTransactionInstruction,
+} from "@solana/compat";
 
-// Convert legacy Keypair to Kit signer
-const signer = fromLegacyKeypair(legacyKeypair);
+// Convert legacy PublicKey to Kit Address
+const address = fromLegacyPublicKey(legacyPublicKey);
 
-// Convert Kit address to legacy PublicKey
-const publicKey = toLegacyPublicKey(signer.address);
+// Convert legacy Keypair to Kit CryptoKeyPair (async)
+const keyPair = await fromLegacyKeypair(legacyKeypair);
+
+// Convert legacy VersionedTransaction to Kit Transaction
+const kitTransaction = fromVersionedTransaction(legacyVersionedTx);
+
+// Convert legacy TransactionInstruction to Kit Instruction
+const kitInstruction = fromLegacyTransactionInstruction(legacyInstruction);
 ```
+
+> **Note**: The compat package converts FROM legacy TO Kit types. For reverse conversion, you may need to manually construct legacy objects.
+
+## Performance Benchmarks
+
+Kit delivers significant performance improvements over web3.js 1.x:
+
+| Metric | web3.js 1.x | @solana/kit | Improvement |
+|--------|-------------|-------------|-------------|
+| Keypair Generation | ~50ms | ~5ms | **10x faster** |
+| Transaction Signing | ~20ms | ~2ms | **10x faster** |
+| Bundle Size | 311KB | 226KB | **26% smaller** |
+| Confirmation Latency | ~400ms | ~200ms | **~200ms faster** |
+
+*Benchmarks from Triton One's Ping Thing service and Solana Explorer testing*
+
+### Why It's Faster
+
+1. **Native Ed25519**: Uses browser/runtime native crypto APIs
+2. **Zero Dependencies**: No third-party library overhead
+3. **Tree-Shakeable**: Only imports code you use
+4. **No Classes**: Functional design enables better optimization
 
 ## Resources
 
