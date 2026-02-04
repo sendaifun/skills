@@ -1,0 +1,169 @@
+{
+  "name": "solana-skills",
+  "owner": {
+    "name": "SendAI",
+    "email": "hello@sendai.fun"
+  },
+  "metadata": {
+    "description": "AI agent skills for Solana development - DeFi protocols, infrastructure, security, and more",
+    "pluginRoot": "./skills"
+  },
+  "plugins": [
+    {
+      "name": "coingecko",
+      "source": "./skills/coingecko",
+      "description": "CoinGecko Solana API for token prices, DEX pool data, OHLCV charts, trades, and market analytics",
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "debridge",
+      "source": "./skills/debridge",
+      "description": "deBridge Protocol SDK for cross-chain bridges, message passing, and token transfers between Solana and EVM chains",
+      "category": "Cross-Chain"
+    },
+    {
+      "name": "dflow",
+      "source": "./skills/dflow",
+      "description": "DFlow trading protocol for spot trading, prediction markets, Swap API, and WebSocket streaming",
+      "category": "Trading"
+    },
+    {
+      "name": "drift",
+      "source": "./skills/drift",
+      "description": "Drift Protocol SDK for perpetual futures, spot trading, cross-collateral, and vaults",
+      "category": "DeFi"
+    },
+    {
+      "name": "helius",
+      "source": "./skills/helius",
+      "description": "Helius RPC infrastructure, DAS API, Enhanced Transactions, Priority Fees, Webhooks, and LaserStream gRPC",
+      "category": "Infrastructure"
+    },
+    {
+      "name": "kamino",
+      "source": "./skills/kamino",
+      "description": "Kamino Finance for lending, borrowing, liquidity management, leverage trading, and oracle aggregation",
+      "category": "DeFi"
+    },
+    {
+      "name": "light-protocol",
+      "source": "./skills/light-protocol",
+      "description": "Light Protocol for ZK Compression, rent-free compressed tokens, and high-performance token standard",
+      "category": "Infrastructure"
+    },
+    {
+      "name": "lulo",
+      "source": "./skills/lulo",
+      "description": "Lulo lending aggregator for automated yield optimization across Kamino, Drift, MarginFi, and Jupiter",
+      "category": "DeFi"
+    },
+    {
+      "name": "magicblock",
+      "source": "./skills/magicblock",
+      "description": "MagicBlock Ephemeral Rollups for sub-10ms latency, gasless transactions, and real-time applications",
+      "category": "Infrastructure"
+    },
+    {
+      "name": "metaplex",
+      "source": "./skills/metaplex",
+      "description": "Metaplex Protocol for NFTs, Core, Token Metadata, Bubblegum, Candy Machine, and Umi framework",
+      "category": "NFT & Tokens"
+    },
+    {
+      "name": "meteora",
+      "source": "./skills/meteora",
+      "description": "Meteora DeFi SDK for DLMM, DAMM pools, Dynamic Bonding Curves, Alpha Vaults, and token launches",
+      "category": "DeFi"
+    },
+    {
+      "name": "orca",
+      "source": "./skills/orca",
+      "description": "Orca Whirlpools SDK for concentrated liquidity AMM, swaps, liquidity provision, and position management",
+      "category": "DeFi"
+    },
+    {
+      "name": "pinocchio-development",
+      "source": "./skills/pinocchio-development",
+      "description": "Pinocchio zero-dependency, zero-copy framework for high-performance Solana programs (88-95% CU reduction)",
+      "category": "Program Development"
+    },
+    {
+      "name": "pumpfun",
+      "source": "./skills/pumpfun",
+      "description": "PumpFun Protocol for token launches, bonding curves, and PumpSwap AMM integration",
+      "category": "DeFi"
+    },
+    {
+      "name": "pyth",
+      "source": "./skills/pyth",
+      "description": "Pyth Network oracle for real-time price feeds, confidence intervals, and EMA prices",
+      "category": "Oracles"
+    },
+    {
+      "name": "ranger-finance",
+      "source": "./skills/ranger-finance",
+      "description": "Ranger Finance perps aggregator for smart order routing across Drift, Flash, Adrena, and Jupiter",
+      "category": "Trading"
+    },
+    {
+      "name": "raydium",
+      "source": "./skills/raydium",
+      "description": "Raydium Protocol for AMM pools, CLMM, CPMM, LaunchLab token launches, and liquidity infrastructure",
+      "category": "DeFi"
+    },
+    {
+      "name": "sanctum",
+      "source": "./skills/sanctum",
+      "description": "Sanctum SDK for liquid staking, LST swaps, Infinity pool, and 1,361+ liquid staking tokens",
+      "category": "DeFi"
+    },
+    {
+      "name": "solana-agent-kit",
+      "source": "./skills/solana-agent-kit",
+      "description": "Build AI agents that execute 60+ Solana blockchain operations with LangChain, Vercel AI, and MCP support",
+      "category": "AI Agents"
+    },
+    {
+      "name": "solana-kit",
+      "source": "./skills/solana-kit",
+      "description": "Modern tree-shakeable JavaScript SDK from Anza with zero dependencies and full TypeScript support",
+      "category": "Client Development"
+    },
+    {
+      "name": "solana-kit-migration",
+      "source": "./skills/solana-kit-migration",
+      "description": "Migration guide between @solana/web3.js v1.x and @solana/kit with API mappings",
+      "category": "Client Development"
+    },
+    {
+      "name": "squads",
+      "source": "./skills/squads",
+      "description": "Squads Protocol for multisig wallets, smart accounts, account abstraction, and Grid stablecoin rails",
+      "category": "Infrastructure"
+    },
+    {
+      "name": "surfpool",
+      "source": "./skills/surfpool",
+      "description": "Surfpool development environment with mainnet forking, cheatcodes, and Infrastructure as Code",
+      "category": "DevOps"
+    },
+    {
+      "name": "switchboard",
+      "source": "./skills/switchboard",
+      "description": "Switchboard Oracle for price feeds, on-demand data, VRF randomness, and Surge streaming",
+      "category": "Oracles"
+    },
+    {
+      "name": "vulnhunter",
+      "source": "./skills/vulnhunter",
+      "description": "Security vulnerability detection, dangerous API hunting, and variant analysis for audits",
+      "category": "Security"
+    },
+    {
+      "name": "code-recon",
+      "source": "./skills/zz-code-recon",
+      "description": "Deep architectural context building for security audits and codebase reconnaissance",
+      "category": "Security"
+    }
+  ]
+}
