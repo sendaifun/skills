@@ -1,322 +1,167 @@
-# Contributing to Solana Skills
+# Contributing
 
-Thank you for your interest in contributing to Solana Skills by SendAI! This document provides guidelines and information for contributors.
-
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Types of Contributions](#types-of-contributions)
-- [Creating a New Skill](#creating-a-new-skill)
-- [Pull Request Process](#pull-request-process)
-- [Style Guidelines](#style-guidelines)
-- [Code of Conduct](#code-of-conduct)
-- [Questions and Support](#questions-and-support)
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Familiarity with Solana development concepts
-- Experience with Git and GitHub
-- Access to Claude Code or compatible AI agent for testing
-
-### Setting Up
-
-1. **Fork the repository**
-
-   Click the "Fork" button on GitHub to create your own copy.
-
-2. **Clone your fork**
-
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/solana-skills.git
-   cd solana-skills
-   ```
-
-3. **Add upstream remote**
-
-   ```bash
-   git remote add upstream https://github.com/SendAI/solana-skills.git
-   ```
-
-4. **Keep your fork updated**
-
-   ```bash
-   git fetch upstream
-   git merge upstream/main
-   ```
-
----
-
-## Types of Contributions
-
-### New Skills
-
-Create skills for Solana development tasks. Check the [Ideas](README.md#ideas) for ideas or propose your own.
-
-### Bug Fixes
-
-Improve existing skills that have incorrect or outdated instructions.
-
-### Documentation
-
-- Improve skill clarity and examples
-- Fix typos or grammatical errors
-- Add missing context or edge cases
-
-### Proposals
-
-Open an issue to propose new skills or improvements before starting work.
-
-### Testing
-
-Test existing skills and report issues or suggest improvements.
-
----
+Thanks for your interest in contributing to Solana Skills. This guide covers everything you need to create and submit a new skill.
 
 ## Creating a New Skill
 
-### Step 1: Choose Your Skill
-
-- Check the [Ideas](README.md#ideas) for planned skills
-- Open an issue to discuss new skill ideas
-- Ensure the skill doesn't duplicate existing functionality
-
-### Step 2: Create the Skill Directory
+Fork the repo and clone it, then copy the template:
 
 ```bash
-# Copy the template
 cp -r template/ skills/your-skill-name/
-
-# Skill names must be:
-# - Lowercase
-# - Use hyphens for spaces
-# - Descriptive but concise
 ```
 
-### Step 3: Write the SKILL.md
+Skill names: lowercase, hyphens for spaces (e.g., `anchor-testing`, `token-2022`).
 
-Follow this structure:
+### Write SKILL.md
+
+Every skill needs a `SKILL.md` file with frontmatter and instructions:
 
 ```yaml
 ---
 name: your-skill-name
-description: A comprehensive description of what this skill does and when an AI agent should use it
+description: What this skill does and when an AI agent should use it
 ---
 ```
 
-> **Tips for Writing Effective Frontmatter:**
->
-> - **Include protocol/project names** in the description (e.g., "Jupiter", "Raydium", "Metaplex"). Agents use the description to determine when to load the skill, so explicit mentions help with recognition.
-> - **Use action-oriented language** - Start with verbs like "Build", "Create", "Integrate", "Deploy" to clarify the skill's purpose.
-> - **Mention key technologies** - Include SDK names, frameworks, or standards (e.g., "Anchor", "Token-2022", "SPL") that developers might reference.
-> - **Keep it scannable** - The description should convey the skill's value in one or two sentences. Agents and users should understand at a glance when to use it.
+**Frontmatter tips:**
+- Include protocol/project names (e.g., "Jupiter", "Metaplex") — agents use this to decide when to load the skill
+- Use action verbs: "Build", "Create", "Integrate", "Deploy"
+- Mention key technologies: SDK names, frameworks, standards
+
+**SKILL.md structure:**
 
 ```markdown
 # Your Skill Name
 
-Brief introduction to what this skill accomplishes.
+Brief introduction.
 
 ## Overview
 
-Explain the problem this skill solves and its value to developers.
+What problem this solves and why it matters.
 
 ## Instructions
 
-Step-by-step instructions for the AI agent:
-
-1. First, understand the user's specific requirements
-2. Then, apply these specific patterns...
-3. Finally, verify the output meets these criteria...
+Step-by-step guidance for the AI agent:
+1. First, understand the user's requirements
+2. Apply these patterns...
+3. Verify the output meets these criteria...
 
 ## Examples
 
-### Example 1: Basic Usage
+### Basic Usage
 
-When a user asks: "Help me [specific task]"
+When user asks: "Help me [task]"
 
 The agent should:
-1. Do this first
+1. Do this
 2. Then this
-3. Produce this output
-
-### Example 2: Advanced Usage
-
-[More complex scenario with detailed response]
+3. Output this
 
 ## Guidelines
 
-- **DO**: Specific positive behaviors
-- **DO**: Another best practice
-- **DON'T**: Common mistake to avoid
-- **DON'T**: Another anti-pattern
+- **DO**: Best practice
+- **DON'T**: Anti-pattern to avoid
 
 ## Common Errors
 
-### Error: [Specific Error Name]
-
-**Cause**: Why this happens
-**Solution**: How to fix it
+### Error: [Name]
+**Cause**: Why it happens
+**Solution**: How to fix
 
 ## References
 
-- [Relevant Documentation](https://example.com)
-- [Related Resources](https://example.com)
-
-## Notes
-
-Any additional context, limitations, or edge cases.
+- [Official Docs](https://example.com)
 ```
 
-### Step 4: Add Supporting Files (Optional)
+### Test Your Skill
+
+1. Load the skill in Claude Code or compatible agent
+2. Test with various prompts
+3. Verify edge cases are handled
+4. Check outputs are correct and secure
+
+### Add to Marketplace
+
+Add your skill to `.claude-plugin/marketplace.json`:
+
+```json
+{
+  "name": "your-skill-name",
+  "source": "./skills/your-skill-name",
+  "description": "Brief description matching your SKILL.md frontmatter",
+  "category": "DeFi | Infrastructure | Trading | Oracles | Security | DevOps"
+}
+```
+
+Add the entry to the `plugins` array in alphabetical order.
+
+## Skill Structure
 
 ```
 your-skill-name/
-├── SKILL.md          # Required
-├── scripts/          # Optional: Helper scripts
-│   └── helper.sh
-├── resources/        # Optional: Templates, configs
-│   └── template.json
-└── examples/         # Optional: Example code
-    └── example.ts
+├── SKILL.md          # Required: Main instructions for the AI agent
+├── docs/             # Optional: Deep-dive documentation
+│   └── troubleshooting.md
+├── resources/        # Optional: API references, addresses, configs
+│   └── api-reference.md
+├── examples/         # Optional: Copy-paste code samples
+│   └── basic/
+│       └── example.ts
+└── templates/        # Optional: Starter boilerplate
+    └── setup.ts
 ```
 
-### Step 5: Test Your Skill
+| Directory | Purpose | When to Use |
+|-----------|---------|-------------|
+| `docs/` | Troubleshooting, advanced patterns, migration guides | When SKILL.md gets too long |
+| `resources/` | API references, program IDs, token addresses, error codes | Static data the agent looks up frequently |
+| `examples/` | Working code samples organized by use case | Complete, runnable implementations |
+| `templates/` | Starter code users copy | Common boilerplate to scaffold |
 
-1. Load the skill in Claude Code
-2. Test with various prompts
-3. Verify edge cases are handled
-4. Check that outputs are correct and secure
+## Submitting Your PR
 
----
-
-## Pull Request Process
-
-### Before Submitting
+### Checklist
 
 - [ ] Skill follows the template structure
 - [ ] Instructions are clear and unambiguous
 - [ ] Examples cover common use cases
-- [ ] Security best practices are followed
+- [ ] Security best practices followed
 - [ ] Tested with Claude Code or compatible agent
-- [ ] No duplicate functionality with existing skills
+- [ ] Added entry to `.claude-plugin/marketplace.json`
 
-### Submitting Your PR
+### Submit
 
-1. **Create a feature branch**
+```bash
+git checkout -b feat/your-skill-name
+git add .
+git commit -m "feat: add your-skill-name skill"
+git push origin feat/your-skill-name
+```
 
-   ```bash
-   git checkout -b feat/your-skill-name
-   ```
+Open a PR with a descriptive title. Maintainers will review and provide feedback.
 
-2. **Commit your changes**
-
-   ```bash
-   git add .
-   git commit -m "feat: add your-skill-name skill"
-   ```
-
-   Use conventional commit messages:
-   - `feat:` for new skills
-   - `fix:` for bug fixes
-   - `docs:` for documentation changes
-   - `refactor:` for restructuring
-
-3. **Push to your fork**
-
-   ```bash
-   git push origin feat/your-skill-name
-   ```
-
-4. **Open a Pull Request**
-
-   - Use a descriptive title
-   - Fill out the PR template
-   - Reference related issues
-   - Add screenshots/examples if helpful
-
-### Review Process
-
-1. Maintainers will review your PR
-2. Address any feedback or requested changes
-3. Once approved, your PR will be merged
-
----
+**Commit prefixes:** `feat:` (new skills), `fix:` (bug fixes), `docs:` (documentation)
 
 ## Style Guidelines
 
-### SKILL.md Formatting
-
-- Use clear, imperative language ("Do X" not "You should do X")
-- Include practical, copy-paste ready examples
-- Keep instructions specific and actionable
-- Avoid ambiguity—AI agents need precise guidance
-
-### Solana-Specific Guidelines
-
-- Always recommend current best practices
+- Use imperative language ("Do X" not "You should do X")
+- Include copy-paste ready examples
+- Be specific — AI agents need precise guidance
 - Include security considerations
 - Reference official documentation
-- Account for different Solana clusters (devnet/mainnet)
+- Account for devnet vs mainnet differences
 
-### Markdown Style
+## Other Contributions
 
-- Use ATX-style headers (`#`, `##`, `###`)
-- Use fenced code blocks with language identifiers
-- Keep lines under 100 characters when possible
-- Use tables for structured data
-
----
+- **Bug fixes**: Improve existing skills with incorrect or outdated instructions
+- **Documentation**: Fix typos, add clarity, improve examples
+- **Ideas**: Check [IDEAS.md](IDEAS.md) or open an issue to propose new skills
 
 ## Code of Conduct
 
-### Our Standards
+Be respectful, inclusive, and constructive. Harassment, personal attacks, or dismissive behavior will result in warnings or bans.
 
-- **Be respectful**: Treat all contributors with respect
-- **Be inclusive**: Welcome developers of all skill levels
-- **Be constructive**: Provide helpful, actionable feedback
-- **Be patient**: Remember everyone is learning
+## Help
 
-### Unacceptable Behavior
-
-- Harassment or discriminatory language
-- Personal attacks or trolling
-- Publishing private information
-- Dismissive or unhelpful responses
-
-### Enforcement
-
-Violations may result in:
-1. Warning from maintainers
-2. Temporary ban from contributing
-3. Permanent ban for repeated violations
-
----
-
-## Questions and Support
-
-### Getting Help
-
-- **Issues**: Open a GitHub issue for bugs or proposals
-- **Discussions**: Use GitHub Discussions for questions
-- **Discord**: Join the SendAI community (if available)
-
-### Useful Resources
-
-- [Agent Skills Specification](https://agentskills.io)
-- [Anthropic Skills Repository](https://github.com/anthropics/skills)
-- [Solana Documentation](https://solana.com/docs)
-- [Anchor Documentation](https://www.anchor-lang.com/)
-
----
-
-## Recognition
-
-Contributors are recognized in:
-- The README acknowledgments section
-- Release notes for significant contributions
-- GitHub contributors list
-
-Thank you for helping make Solana development more accessible through AI-powered skills! 🚀
+- **Issues**: [GitHub Issues](https://github.com/sendaifun/skills/issues) for bugs or proposals
+- **Resources**: [Agent Skills Spec](https://agentskills.io) · [Solana Docs](https://solana.com/docs)
