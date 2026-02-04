@@ -64,6 +64,12 @@
       "category": "Infrastructure"
     },
     {
+      "name": "marginfi",
+      "source": "./skills/marginfi",
+      "description": "MarginFi for lending  borrowing, leveraged positions (looping) and flash loans",
+      "category": "DeFi"
+    },
+    {
       "name": "metaplex",
       "source": "./skills/metaplex",
       "description": "Metaplex Protocol for NFTs, Core, Token Metadata, Bubblegum, Candy Machine, and Umi framework",
