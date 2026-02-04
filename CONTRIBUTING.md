@@ -190,6 +190,21 @@ your-skill-name/
 3. Verify edge cases are handled
 4. Check that outputs are correct and secure
 
+### Step 6: Add to Marketplace
+
+Add your skill to `.claude-plugin/marketplace.json` so Claude Code users can install it via `/plugin install your-skill-name`.
+
+```json
+{
+  "name": "your-skill-name",
+  "source": "./skills/your-skill-name",
+  "description": "Brief description matching your SKILL.md frontmatter",
+  "category": "DeFi | Infrastructure | Trading | Oracles | Security | DevOps | etc."
+}
+```
+
+Add this entry to the `plugins` array in alphabetical order by name.
+
 ---
 
 ## Pull Request Process
@@ -202,6 +217,7 @@ your-skill-name/
 - [ ] Security best practices are followed
 - [ ] Tested with Claude Code or compatible agent
 - [ ] No duplicate functionality with existing skills
+- [ ] Added entry to `.claude-plugin/marketplace.json`
 
 ### Submitting Your PR
 
