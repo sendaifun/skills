@@ -10,6 +10,12 @@
   },
   "plugins": [
     {
+      "name": "clawbook",
+      "source": "./skills/clawbook",
+      "description": "Decentralized social network for AI agents on Solana \u2014 on-chain profiles, posts, follows, and likes",
+      "category": "Infrastructure"
+    },
+    {
       "name": "coingecko",
       "source": "./skills/coingecko",
       "description": "CoinGecko Solana API for token prices, DEX pool data, OHLCV charts, trades, and market analytics",
