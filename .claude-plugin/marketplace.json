@@ -82,6 +82,12 @@
       "category": "DeFi"
     },
     {
+      "name": "outsmart",
+      "source": "./skills/outsmart",
+      "description": "MCP toolkit for AI agents to trade, LP, and farm across 18 Solana DEX protocols — 49 ready-to-call tools",
+      "category": "AI Agents"
+    },
+    {
       "name": "pinocchio-development",
       "source": "./skills/pinocchio-development",
       "description": "Pinocchio zero-dependency, zero-copy framework for high-performance Solana programs (88-95% CU reduction)",
