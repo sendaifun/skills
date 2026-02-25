@@ -116,6 +116,12 @@
       "category": "Oracles"
     },
     {
+      "name": "quicknode",
+      "source": "./skills/quicknode",
+      "description": "Quicknode RPC infrastructure, DAS API, Yellowstone gRPC streaming, Streams, Webhooks, Priority Fees, Metis Jupiter Swap, and IPFS for Solana (80+ chains supported)",
+      "category": "Infrastructure"
+    },
+    {
       "name": "ranger-finance",
       "source": "./skills/ranger-finance",
       "description": "Ranger Finance perps aggregator for smart order routing across Drift, Flash, Adrena, and Jupiter",
