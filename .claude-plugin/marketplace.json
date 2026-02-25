@@ -74,6 +74,8 @@
       "source": "./skills/marginfi",
       "description": "MarginFi for lending  borrowing, leveraged positions (looping) and flash loans",
       "category": "DeFi"
+    },
+    {
       "name": "metengine",
       "source": "./skills/metengine",
       "description": "Real-time smart money analytics for Polymarket prediction markets, Hyperliquid perpetual futures, and Meteora Solana LP/AMM pools. 63 endpoints. Pay-per-request via x402 on Solana Mainnet USDC. No API keys.",
@@ -132,6 +134,12 @@
       "source": "./skills/sanctum",
       "description": "Sanctum SDK for liquid staking, LST swaps, Infinity pool, and 1,361+ liquid staking tokens",
       "category": "DeFi"
+    },
+    {
+      "name": "sol-incinerator",
+      "source": "./skills/sol-incinerator",
+      "description": "SOL Incinerator SDK for burning tokens, NFTs, and closing accounts",
+      "category": "Infrastructure"
     },
     {
       "name": "solana-agent-kit",
