@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "description": "Default CT watchlist. Add your own accounts to watchlist.json",
+  "categories": {
+    "solana-builders": {
+      "description": "Solana core devs, protocol founders, and ecosystem builders",
+      "accounts": []
+    },
+    "defi-researchers": {
+      "description": "DeFi analysts, yield strategists, and protocol researchers",
+      "accounts": []
+    },
+    "crypto-vcs": {
+      "description": "Crypto venture capital firms and partners",
+      "accounts": []
+    },
+    "trading-analysts": {
+      "description": "Technical analysts, trading strategists, and market commentators",
+      "accounts": []
+    },
+    "protocol-official": {
+      "description": "Official protocol and project accounts",
+      "accounts": []
+    },
+    "alpha-callers": {
+      "description": "Known alpha hunters and early token identifiers",
+      "accounts": []
+    },
+    "onchain-analysts": {
+      "description": "On-chain data analysts and blockchain forensics",
+      "accounts": []
+    },
+    "infra-devs": {
+      "description": "Infrastructure builders - RPCs, oracles, bridges, wallets",
+      "accounts": []
+    },
+    "favorites": {
+      "description": "Your personal favorite accounts (added during setup)",
+      "accounts": []
+    }
+  }
+}

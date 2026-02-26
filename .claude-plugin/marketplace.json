@@ -16,6 +16,12 @@
       "category": "Data & Analytics"
     },
     {
+      "name": "ct-alpha",
+      "source": "./skills/ct-alpha",
+      "description": "Crypto Twitter intelligence with TweetRank scoring, multi-signal token detection, raid detection, and real-time alpha research via X API",
+      "category": "Data & Analytics"
+    },
+    {
       "name": "debridge",
       "source": "./skills/debridge",
       "description": "deBridge Protocol SDK for cross-chain bridges, message passing, and token transfers between Solana and EVM chains",
@@ -74,6 +80,8 @@
       "source": "./skills/marginfi",
       "description": "MarginFi for lending  borrowing, leveraged positions (looping) and flash loans",
       "category": "DeFi"
+    },
+    {
       "name": "metengine",
       "source": "./skills/metengine",
       "description": "Real-time smart money analytics for Polymarket prediction markets, Hyperliquid perpetual futures, and Meteora Solana LP/AMM pools. 63 endpoints. Pay-per-request via x402 on Solana Mainnet USDC. No API keys.",
