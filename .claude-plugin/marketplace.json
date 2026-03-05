@@ -184,6 +184,12 @@
       "category": "Oracles"
     },
     {
+      "name": "unclaimed-sol",
+      "source": "./skills/unclaimed-sol",
+      "description": "Unclaimed SOL recovery tool for finding and recovering lost SOL from old wallets, airdrops, and program accounts",
+      "category": "DeFi"
+    },
+    {
       "name": "vulnhunter",
       "source": "./skills/vulnhunter",
       "description": "Security vulnerability detection, dangerous API hunting, and variant analysis for audits",

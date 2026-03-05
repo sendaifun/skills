@@ -59,6 +59,7 @@ npx skills add sendaifun/skills
 | [orca](skills/orca/) | Whirlpools concentrated liquidity AMM, swaps, positions |
 | [pumpfun](skills/pumpfun/) | Token launches, bonding curves, PumpSwap AMM |
 | [raydium](skills/raydium/) | AMM pools, CLMM, CPMM, LaunchLab token launches |
+| [unclaimed-sol](skills/unclaimed-sol/) | Solana Wallet Cleanup, Claim SOL |
 | [sanctum](skills/sanctum/) | Liquid staking, LST swaps, Infinity pool |
 
 ### Infrastructure
