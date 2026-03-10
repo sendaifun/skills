@@ -76,6 +76,12 @@
       "category": "Infrastructure"
     },
     {
+      "name": "manifest",
+      "source": "./skills/manifest",
+      "description": "Manifest DEX for orderbook trading, SDK integration, wrapper and global account flows, reverse orders, and frontend market reads on Solana",
+      "category": "DeFi"
+    },
+    {
       "name": "marginfi",
       "source": "./skills/marginfi",
       "description": "MarginFi for lending  borrowing, leveraged positions (looping) and flash loans",
