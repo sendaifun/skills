@@ -84,6 +84,7 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [pyth](skills/pyth/) | Real-time price feeds, confidence intervals, EMA prices |
 | [switchboard](skills/switchboard/) | Price feeds, on-demand data, VRF randomness, Surge streaming |
+| [wzrd](skills/wzrd/) | AI model velocity oracle — attention EMA scores, leaderboards, yield simulation, merkle claims |
 
 ### Data & Analytics
 

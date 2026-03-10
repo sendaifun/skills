@@ -190,6 +190,12 @@
       "category": "Security"
     },
     {
+      "name": "wzrd",
+      "source": "./skills/wzrd",
+      "description": "WZRD Attention Oracle for real-time AI model velocity data, leaderboards, yield simulation, and merkle claim verification on Solana via MCP",
+      "category": "Oracles"
+    },
+    {
       "name": "code-recon",
       "source": "./skills/zz-code-recon",
       "description": "Deep architectural context building for security audits and codebase reconnaissance",
