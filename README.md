@@ -91,6 +91,7 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [coingecko](skills/coingecko/) | Token prices, DEX pool data, OHLCV charts, trades |
 | [metengine](skills/metengine/) | Smart money analytics for Polymarket, Hyperliquid, and Meteora — wallet scoring, insider detection, capital flow tracking (63 endpoints, x402 pay-per-request) |
+| [wzrd](skills/wzrd/) | AI model velocity oracle — attention leaderboards, EMA feeds, yield simulation, Jupiter routing, merkle claims (17 MCP tools) |
 
 ### Cross-Chain
 
