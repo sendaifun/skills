@@ -48,8 +48,26 @@
     {
       "name": "helius",
       "source": "./skills/helius",
-      "description": "Helius RPC infrastructure, DAS API, Enhanced Transactions, Priority Fees, Webhooks, and LaserStream gRPC",
+      "description": "Build Solana applications with Helius infrastructure including transaction sending (Sender), asset/NFT queries (DAS API), real-time streaming (WebSockets, LaserStream), event pipelines (webhooks), priority fees, and wallet analysis",
       "category": "Infrastructure"
+    },
+    {
+      "name": "helius-cli",
+      "source": "./skills/helius-cli",
+      "description": "Command-line tool for AI agents to autonomously sign up for Helius accounts and get API keys without human intervention",
+      "category": "Infrastructure"
+    },
+    {
+      "name": "helius-dflow",
+      "source": "./skills/helius-dflow",
+      "description": "Build Solana trading applications combining DFlow trading APIs with Helius infrastructure for spot swaps, prediction markets, and real-time streaming",
+      "category": "Trading"
+    },
+    {
+      "name": "helius-phantom",
+      "source": "./skills/helius-phantom",
+      "description": "Build frontend Solana applications with Phantom Connect SDK and Helius infrastructure for wallet connection, transaction signing, and secure API proxying",
+      "category": "Frontend"
     },
     {
       "name": "kamino",
@@ -170,6 +188,12 @@
       "source": "./skills/solana-kit-migration",
       "description": "Migration guide between @solana/web3.js v1.x and @solana/kit with API mappings",
       "category": "Client Development"
+    },
+    {
+      "name": "svm",
+      "source": "./skills/svm",
+      "description": "Explore Solana's architecture and protocol internals including the SVM execution engine, account model, consensus, transactions, and validator economics",
+      "category": "Research"
     },
     {
       "name": "squads",
