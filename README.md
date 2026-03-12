@@ -54,6 +54,7 @@ npx skills add sendaifun/skills
 | [glam](skills/glam/) | Tokenized vaults, DeFi integrations (Jupiter, Drift, Kamino), staking, asset management |
 | [kamino](skills/kamino/) | Lending, borrowing, liquidity management, leverage trading |
 | [lulo](skills/lulo/) | Lending aggregator across Kamino, Drift, MarginFi, Jupiter |
+| [manifest](skills/manifest/) | CLOB, Limit orders, Reverse orders,  Global orders, Destiny vaults |
 | [marginfi](skills/marginfi/) | Lending, borrowing, leveraged positions (looping) and flash loans |
 | [meteora](skills/meteora/) | DLMM, DAMM pools, bonding curves, Alpha Vaults |
 | [orca](skills/orca/) | Whirlpools concentrated liquidity AMM, swaps, positions |
