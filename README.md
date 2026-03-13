@@ -9,7 +9,7 @@ AI agent skills for Solana development — DeFi protocols, infrastructure, secur
 
 ## Installation
 
-These skills work with any AI agent. We recommend [Claude Code](https://claude.ai/code) with Opus models for best results.
+These skills work with any AI agent. We recommend Claude Code with Opus models for best results.
 
 ### Claude Code
 
@@ -42,6 +42,11 @@ Skills are auto-discovered based on context. Ask about Drift perpetuals, Helius 
 ```
 npx skills add sendaifun/skills
 ```
+
+## Environment
+
+This repository is a curated skill catalog. Individual skill entries define their own
+environment variables and credentials. Consult each skill's README before running it.
 
 ## Available Skills
 
