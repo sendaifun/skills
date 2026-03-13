@@ -89,7 +89,7 @@ environment variables and credentials. Consult each skill's README before runnin
 |-------|-------------|
 | [pyth](skills/pyth/) | Real-time price feeds, confidence intervals, EMA prices |
 | [switchboard](skills/switchboard/) | Price feeds, on-demand data, VRF randomness, Surge streaming |
-| [wzrd](skills/wzrd/) | AI model velocity oracle — attention EMA scores, leaderboards, yield simulation, merkle claims |
+| [wzrd](skills/wzrd/) | Solana-native WZRD Attention Oracle for real-time AI model velocity signals: EMA scores, ranked leaderboards, yield simulation, Jupiter routing, and Merkle-anchored claim verification |
 
 ### Data & Analytics
 
