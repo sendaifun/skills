@@ -172,6 +172,12 @@
       "category": "DeFi"
     },
     {
+      "name": "sol-incinerator",
+      "source": "./skills/sol-incinerator",
+      "description": "SOL Incinerator SDK for burning tokens, NFTs, and closing accounts",
+      "category": "Infrastructure"
+    },
+    {
       "name": "solana-agent-kit",
       "source": "./skills/solana-agent-kit",
       "description": "Build AI agents that execute 60+ Solana blockchain operations with LangChain, Vercel AI, and MCP support",

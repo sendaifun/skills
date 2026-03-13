@@ -70,6 +70,7 @@ npx skills add sendaifun/skills
 | [quicknode](skills/quicknode/) | RPC (80+ chains), DAS API, Yellowstone gRPC, Streams, webhooks, priority fees, Metis Jupiter |
 | [light-protocol](skills/light-protocol/) | ZK Compression, rent-free compressed tokens |
 | [magicblock](skills/magicblock/) | Ephemeral Rollups, sub-10ms latency, gasless transactions |
+| [sol-incinerator](skills/sol-incinerator/) | Burn tokens, burn nfts, close token accounts |
 | [squads](skills/squads/) | Multisig wallets, smart accounts, account abstraction |
 
 ### Trading
