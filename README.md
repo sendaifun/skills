@@ -9,7 +9,7 @@ AI agent skills for Solana development — DeFi protocols, infrastructure, secur
 
 ## Installation
 
-These skills work with any AI agent. We recommend [Claude Code](https://claude.ai/code) with Opus models for best results.
+These skills work with any AI agent. We recommend Claude Code with Opus models for best results.
 
 ### Claude Code
 
@@ -42,6 +42,11 @@ Skills are auto-discovered based on context. Ask about Drift perpetuals, Helius 
 ```
 npx skills add sendaifun/skills
 ```
+
+## Environment
+
+This repository is a curated skill catalog. Individual skill entries define their own
+environment variables and credentials. Consult each skill's README before running it.
 
 ## Available Skills
 
@@ -85,6 +90,7 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [pyth](skills/pyth/) | Real-time price feeds, confidence intervals, EMA prices |
 | [switchboard](skills/switchboard/) | Price feeds, on-demand data, VRF randomness, Surge streaming |
+| [wzrd](skills/wzrd/) | Solana-native WZRD Attention Oracle for real-time AI model velocity signals: EMA scores, ranked leaderboards, yield simulation, Jupiter routing, and Merkle-anchored claim verification |
 
 ### Data & Analytics
 
