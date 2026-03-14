@@ -40,6 +40,12 @@
       "category": "DeFi"
     },
     {
+      "name": "droyd",
+      "source": "./skills/droyd",
+      "description": "AI crypto trading wallet via natural language — research, trading, content search, project filtering, virality analysis, and agent file management",
+      "category": "Trading"
+    },
+    {
       "name": "glam",
       "source": "./skills/glam",
       "description": "GLAM Protocol for tokenized vaults, DeFi integrations (Jupiter, Drift, Kamino), staking, access control, and asset management on Solana",
