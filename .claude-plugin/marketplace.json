@@ -76,6 +76,12 @@
       "category": "DeFi"
     },
     {
+      "name": "lavarage",
+      "source": "./skills/lavarage",
+      "description": "Lavarage Protocol for leveraged trading on Solana. Open long and short positions on any SPL token — crypto (BTC, ETH, SOL), memecoins, real-world assets (stocks like OPENAI, SPACEX), and commodities (gold). Permissionless markets with up to 12x leverage, partial sells, borrowing, and MEV-protected transaction submission.",
+      "category": "DeFi"
+    },
+    {
       "name": "light-protocol",
       "source": "./skills/light-protocol",
       "description": "Light Protocol for ZK Compression, rent-free compressed tokens, and high-performance token standard",
