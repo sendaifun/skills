@@ -78,7 +78,7 @@
     {
       "name": "lavarage",
       "source": "./skills/lavarage",
-      "description": "Lavarage Protocol for leveraged trading on Solana. Open long and short positions on any SPL token — crypto (BTC, ETH, SOL), memecoins, real-world assets (stocks like OPENAI, SPACEX), and commodities (gold). Permissionless markets with up to 12x leverage, partial sells, borrowing, and MEV-protected transaction submission.",
+      "description": "Lavarage Protocol for leveraged trading on Solana. Open long and short positions on any SPL token \u2014 crypto (BTC, ETH, SOL), memecoins, real-world assets (stocks like OPENAI, SPACEX), and commodities (gold). Permissionless markets with up to 12x leverage, partial sells, borrowing, and MEV-protected transaction submission.",
       "category": "DeFi"
     },
     {
@@ -138,13 +138,13 @@
     {
       "name": "phantom-connect",
       "source": "./skills/phantom-connect",
-      "description": "Build wallet-connected Solana apps with Phantom Connect SDK — social login (Google/Apple), transaction signing, token gating, and NFT minting across React, React Native, and Browser SDK",
+      "description": "Build wallet-connected Solana apps with Phantom Connect SDK \u2014 social login (Google/Apple), transaction signing, token gating, and NFT minting across React, React Native, and Browser SDK",
       "category": "Frontend"
     },
     {
       "name": "phantom-wallet-mcp",
       "source": "./skills/phantom-wallet-mcp",
-      "description": "Execute wallet operations via the Phantom MCP server — get addresses, sign transactions, transfer tokens, buy/swap tokens, and sign messages across Solana, Ethereum, Bitcoin, and Sui",
+      "description": "Execute wallet operations via the Phantom MCP server \u2014 get addresses, sign transactions, transfer tokens, buy/swap tokens, and sign messages across Solana, Ethereum, Bitcoin, and Sui",
       "category": "AI Agents"
     },
     {
@@ -194,6 +194,12 @@
       "source": "./skills/solana-agent-kit",
       "description": "Build AI agents that execute 60+ Solana blockchain operations with LangChain, Vercel AI, and MCP support",
       "category": "AI Agents"
+    },
+    {
+      "name": "solana-id",
+      "source": "./skills/solana-id",
+      "description": "Solana ID SOLID Score API for wallet reputation scores, badges, tier classification, and targeted marketing on Solana",
+      "category": "Data & Analytics"
     },
     {
       "name": "solana-kit",

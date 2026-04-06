@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solana ID Perk Frame Integration Example</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: #0a0a0a;
+      color: #e0e0e0;
+    }
+    h1 { color: #fff; }
+    p { line-height: 1.6; color: #aaa; }
+    code {
+      background: #1a1a2e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .perk-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 1px solid #333;
+      border-radius: 12px;
+      background: #111;
+    }
+    .perk-section h2 {
+      margin-top: 0;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Solana ID Perk Frame</h1>
+  <p>
+    The Perk Frame is a drop-in widget from the Solana ID Display Network (SDN).
+    It detects the connected wallet and shows targeted perks the user is eligible
+    for, based on their SOLID Score, tier, and badges.
+  </p>
+  <p>
+    Replace <code>YOUR-AGENT-ID-HERE</code> in the div class with the Agent ID
+    you received during Solana ID partner onboarding.
+  </p>
+
+  <div class="perk-section">
+    <h2>Your Eligible Perks</h2>
+
+    <!--
+      Solana ID Perk Frame (SDN Widget)
+
+      1. Replace YOUR-AGENT-ID-HERE with your agent ID from partner onboarding.
+      2. The widget auto-detects the connected wallet (Phantom, Solflare, etc.)
+         and displays perks the user is eligible for.
+      3. The script loads asynchronously and has no impact on initial page load.
+
+      Requirements:
+        - Your site must have a wallet adapter or login (e.g. Phantom, Solflare)
+        - You need an Agent ID from Solana ID partner onboarding
+    -->
+    <div class="solana-id-YOUR-AGENT-ID-HERE perk-frame-container"></div>
+    <script src="https://perk.solana.id/solanaid-perkframe.bundle.js"></script>
+  </div>
+
+  <p style="margin-top: 2rem; font-size: 0.85em; color: #666;">
+    Need an Agent ID? Sign up at
+    <a href="https://portal.solana.id" style="color: #888;">portal.solana.id</a>
+    or contact the Solana ID team.
+  </p>
+</body>
+</html>
