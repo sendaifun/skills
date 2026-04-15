@@ -137,6 +137,12 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [surfpool](skills/surfpool/) | Development environment with mainnet forking, cheatcodes |
 
+### Privacy & Confidential Computing
+
+| Skill | Description |
+|-------|-------------|
+| [arcium](skills/arcium/) | Encrypted computation on Solana via MPC — Arcis circuits, confidential DeFi, sealed-bid auctions, encrypted voting, secure randomness |
+
 ## Ideas
 
 Looking for skills to build? Check out [IDEAS.md](IDEAS.md) for community-requested skills.

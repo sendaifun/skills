@@ -10,6 +10,12 @@
   },
   "plugins": [
     {
+      "name": "arcium",
+      "source": "./skills/arcium",
+      "description": "Build and debug encrypted Solana applications with Arcium — MPC-based confidential computing, Arcis circuits, sealed-bid auctions, encrypted voting, dark pools, secure randomness, and threshold signing",
+      "category": "Privacy"
+    },
+    {
       "name": "carbium",
       "source": "./skills/carbium",
       "description": "Full-stack Solana infrastructure — bare-metal RPC, Standard WebSocket pubsub, gRPC Full Block streaming, DEX aggregation via CQ1 engine, gasless swaps, and MEV-protected execution via Jito bundling",
