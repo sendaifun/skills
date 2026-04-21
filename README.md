@@ -93,6 +93,7 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [coingecko](skills/coingecko/) | Token prices, DEX pool data, OHLCV charts, trades |
 | [metengine](skills/metengine/) | Smart money analytics for Polymarket, Hyperliquid, and Meteora — wallet scoring, insider detection, capital flow tracking (63 endpoints, x402 pay-per-request) |
+| [wallet-analysis](skills/wallet-analysis/) | Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL |
 
 ### Cross-Chain
 

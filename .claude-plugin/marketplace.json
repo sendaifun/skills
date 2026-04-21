@@ -250,6 +250,12 @@
       "category": "Oracles"
     },
     {
+      "name": "wallet-analysis",
+      "source": "./skills/wallet-analysis",
+      "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
+      "category": "Data & Analytics"
+    },
+    {
       "name": "vulnhunter",
       "source": "./skills/vulnhunter",
       "description": "Security vulnerability detection, dangerous API hunting, and variant analysis for audits",
