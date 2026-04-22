@@ -125,7 +125,7 @@ Use this when the user asks for realized gain, unrealized gain, net invested, or
 
 ```bash
 curl -u "$ZERION_API_KEY:" \
-  "https://api.zerion.io/v1/wallets/${ADDRESS}/charts/1month?currency=usd"
+  "https://api.zerion.io/v1/wallets/${ADDRESS}/charts/month?currency=usd"
 ```
 
 Use this for portfolio trend charts and timeline visualizations.
