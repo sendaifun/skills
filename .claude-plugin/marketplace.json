@@ -94,6 +94,12 @@
       "category": "DeFi"
     },
     {
+      "name": "lifi",
+      "source": "./skills/lifi",
+      "description": "LI.FI cross-chain swaps, bridging, payments, route discovery, and transfer status tracking across Solana, EVM, Bitcoin, and Sui",
+      "category": "Cross-Chain"
+    },
+    {
       "name": "light-protocol",
       "source": "./skills/light-protocol",
       "description": "Light Protocol for ZK Compression, rent-free compressed tokens, and high-performance token standard",

@@ -101,6 +101,7 @@ npx skills add sendaifun/skills
 | Skill | Description |
 |-------|-------------|
 | [debridge](skills/debridge/) | Cross-chain bridges, message passing, Solana ↔ EVM transfers |
+| [lifi](skills/lifi/) | Cross-chain swaps, bridging, payments, routing, and status tracking across Solana, EVM, Bitcoin, and Sui |
 
 ### NFT & Tokens
 
