@@ -42,13 +42,24 @@ OpenAPI:        https://docs.li.fi/openapi.yaml
 LLM overview:   https://docs.li.fi/llms.txt
 ```
 
-LI.FI APIs can be used without an API key. Use the `x-lifi-api-key` header when the integrator has a key or needs higher rate limits.
+LI.FI APIs can be used without an API key. Use an API key for higher rate limits or authenticated partner usage. Register an integration in the LI.FI Partner Portal to get an API key: https://portal.li.fi/
+
+For direct REST calls, pass the key in the `x-lifi-api-key` header:
 
 ```bash
 curl 'https://li.quest/v1/chains?chainTypes=EVM,SVM' \
   --header 'accept: application/json' \
   --header 'x-lifi-api-key: YOUR_API_KEY_IF_AVAILABLE'
 ```
+
+Test a key server-side before using it in production:
+
+```bash
+curl 'https://li.quest/v1/keys/test' \
+  --header 'x-lifi-api-key: YOUR_API_KEY'
+```
+
+Never expose `x-lifi-api-key` in browser code, public repositories, or direct Widget configuration. If using the SDK from a backend or trusted runtime, pass the key through `createConfig({ apiKey: '...' })`; if using the Widget in a frontend, do not pass an API key.
 
 ## Integration Workflow
 
@@ -74,8 +85,11 @@ curl 'https://li.quest/v1/chains?chainTypes=EVM,SVM' \
    - Never ask a user to sign opaque transaction data without a human-readable summary.
 
 5. **Execute through the appropriate wallet path**
+   - If using `GET /quote`, the response already includes `transactionRequest`; after allowance/permit handling, submit that transaction with the source-chain wallet.
+   - If using `POST /advanced/routes`, first choose a route, then populate each step with `POST /advanced/stepTransaction` before execution.
    - EVM transaction requests usually include fields such as `to`, `data`, `value`, and gas fields.
    - Solana-originating transfers return Solana transaction data as base64 in `transactionRequest.data`; deserialize, sign, and send through the user's Solana wallet or SDK path.
+   - Prefer SDK `executeRoute` for production multi-step execution because it manages allowance and balance checks, chain switching, transaction data retrieval, transaction submission, and status tracking.
    - Never mutate `transactionRequest.data`, calldata, recipient, refund, memo, or bridge-specific payloads after receiving them from LI.FI.
 
 6. **Track status after source-chain submission**
@@ -186,19 +200,38 @@ Use this section whenever either side of the transfer is Solana.
 - Validate token decimals from `/tokens` or `/token`; do not assume EVM and Solana versions of a token share decimals or addresses.
 - If status is slow, pass the source transaction hash plus `fromChain`, `toChain`, and bridge/tool key from the quote.
 
-## SDK Usage Pattern
+## Execution Patterns
 
-Prefer the SDK when building a frontend or when the agent needs full route execution rather than only quote/status lookup.
+### Direct API execution
+
+Use direct API execution when you control the wallet/provider layer yourself. `/quote` returns executable transaction data immediately; `/advanced/routes` returns route choices and requires `POST /advanced/stepTransaction` for each selected step.
+
+For EVM-originating quotes, a typical flow is:
+
+1. Check token allowance for `quote.estimate.approvalAddress` when the source token is not native.
+2. Submit an approval or use Permit/Permit2 if required by the selected flow.
+3. Send `quote.transactionRequest` through the EVM wallet.
+4. Poll `/status` with source transaction hash, `quote.tool`, source chain, and destination chain.
+
+For Solana-originating quotes, do not treat `transactionRequest.data` as calldata. It is base64-encoded Solana transaction data; use the SDK or a Solana wallet-adapter/web3.js path to deserialize, sign, and submit it.
+
+### SDK execution
+
+Prefer the SDK when building a frontend or when the agent needs full route execution rather than only quote/status lookup. The SDK exports `createConfig`, `getQuote`, `getRoutes`, `executeRoute`, `EVM`, `Solana`, and `KeypairWalletAdapter` from `@lifi/sdk` as of `@lifi/sdk@3.16.3`.
 
 ```bash
 npm install @lifi/sdk
 ```
+
+Quote-only lookup:
 
 ```typescript
 import { createConfig, getQuote } from '@lifi/sdk'
 
 createConfig({
   integrator: 'YourAppName',
+  // Backend/trusted runtime only. Do not expose this in browsers.
+  apiKey: process.env.LIFI_API_KEY,
 })
 
 const quote = await getQuote({
@@ -214,7 +247,80 @@ const quote = await getQuote({
 console.log(quote.estimate.toAmount, quote.tool, quote.transactionRequest)
 ```
 
-If executing routes, configure the correct wallet clients/providers for every ecosystem involved and surface route updates to the user.
+Route execution with SDK:
+
+```typescript
+import { createConfig, EVM, executeRoute, getRoutes } from '@lifi/sdk'
+import type { Chain } from 'viem'
+import { createWalletClient, http } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+import { arbitrum, mainnet, optimism } from 'viem/chains'
+
+const privateKey = process.env.PRIVATE_KEY as `0x${string}` // backend/testing only
+const account = privateKeyToAccount(privateKey)
+const chains = [arbitrum, mainnet, optimism]
+
+const client = createWalletClient({
+  account,
+  chain: arbitrum,
+  transport: http(),
+})
+
+createConfig({
+  integrator: 'YourAppName',
+  providers: [
+    EVM({
+      getWalletClient: async () => client,
+      switchChain: async (chainId) =>
+        createWalletClient({
+          account,
+          chain: chains.find((chain) => chain.id === chainId) as Chain,
+          transport: http(),
+        }),
+    }),
+  ],
+})
+
+const result = await getRoutes({
+  fromChainId: 42161,
+  toChainId: 10,
+  fromTokenAddress: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+  toTokenAddress: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
+  fromAmount: '10000000',
+  fromAddress: 'YOUR_EVM_WALLET',
+})
+
+const executedRoute = await executeRoute(result.routes[0], {
+  updateRouteHook(route) {
+    console.log(route)
+  },
+  async acceptExchangeRateUpdateHook() {
+    // In a UI, ask the user before accepting.
+    return false
+  },
+})
+
+console.log(executedRoute)
+```
+
+Solana provider setup:
+
+```typescript
+import { createConfig, KeypairWalletAdapter, Solana } from '@lifi/sdk'
+
+const walletAdapter = new KeypairWalletAdapter('PRIVATE_KEY') // backend/testing only
+
+createConfig({
+  integrator: 'YourAppName',
+  providers: [
+    Solana({
+      getWalletAdapter: async () => walletAdapter,
+    }),
+  ],
+})
+```
+
+For user-facing Solana apps, use `@solana/wallet-adapter-react` and set `Solana({ getWalletAdapter })` from the connected wallet adapter at runtime. Do not embed private keys in frontend code.
 
 ## Error Handling
 
@@ -247,6 +353,7 @@ Common tool error codes:
 - **DO** show estimated output, fees, bridge/exchange tool, recipient, and slippage before signing.
 - **DO** poll `/status` for cross-chain transfers until a terminal state.
 - **DO** preserve LI.FI transaction data exactly as returned.
+- **DO** register in the LI.FI Partner Portal for API keys when higher rate limits are needed, and keep keys server-side.
 - **DO NOT** hardcode stale bridge lists, token lists, or chain support.
 - **DO NOT** treat source-chain confirmation as final cross-chain completion.
 - **DO NOT** increase slippage, change recipients, or alter transaction data without explicit user consent.
@@ -296,4 +403,9 @@ Common tool error codes:
 - Status API: https://docs.li.fi/api-reference/check-the-status-of-a-cross-chain-transfer
 - Solana transaction execution: https://docs.li.fi/introduction/user-flows-and-examples/solana-tx-execution
 - Error codes: https://docs.li.fi/api-reference/error-codes
-- SDK installation: https://docs.li.fi/integrate-li.fi-js-sdk/install-li.fi-sdk
+- API introduction and authentication: https://docs.li.fi/api-reference/introduction
+- Rate limits and API authentication: https://docs.li.fi/api-reference/rate-limits
+- Partner Portal for API keys: https://portal.li.fi/
+- SDK provider configuration: https://docs.li.fi/sdk/configure-sdk-providers
+- SDK route requests: https://docs.li.fi/sdk/request-routes
+- SDK route execution: https://docs.li.fi/sdk/execute-routes
