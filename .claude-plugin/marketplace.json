@@ -262,6 +262,12 @@
       "category": "Oracles"
     },
     {
+      "name": "topledger",
+      "source": "./skills/topledger",
+      "description": "Topledger Solana wallet intelligence APIs and MCP — portfolio analysis, holdings, lending, perps, staking, governance, LP, yield, rewards, DEX PnL, and token data across 20+ protocols.",
+      "category": "Data & Analytics"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
