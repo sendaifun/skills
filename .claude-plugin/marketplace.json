@@ -178,6 +178,12 @@
       "category": "Program Development"
     },
     {
+      "name": "piquesignal",
+      "source": "./skills/piquesignal",
+      "description": "Solana memecoin signal intelligence and paper trading via MCP. Pull Flash Point alerts from the Convergence Engine, simulate trades with built-in risk management, and track P&L across sessions",
+      "category": "Trading"
+    },
+    {
       "name": "pumpfun",
       "source": "./skills/pumpfun",
       "description": "PumpFun Protocol for token launches, bonding curves, and PumpSwap AMM integration",
