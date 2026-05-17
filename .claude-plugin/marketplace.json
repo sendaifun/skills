@@ -178,6 +178,12 @@
       "category": "Program Development"
     },
     {
+      "name": "piquesignal",
+      "source": "./skills/piquesignal",
+      "description": "Live scored Solana memecoin signals, on-chain safety profiles, AI analysis reports, and track record metrics from Pique Signal",
+      "category": "Trading"
+    },
+    {
       "name": "pumpfun",
       "source": "./skills/pumpfun",
       "description": "PumpFun Protocol for token launches, bonding curves, and PumpSwap AMM integration",
