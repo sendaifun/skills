@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solana Concept Masterclass</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #fff;
+        --ink: #09090b;
+        --muted: #666;
+        --soft: #fafafa;
+        --softer: #f4f4f5;
+        --line: #e5e7eb;
+        --accent: #111;
+        --good: #0f766e;
+        --warn: #a16207;
+        --code: #f4f4f5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        font-size: 16px;
+        line-height: 1.66;
+      }
+
+      .page {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 52px 0 72px;
+      }
+
+      header {
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 780px;
+        margin: 0;
+        font-size: clamp(2.25rem, 7vw, 4.35rem);
+        line-height: 0.98;
+        letter-spacing: -0.058em;
+      }
+
+      .definition {
+        max-width: 740px;
+        margin: 20px 0 0;
+        color: #2f2f2f;
+        font-size: 1.12rem;
+        line-height: 1.72;
+      }
+
+      .promise {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .promise span {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--soft);
+        padding: 10px 12px;
+        color: #3f3f46;
+        font-size: 0.9rem;
+      }
+
+      main {
+        display: grid;
+        gap: 34px;
+        padding-top: 34px;
+      }
+
+      section {
+        scroll-margin-top: 24px;
+      }
+
+      h2 {
+        margin: 0 0 10px;
+        font-size: 1.18rem;
+        line-height: 1.3;
+        letter-spacing: -0.015em;
+      }
+
+      h3 {
+        margin: 0 0 8px;
+        font-size: 0.98rem;
+      }
+
+      p {
+        margin: 0;
+        color: #303034;
+      }
+
+      p + p {
+        margin-top: 12px;
+      }
+
+      ul,
+      ol {
+        margin: 10px 0 0;
+        padding-left: 1.2rem;
+        color: #303034;
+      }
+
+      li + li {
+        margin-top: 7px;
+      }
+
+      code {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--code);
+        padding: 0.12rem 0.35rem;
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.92em;
+      }
+
+      .callout {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--soft);
+        padding: 16px;
+      }
+
+      .callout strong {
+        color: var(--ink);
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .mini-card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 14px;
+      }
+
+      .mini-card p {
+        font-size: 0.94rem;
+      }
+
+      .steps {
+        display: grid;
+        gap: 10px;
+        counter-reset: step;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: start;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fff;
+      }
+
+      .step::before {
+        counter-increment: step;
+        content: counter(step);
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .diagram {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--soft);
+        padding: 16px;
+      }
+
+      .diagram-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .diagram-box {
+        min-height: 88px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 12px;
+        position: relative;
+      }
+
+      .diagram-box:not(:last-child)::after {
+        content: "->";
+        position: absolute;
+        top: 50%;
+        right: -18px;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.85rem;
+      }
+
+      .diagram-box span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .diagram-box strong {
+        display: block;
+        margin-top: 5px;
+        line-height: 1.25;
+      }
+
+      .diagram-box small {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .diagram-box.result {
+        border-color: #c7d2fe;
+        background: #f8fafc;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .diagram-box {
+          animation: rise 480ms ease-out both;
+        }
+
+        .diagram-box:nth-child(2) {
+          animation-delay: 90ms;
+        }
+
+        .diagram-box:nth-child(3) {
+          animation-delay: 180ms;
+        }
+
+        .diagram-box:nth-child(4) {
+          animation-delay: 270ms;
+        }
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      table {
+        width: 100%;
+        margin-top: 12px;
+        border-collapse: collapse;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        font-size: 0.94rem;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--soft);
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .mistakes {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mistake {
+        border-left: 3px solid var(--warn);
+        padding: 10px 0 10px 12px;
+        background: linear-gradient(90deg, #fff7ed, transparent);
+      }
+
+      .checks {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .check {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        background: var(--soft);
+      }
+
+      .recap {
+        border-top: 1px solid var(--line);
+        padding-top: 24px;
+      }
+
+      @media (max-width: 760px) {
+        .page {
+          width: min(100% - 24px, 960px);
+          padding: 36px 0 48px;
+        }
+
+        .promise,
+        .grid-two,
+        .diagram-row,
+        .checks {
+          grid-template-columns: 1fr;
+        }
+
+        .diagram-box:not(:last-child)::after {
+          content: "";
+        }
+
+        h1 {
+          font-size: clamp(2rem, 12vw, 3.15rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <p class="eyebrow">Solana masterclass notes</p>
+        <h1>Replace with the concept name</h1>
+        <p class="definition">
+          Start with one plain-English definition that works for someone who has never seen
+          the concept before.
+        </p>
+        <div class="promise" aria-label="What this page teaches">
+          <span>What problem this solves</span>
+          <span>How Solana implements it</span>
+          <span>How to avoid the common traps</span>
+        </div>
+      </header>
+
+      <main>
+        <section>
+          <h2>Start here</h2>
+          <p>
+            Define the concept without jargon. State what the learner should understand by
+            the end of this page.
+          </p>
+        </section>
+
+        <section>
+          <h2>Why it exists</h2>
+          <p>
+            Explain the real Solana problem this concept solves. Avoid generic blockchain
+            framing unless it directly explains the Solana mechanism.
+          </p>
+        </section>
+
+        <section class="callout">
+          <h2>Mental model</h2>
+          <p>
+            Use one analogy that helps the learner reason about the concept, then explain
+            where the analogy stops matching the implementation.
+          </p>
+        </section>
+
+        <section>
+          <h2>Vocabulary you need</h2>
+          <div class="grid-two">
+            <div class="mini-card">
+              <h3><code>term_one</code></h3>
+              <p>Define this term in beginner language.</p>
+            </div>
+            <div class="mini-card">
+              <h3><code>term_two</code></h3>
+              <p>Define this term before using it repeatedly.</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>How Solana does it</h2>
+          <div class="steps">
+            <div class="step">
+              <p>Step one: identify the signer, account, program, or instruction involved.</p>
+            </div>
+            <div class="step">
+              <p>Step two: describe what Solana reads, writes, derives, or verifies.</p>
+            </div>
+            <div class="step">
+              <p>Step three: show the resulting state or capability.</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Mini diagram</h2>
+          <div class="diagram" aria-label="Concept flow diagram">
+            <div class="diagram-row">
+              <div class="diagram-box">
+                <span>Input</span>
+                <strong>Actor or seed</strong>
+                <small>Replace with the first ingredient.</small>
+              </div>
+              <div class="diagram-box">
+                <span>Mechanism</span>
+                <strong>Program rule</strong>
+                <small>Replace with what Solana verifies.</small>
+              </div>
+              <div class="diagram-box">
+                <span>State</span>
+                <strong>Account change</strong>
+                <small>Replace with what changes on-chain.</small>
+              </div>
+              <div class="diagram-box result">
+                <span>Result</span>
+                <strong>Learner takeaway</strong>
+                <small>Replace with the final capability.</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Concrete example</h2>
+          <p>
+            Use realistic Solana names here: a wallet, a program id, an instruction, account
+            names, seeds, authorities, or token accounts. Explain why each piece is present.
+          </p>
+        </section>
+
+        <section>
+          <h2>Tiny table</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Thing</th>
+                <th>What it means</th>
+                <th>Beginner translation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>account</code></td>
+                <td>Persistent on-chain storage owned by a program.</td>
+                <td>A labeled storage box.</td>
+              </tr>
+              <tr>
+                <td><code>program</code></td>
+                <td>Executable logic that can change accounts it owns.</td>
+                <td>The rules for changing boxes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Common mistakes</h2>
+          <div class="mistakes">
+            <div class="mistake">
+              <strong>Wrong mental model:</strong> replace with the beginner misconception.
+              <br />
+              <strong>Correction:</strong> replace with the precise Solana model.
+            </div>
+            <div class="mistake">
+              <strong>Wrong shortcut:</strong> replace with another common mistake.
+              <br />
+              <strong>Correction:</strong> replace with what to remember instead.
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Check yourself</h2>
+          <div class="checks">
+            <div class="check">Question 1 that tests the definition.</div>
+            <div class="check">Question 2 that tests the mechanism.</div>
+            <div class="check">Question 3 that tests the common mistake.</div>
+          </div>
+        </section>
+
+        <section class="recap">
+          <h2>One-minute recap</h2>
+          <p>
+            Compress the whole concept into two or three sentences, then give one small
+            exercise that forces the learner to apply it.
+          </p>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

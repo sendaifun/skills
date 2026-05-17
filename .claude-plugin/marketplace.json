@@ -94,6 +94,12 @@
       "category": "DeFi"
     },
     {
+      "name": "learn-solana",
+      "source": "./skills/learn-solana",
+      "description": "Teach Solana, Anchor, SPL Token, PDAs, CPIs, wallets, transactions, validators, programs, and accounts from first principles with examples, exercises, diagrams, tables, and optional single-page HTML explainers",
+      "category": "Research"
+    },
+    {
       "name": "lifi",
       "source": "./skills/lifi",
       "description": "LI.FI cross-chain swaps, bridging, payments, route discovery, and transfer status tracking across Solana, EVM, Bitcoin, and Sui",
