@@ -46,6 +46,12 @@
       "category": "Cross-Chain"
     },
     {
+      "name": "deepnets",
+      "source": "./skills/deepnets",
+      "description": "Solana token intelligence: safety screening, holder & funding-network graphs (catches bundled-supply scams and coordinated wallet clusters), AI social research, watchlist + trending feed. Pay-per-call via x402 USDC on Solana, no API keys.",
+      "category": "Data & Analytics"
+    },
+    {
       "name": "dflow",
       "source": "./skills/dflow",
       "description": "DFlow trading protocol for spot trading, prediction markets, Swap API, and WebSocket streaming",
