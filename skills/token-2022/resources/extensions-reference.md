@@ -1,8 +1,10 @@
 # Token-2022 Extensions Reference
 
-Static lookup data for the `token-2022` skill. Verify against the official extension
-guide (https://www.solana-program.com/docs/token-2022/extensions) before relying on
-exact export names, as the JS client evolves.
+Static lookup data for the `token-2022` skill. The export names and signatures here are
+confirmed against `@solana/spl-token@0.4.14` and `@solana/spl-token-metadata@0.1.6` (every
+example compiles `tsc --noEmit` clean and was run on devnet). The official extension guide
+is the source of truth for extensions added after these versions:
+https://www.solana-program.com/docs/token-2022/extensions
 
 ## Program IDs
 
@@ -54,7 +56,7 @@ Most of these are **creation-time only** — they cannot be added after `Initial
 - `ConfidentialTransferMint` with `TransferFeeConfig` requires the confidential-transfer-fee variant; the plain combination is not valid.
 - Always confirm pairwise compatibility in the official guide before enabling two behavior-changing extensions together.
 
-## Key JS imports (verify names against installed `@solana/spl-token`)
+## Key JS imports (confirmed against `@solana/spl-token@0.4.14` / `@solana/spl-token-metadata@0.1.6`)
 
 ```typescript
 // from @solana/spl-token
@@ -68,9 +70,12 @@ createInitializePermanentDelegateInstruction,
 createInitializeInterestBearingMintInstruction,
 createInitializeMintCloseAuthorityInstruction,
 createTransferCheckedInstruction, createTransferCheckedWithFeeInstruction,
+transferCheckedWithFee, mintTo, getAccount, thawAccount,
 getAssociatedTokenAddressSync, createAssociatedTokenAccountInstruction,
+createAssociatedTokenAccountIdempotent, getOrCreateAssociatedTokenAccount,
 getMint, getExtensionTypes, getTransferFeeConfig, getTokenMetadata,
-harvestWithheldTokensToMint, withdrawWithheldTokensFromMint, thawAccount,
+getDefaultAccountState, AccountState,
+harvestWithheldTokensToMint, withdrawWithheldTokensFromMint,
 TYPE_SIZE, LENGTH_SIZE
 
 // from @solana/spl-token-metadata

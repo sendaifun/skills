@@ -18,3 +18,12 @@ node_modules/
 # Temporary files
 *.tmp
 *.temp
+
+# Secrets / local env (never commit private keys)
+.env
+.env.*
+*.keypair.json
+devnet-keypair.json
+
+# Local working-context file (bounty notes — not for upstream PR)
+CLAUDE.md

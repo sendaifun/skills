@@ -68,7 +68,7 @@ When a user asks to build or integrate a Token-2022 token, follow this process.
 npm install @solana/web3.js @solana/spl-token @solana/spl-token-metadata bs58 dotenv
 ```
 
-Token-2022 helpers evolve quickly. Pin `@solana/spl-token` to a recent 0.4.x release and verify the exact `createInitialize*` export names against the installed version before relying on them. If an import is missing, check the package's `src/extensions` directory or the official docs rather than guessing.
+Every example in this skill is tested against `@solana/spl-token@0.4.14`, `@solana/spl-token-metadata@0.1.6`, and `@solana/web3.js@1.98.4` — all imports and instruction signatures are confirmed (`tsc --noEmit` clean and run on devnet). Pin those versions for copy-paste reliability. If you upgrade to a newer release and an export moves, check the package's `src/extensions` directory — but the names used here are correct for the pinned versions.
 
 ### 3. Build the create-mint transaction in the correct order
 
@@ -160,6 +160,22 @@ The agent should:
 
 Map to `ExtensionType.NonTransferable`. Note it blocks transfers permanently but **not** burns — the holder can still burn. Pair with embedded metadata for a self-describing credential.
 
+### Example: "My exchange wants to list arbitrary tokens — what must I check before crediting a Token-2022 mint?"
+
+The agent should:
+1. Read the account's owning program (Token-2022 vs classic) and, for Token-2022, its extension set with `getExtensionTypes(mintInfo.tlvData)`.
+2. Produce a **go/no-go risk report**: BLOCK on `PermanentDelegate` (seizure) and `TransferHook` (transfers can be gated/bricked); WARN on `DefaultAccountState=Frozen` (read with `getDefaultAccountState`), `TransferFeeConfig` (balances drift unless reconciled), `NonTransferable`, `ConfidentialTransferMint`.
+3. Recommend `transferChecked` with correct decimals and reconciling withheld fees.
+4. See `examples/inspect-unknown-mint.ts` (runnable: `npx tsx inspect-unknown-mint.ts <MINT_ADDRESS>`).
+
+### Example: "Create a KYC token where accounts must be approved before use"
+
+The agent should:
+1. Map to `ExtensionType.DefaultAccountState` initialized to `AccountState.Frozen`, and set a **freeze authority** (mandatory — a null freeze authority would make the token permanently unusable).
+2. Order: `createAccount` → `createInitializeDefaultAccountStateInstruction` → `createInitializeMintInstruction`.
+3. Explain the footgun: every new ATA starts `Frozen`; `mintTo`/transfers into it fail until the freeze authority calls `thawAccount` (the "KYC approval" step).
+4. See `examples/create-token-default-frozen-kyc.ts`.
+
 ## Guidelines
 
 - **DO** compute account size with `getMintLen` for every extension set; never hardcode `MINT_SIZE`.
@@ -194,6 +210,17 @@ Map to `ExtensionType.NonTransferable`. Note it blocks transfers permanently but
 ### Error: recipient cannot use received tokens
 **Cause**: `DefaultAccountState` is `Frozen`; the ATA is created frozen.
 **Solution**: the freeze authority must `thawAccount` the recipient's ATA.
+
+## Tested on devnet
+
+Every example was run end-to-end on devnet against `@solana/spl-token@0.4.14`, `@solana/spl-token-metadata@0.1.6`, and `@solana/web3.js@1.98.4` (`tsc --noEmit` clean):
+
+| Example | Verified behavior | Mint (devnet) |
+|---|---|---|
+| `create-token-with-transfer-fee.ts` | create → `transferCheckedWithFee` → harvest → withdraw | [`5eiQLA…FK6ko`](https://explorer.solana.com/address/5eiQLAwJ9ZGo5nLhq3hvJmbx5GNFCCKTnPmwovHFK6ko?cluster=devnet) |
+| `create-token-with-metadata.ts` | embedded metadata written and read back on-chain | [`7y4nJF…AQUZFK`](https://explorer.solana.com/address/7y4nJFk1XELMzrdPshQsoN51aEgqFzK6KP6haXAQUZFK?cluster=devnet) |
+| `create-token-default-frozen-kyc.ts` | new ATA frozen → `mintTo` fails → `thawAccount` → mint OK | [`276F4N…i7JVi5`](https://explorer.solana.com/address/276F4Nc5RvmfediL7xhmHCvTq9EQRb5Gu5ApvJi7JVi5?cluster=devnet) |
+| `inspect-unknown-mint.ts` | flagged the three mints above as `GO WITH CARE` / `NO-GO` / `GO` | run against any mint address |
 
 ## References
 

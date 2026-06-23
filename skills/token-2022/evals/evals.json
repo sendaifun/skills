@@ -1,0 +1,60 @@
+{
+  "skill_name": "token-2022",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a Solana token that charges a 1% fee on every transfer, capped at 1 token. Give me runnable TypeScript.",
+      "expected_output": "A complete, ordered create-mint flow using the TransferFeeConfig extension under the Token-2022 program, with correct space sizing and fee math.",
+      "expectations": [
+        "Uses the Token-2022 program id TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb (TOKEN_2022_PROGRAM_ID), not the classic Token program",
+        "Computes account space with getMintLen passing the extension list",
+        "Places createInitializeTransferFeeConfigInstruction BEFORE createInitializeMintInstruction in the same transaction",
+        "Sets fee to 100 basis points and a max fee equal to 1 token in base units",
+        "States that transfers must use transferChecked / transferCheckedWithFee, never plain transfer"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I want a token with on-chain name, symbol and image without using Metaplex. Show me how.",
+      "expected_output": "A flow using MetadataPointer + the TokenMetadata extension, pointing metadata at the mint itself, with correct rent for the variable-length metadata.",
+      "expectations": [
+        "Uses the MetadataPointer extension and points the metadata address at the mint itself",
+        "Uses the embedded TokenMetadata extension via @solana/spl-token-metadata createInitializeInstruction",
+        "Funds rent for mintLen + metadataLen but creates the account with space = mintLen only",
+        "Imports TYPE_SIZE and LENGTH_SIZE from @solana/spl-token (not from @solana/spl-token-metadata)",
+        "Initializes the metadata instruction last, after InitializeMint"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Make a soulbound credential token on Solana that can't be transferred.",
+      "expected_output": "Use of the NonTransferable extension, with an accurate note about burn behavior.",
+      "expectations": [
+        "Uses the NonTransferable extension on the mint under Token-2022",
+        "Correctly states that transfers are blocked by the runtime but the holder can still burn",
+        "Computes space with getMintLen including NonTransferable"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "My exchange wants to list arbitrary SPL tokens. What do I need to check before crediting a Token-2022 mint to avoid getting rekt?",
+      "expected_output": "Detection of the mint's extension set and an explicit risk assessment of dangerous extensions before integration.",
+      "expectations": [
+        "Reads the mint's extension set (e.g. getExtensionTypes on the mint data)",
+        "Flags PermanentDelegate as letting an authority seize or burn any holder's tokens",
+        "Flags TransferHook as able to gate or break transfers, and DefaultAccountState=Frozen as making accounts unusable until thawed",
+        "Recommends using transferChecked with correct decimals and accounting for withheld transfer fees"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Here is my transfer code for a token that has a transfer fee. Why does it fail? `await transfer(connection, payer, source, dest, owner, amount)`",
+      "expected_output": "Identifies that plain transfer is invalid on a fee mint and that transferChecked is required, plus the program id.",
+      "expectations": [
+        "Identifies that a transfer-fee mint requires transferChecked / transferCheckedWithFee instead of transfer",
+        "Notes that the Token-2022 program id must be passed to the instruction/helpers",
+        "Provides a corrected call using transferChecked with mint and decimals"
+      ]
+    }
+  ]
+}
