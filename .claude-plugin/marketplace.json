@@ -112,6 +112,12 @@
       "category": "DeFi"
     },
     {
+      "name": "magpie-x402",
+      "source": "./skills/magpie-x402",
+      "description": "Magpie Capital — first x402-native permissionless lending protocol on Solana. Agents borrow SOL against their own memecoin (V1) or tokenized-stock/RWA (V3) collateral, arm in-vault take-profit/stop-loss exits (V4, proceeds stay in the loan vault), post conditional borrow intents, repay, and provide liquidity. Pay-per-call over HTTP 402, no signup, no API key, zero custody — agents sign every tx locally. SDK @magpieloans/magpie-agent and MCP @magpieloans/magpie-mcp.",
+      "category": "DeFi"
+    },
+    {
       "name": "magicblock",
       "source": "./skills/magicblock",
       "description": "MagicBlock Ephemeral Rollups for sub-10ms latency, gasless transactions, and real-time applications",
