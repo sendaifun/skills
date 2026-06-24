@@ -1,11 +1,19 @@
 ---
 name: solana-launch-readiness
-description: Review Solana applications before launch and produce a practical launch-readiness report. Use when Codex or another AI coding agent needs to inspect a Solana dApp, wallet flow, token launch, program integration, demo URL, or repository before mainnet/public release, especially for wallet UX, RPC/network configuration, token metadata, transaction safety, monitoring, documentation, support, incident response, release gates, and go/no-go decisions.
+description: Review Solana applications before launch and produce an evidence-backed go/no-go report. Use when Codex or another AI coding agent needs a Solana-specific release gate for a dApp, wallet flow, token launch, program integration, demo URL, or repository before mainnet/public release, especially for wallet UX, RPC/network configuration, token metadata, transaction safety, Solana Agent Kit write-action gates, monitoring, support, incident response, and launch ownership.
 ---
 
 # Solana Launch Gate
 
 Use this skill as an evidence-backed launch gate for a Solana app or AI-agent workflow before public or mainnet launch. Focus on blockers and concrete next actions, not broad advice.
+
+## Compatibility Contract
+
+- Use progressive loading: start from this file, then load only the references needed for the review.
+- Keep the review Solana-specific; do not turn it into a generic launch or startup checklist.
+- Treat scripts as optional evidence helpers. The final severity still requires manual verification.
+- Avoid live write actions by default. Do not sign, submit, simulate with private keys, mutate accounts, deploy, or run destructive commands unless the user explicitly authorizes that separate action.
+- Produce a stable launch-owner report with `GO`, `GO WITH WARNINGS`, or `NO-GO UNTIL FIXED`.
 
 ## Workflow
 

@@ -240,7 +240,7 @@
     {
       "name": "solana-launch-readiness",
       "source": "./skills/solana-launch-readiness",
-      "description": "Evidence-backed go/no-go launch readiness for Solana apps and AI-agent workflows across wallet UX, RPC, transactions, public addresses, operations, support, and Solana Agent Kit write-action gates.",
+      "description": "Solana release gate for AI agents: evidence-backed go/no-go readiness across wallet UX, RPC, transactions, public addresses, operations, support, and Solana Agent Kit write-action gates.",
       "category": "DevOps"
     },
     {
