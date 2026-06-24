@@ -139,6 +139,7 @@ npx skills add sendaifun/skills
 
 | Skill | Description |
 |-------|-------------|
+| [solana-launch-readiness](skills/solana-launch-readiness/) | Go/no-go launch readiness for Solana apps and AI-agent workflows |
 | [surfpool](skills/surfpool/) | Development environment with mainnet forking, cheatcodes |
 
 ## Ideas

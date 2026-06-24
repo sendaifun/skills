@@ -238,6 +238,12 @@
       "category": "Client Development"
     },
     {
+      "name": "solana-launch-readiness",
+      "source": "./skills/solana-launch-readiness",
+      "description": "Evidence-backed go/no-go launch readiness for Solana apps and AI-agent workflows across wallet UX, RPC, transactions, public addresses, operations, support, and Solana Agent Kit write-action gates.",
+      "category": "DevOps"
+    },
+    {
       "name": "svm",
       "source": "./skills/svm",
       "description": "Explore Solana's architecture and protocol internals including the SVM execution engine, account model, consensus, transactions, and validator economics",
