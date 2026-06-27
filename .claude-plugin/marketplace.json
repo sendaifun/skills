@@ -262,6 +262,12 @@
       "category": "Oracles"
     },
     {
+      "name": "transaction-landing",
+      "source": "./skills/transaction-landing",
+      "description": "Reliably land Solana transactions — right-size compute units, price priority fees, choose a transaction lifetime, rebroadcast safely, and confirm correctly. Provider-agnostic, with the idempotency rules that stop AI agents from double-spending on retry. Covers ComputeBudgetProgram, getRecentPrioritizationFees, simulation-based CU estimation, blockhash expiry, durable nonces, and Jito bundles.",
+      "category": "Infrastructure"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
