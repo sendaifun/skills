@@ -22,6 +22,12 @@
       "category": "Data & Analytics"
     },
     {
+      "name": "building-solana-transactions-flutter",
+      "source": "./skills/building-solana-transactions-flutter",
+      "description": "Build, sign, simulate, and send Solana transactions in Dart and Flutter with the solana SDK and coral_xyz. Compile legacy or V0 messages, add priority fees, and diagnose simulation and TransactionError failures.",
+      "category": "Client Development"
+    },
+    {
       "name": "carbium",
       "source": "./skills/carbium",
       "description": "Full-stack Solana infrastructure — bare-metal RPC, Standard WebSocket pubsub, gRPC Full Block streaming, DEX aggregation via CQ1 engine, gasless swaps, and MEV-protected execution via Jito bundling",
@@ -32,6 +38,12 @@
       "source": "./skills/coingecko",
       "description": "CoinGecko Solana API for token prices, DEX pool data, OHLCV charts, trades, and market analytics",
       "category": "Data & Analytics"
+    },
+    {
+      "name": "coral-xyz-anchor-dart",
+      "source": "./skills/coral-xyz-anchor-dart",
+      "description": "Typed Dart clients for Solana programs with coral_xyz, the Dart equivalent of @coral-xyz/anchor. Load an IDL to call instructions, fetch accounts, derive PDAs, and subscribe to events without manual Borsh.",
+      "category": "Client Development"
     },
     {
       "name": "ct-alpha",
@@ -50,6 +62,30 @@
       "source": "./skills/dflow",
       "description": "DFlow trading protocol for spot trading, prediction markets, Swap API, and WebSocket streaming",
       "category": "Trading"
+    },
+    {
+      "name": "flutter-solana-domain-resolution",
+      "source": "./skills/flutter-solana-domain-resolution",
+      "description": "Resolve Solana domains in Flutter and Dart with tld_parser for the AllDomains ANS, covering every custom TLD like .skr, .bonk, and .backpack. Forward and reverse lookup, records, avatars, user domains, and batch resolution. ANS is separate from Bonfida SNS (.sol).",
+      "category": "Infrastructure"
+    },
+    {
+      "name": "flutter-solana-metaplex-nft",
+      "source": "./skills/flutter-solana-metaplex-nft",
+      "description": "Mint and read Solana NFTs in Flutter and Dart with Metaplex Token Metadata via package:solana/metaplex.dart. Create a 0-decimal mint plus master edition, parse on-chain and off-chain metadata, and run a backend-mediated MWA-signed mint.",
+      "category": "NFT & Tokens"
+    },
+    {
+      "name": "flutter-solana-wallet-security",
+      "source": "./skills/flutter-solana-wallet-security",
+      "description": "Harden Solana wallets and dApps in Flutter and Dart. Encrypt keys at rest, gate actions with biometrics, hash PINs with salted Argon2id, manage secrets, and simulate before sending.",
+      "category": "Security"
+    },
+    {
+      "name": "flutter-solana-zk-compression",
+      "source": "./skills/flutter-solana-zk-compression",
+      "description": "Compress, transfer, and decompress SOL and SPL tokens in Flutter with light_sdk and Light Protocol ZK compression. Compressed accounts and tokens, Groth16 validity proofs from the Photon indexer over Helius, and mobile external-wallet signing.",
+      "category": "Infrastructure"
     },
     {
       "name": "glam",
@@ -74,6 +110,12 @@
       "source": "./skills/helius-phantom",
       "description": "Build frontend Solana applications with Phantom Connect SDK and Helius infrastructure for wallet connection, transaction signing, and secure API proxying",
       "category": "Frontend"
+    },
+    {
+      "name": "integrating-jupiter-flutter",
+      "source": "./skills/integrating-jupiter-flutter",
+      "description": "Quote and execute Solana token swaps in Flutter and Dart with the Jupiter aggregator and the jupiter_aggregator Dio client. Multi-hop routes, slippage tiers, price-impact guards, Price API, and signing swaps with MWA or a local keypair.",
+      "category": "DeFi"
     },
     {
       "name": "jupiter",
@@ -226,6 +268,12 @@
       "category": "AI Agents"
     },
     {
+      "name": "solana-dart-sdk",
+      "source": "./skills/solana-dart-sdk",
+      "description": "Build Solana apps in Dart and Flutter with the solana package. RPC calls, mnemonic keypairs, PDAs and ATAs, transaction building, ByteArray instruction data, priority fees, and WebSocket subscriptions.",
+      "category": "Client Development"
+    },
+    {
       "name": "solana-kit",
       "source": "./skills/solana-kit",
       "description": "Modern tree-shakeable JavaScript SDK from Anza with zero dependencies and full TypeScript support",
@@ -236,6 +284,18 @@
       "source": "./skills/solana-kit-migration",
       "description": "Migration guide between @solana/web3.js v1.x and @solana/kit with API mappings",
       "category": "Client Development"
+    },
+    {
+      "name": "solana-mobile-wallet-adapter-flutter",
+      "source": "./skills/solana-mobile-wallet-adapter-flutter",
+      "description": "Connect Flutter Android dApps to Solana wallets with the Mobile Wallet Adapter protocol. MWA sessions, authorize and reauthorize, sign and send transactions, and persist auth tokens. Android only.",
+      "category": "Client Development"
+    },
+    {
+      "name": "spl-token-dart",
+      "source": "./skills/spl-token-dart",
+      "description": "SPL Token and Token-2022 flows in Flutter and Dart with the solana package. Create mints and ATAs, mint, transfer, burn, manage authorities, and read parsed balances.",
+      "category": "NFT & Tokens"
     },
     {
       "name": "svm",
