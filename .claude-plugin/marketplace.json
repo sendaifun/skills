@@ -10,6 +10,12 @@
   },
   "plugins": [
     {
+      "name": "account-validation",
+      "source": "./skills/account-validation",
+      "description": "Secure account validation and constraint patterns for Solana programs — the three mandatory checks (owner, signer, type/discriminator), the full Anchor #[account(...)] constraint set, equivalent manual validation for native/Pinocchio programs, and an audit checklist mapping each pattern to the exploit it prevents (account substitution, authority bypass, account confusion, shadow PDAs, reinitialization, revival)",
+      "category": "Security"
+    },
+    {
       "name": "arcium",
       "source": "./skills/arcium",
       "description": "Arcium Network for encrypted computation via MPC — data stays private during processing, enabling dark pools, sealed-bid auctions, encrypted voting, confidential DeFi, and hidden game state on Solana",
