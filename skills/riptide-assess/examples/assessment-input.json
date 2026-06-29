@@ -1,0 +1,56 @@
+{
+  "_comment": "Example AssessmentInputs for `riptide assess <guided-sim-root> --input examples/assessment-input.json`. The skill authors a file like this from what the detect/scope/run steps established. All fields are optional — omitted fields are derived deterministically from the guided-sim cartography root. Adapt the values to your protocol; do not ship these placeholders verbatim.",
+  "protocol": {
+    "name": "example-lending"
+  },
+  "verdict": "needs_guided_sim",
+  "riskPlan": {
+    "protocol_class": "over-collateralized lending",
+    "target_claim": "Lenders do not accrue bad debt while the collateral price stays within the declared drop band and liquidation can keep pace.",
+    "p0_flows": [
+      "deposit_collateral",
+      "borrow",
+      "liquidate"
+    ],
+    "p1_flows": [
+      "repay",
+      "withdraw_collateral"
+    ],
+    "expected_failure_modes": [
+      "collateral price drop outruns permissioned liquidation, leaving under-collateralized debt the protocol absorbs as lender bad debt"
+    ],
+    "guided_sim_boundaries": [
+      "collateral_price_drop_bps swept across the declared region; the bad-debt onset is read from the risk surface, not asserted",
+      "liquidation is a third-party action dispatched by a keeper persona; the oracle is a hand-constructed Pyth PriceUpdateV2 crashed in place"
+    ],
+    "known_coverage_limits": [
+      "interest accrual over long horizons is out of the swept region",
+      "cross-program liquidation routes are not modeled in this campaign"
+    ]
+  },
+  "coverage": [
+    {
+      "priority": "P0",
+      "flow": "Collateral-crash liquidation race",
+      "status": "covered by guided sim",
+      "evidence_tier": "guided sim",
+      "commands": [
+        "riptide sim run .riptide/sim --flows 20 --out .riptide/sim/artifacts/crash",
+        "riptide sim surface .riptide/sim/artifacts/crash --sim .riptide/sim"
+      ],
+      "artifacts": [
+        ".riptide/sim/artifacts/crash/guided-sim-run.json"
+      ],
+      "notes": "Bad-debt onset emerges from the swept collateral_price_drop_bps axis; positive control fires the invariant beyond the onset."
+    },
+    {
+      "priority": "P1",
+      "flow": "Cross-program liquidation routes",
+      "status": "out of scope",
+      "evidence_tier": "none",
+      "commands": [],
+      "artifacts": [],
+      "notes": "No deterministic local fixtures for the external venues; named as a scope boundary, not silently skipped."
+    }
+  ]
+}

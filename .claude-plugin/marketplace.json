@@ -208,6 +208,12 @@
       "category": "DeFi"
     },
     {
+      "name": "riptide-assess",
+      "source": "./skills/riptide-assess",
+      "description": "Assess the safety of a Solana program with Riptide — author and run deterministic, guided LiteSVM simulations against the real on-chain program to produce a risk assessment with reproducible evidence. Covers Anchor lending, AMM, perps, liquid-staking, and stablecoin protocols, modeling Pyth/Switchboard oracle bytes, liquidator/keeper actors, and multi-instruction flows.",
+      "category": "Security"
+    },
+    {
       "name": "sanctum",
       "source": "./skills/sanctum",
       "description": "Sanctum SDK for liquid staking, LST swaps, Infinity pool, and 1,361+ liquid staking tokens",
