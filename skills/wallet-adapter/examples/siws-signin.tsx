@@ -56,7 +56,9 @@ type VerifyPayload = {
   output: WireOutput;
 };
 
-const toArray = (bytes: Uint8Array): number[] => Array.from(bytes);
+// Accept ArrayLike<number> so this covers both Uint8Array (output.signature /
+// signedMessage) and the ReadonlyUint8Array of output.account.publicKey.
+const toArray = (bytes: ArrayLike<number>): number[] => Array.from(bytes);
 
 function serializeOutput(output: SolanaSignInOutput): WireOutput {
   return {
