@@ -262,6 +262,12 @@
       "category": "Oracles"
     },
     {
+      "name": "transaction-building",
+      "source": "./skills/transaction-building",
+      "description": "Build efficient Solana transactions: legacy vs versioned (v0) transactions, Address Lookup Tables (create/extend/use to fit more accounts under the 1232-byte limit), instruction composition, measuring transaction size, and partial/offline/multisig/sponsor signing — with @solana/web3.js and @solana/kit",
+      "category": "Client Development"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
