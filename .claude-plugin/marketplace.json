@@ -22,6 +22,12 @@
       "category": "Data & Analytics"
     },
     {
+      "name": "blinks-actions",
+      "source": "./skills/blinks-actions",
+      "description": "Build Solana Actions and Blinks: implement the Actions spec (GET metadata + POST transaction) with @solana/actions, serve actions.json, add typed inputs, chain actions, and render Blinks with @dialectlabs/blinks. Covers Next.js Route Handlers, CORS/headers, CAIP-2 blockchain IDs, the Dialect registry (dial.to), security, and the Blinks Inspector",
+      "category": "Frontend"
+    },
+    {
       "name": "carbium",
       "source": "./skills/carbium",
       "description": "Full-stack Solana infrastructure — bare-metal RPC, Standard WebSocket pubsub, gRPC Full Block streaming, DEX aggregation via CQ1 engine, gasless swaps, and MEV-protected execution via Jito bundling",

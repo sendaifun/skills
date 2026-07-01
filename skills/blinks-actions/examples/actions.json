@@ -1,0 +1,7 @@
+{
+  "//": "HOSTING: serve this file at your DOMAIN ROOT — https://<your-domain>/actions.json — so a plain shared link like https://<your-domain>/donate unfurls into a Blink. It MUST return the CORS header 'Access-Control-Allow-Origin: *' on both GET and OPTIONS (in Next.js, either add a public/actions.json + header config, or serve it from app/actions.json/route.ts using createActionHeaders()). Clients read ONLY the `rules` array; JSON has no comments, so this '//' key is a harmless convention that JSON.parse ignores and you may delete.",
+  "rules": [
+    { "pathPattern": "/donate", "apiPath": "/api/actions/transfer" },
+    { "pathPattern": "/api/actions/**", "apiPath": "/api/actions/**" }
+  ]
+}
