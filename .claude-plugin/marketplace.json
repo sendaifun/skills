@@ -262,6 +262,12 @@
       "category": "Oracles"
     },
     {
+      "name": "token-2022",
+      "source": "./skills/token-2022",
+      "description": "Create and integrate Token-2022 (Token Extensions) mints — transfer fees, transfer hooks, confidential transfers, metadata pointer + token metadata, interest-bearing, non-transferable, permanent delegate, scaled UI amount, and pausable — with the correct extension-init order, ATA handling, transferChecked, and both the @solana/spl-token and kit @solana-program/token-2022 SDKs",
+      "category": "NFT & Tokens"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
