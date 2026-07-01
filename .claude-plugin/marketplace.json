@@ -10,6 +10,12 @@
   },
   "plugins": [
     {
+      "name": "anchor",
+      "source": "./skills/anchor",
+      "description": "Build, test, secure, and deploy Solana programs with the Anchor framework (v1.1.2 / @anchor-lang/core): the #[derive(Accounts)] constraint system, PDAs, CPI with anchor-spl (SPL Token + Token-2022), errors and events, IDL/Codama clients, LiteSVM/Mollusk testing, the Sealevel-attacks security checklist, verifiable mainnet deploy/upgrades, and migrating from Anchor 0.30/0.31 to 1.x",
+      "category": "Program Development"
+    },
+    {
       "name": "arcium",
       "source": "./skills/arcium",
       "description": "Arcium Network for encrypted computation via MPC — data stays private during processing, enabling dark pools, sealed-bid auctions, encrypted voting, confidential DeFi, and hidden game state on Solana",
