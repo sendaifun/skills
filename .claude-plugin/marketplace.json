@@ -262,6 +262,12 @@
       "category": "Oracles"
     },
     {
+      "name": "wallet-adapter",
+      "source": "./skills/wallet-adapter",
+      "description": "Connect Solana wallets in web apps: the @solana/wallet-adapter React stack (ConnectionProvider/WalletProvider/WalletMultiButton, useWallet/useConnection) plus the modern Wallet Standard / framework-kit (@solana/client, @solana/react, @wallet-ui) path. Covers connect/disconnect, sending transactions, signMessage, Sign In With Solana (SIWS), Next.js App Router (SSR) integration, autoConnect, and mobile (MWA)",
+      "category": "Frontend"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
