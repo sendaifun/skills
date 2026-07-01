@@ -73,7 +73,7 @@ pub mod escrow {
             authority: ctx.accounts.maker.to_account_info(),
         };
         transfer_checked(
-            CpiContext::new(ctx.accounts.token_program.to_account_info(), cpi_accounts),
+            CpiContext::new(ctx.accounts.token_program.key(), cpi_accounts),
             deposit,
             ctx.accounts.mint_a.decimals, // transfer_checked re-validates decimals on-chain
         )?;
@@ -90,7 +90,7 @@ pub mod escrow {
             authority: ctx.accounts.taker.to_account_info(),
         };
         transfer_checked(
-            CpiContext::new(ctx.accounts.token_program.to_account_info(), pay),
+            CpiContext::new(ctx.accounts.token_program.key(), pay),
             ctx.accounts.escrow.receive,
             ctx.accounts.mint_b.decimals,
         )?;
@@ -118,7 +118,7 @@ pub mod escrow {
         };
         transfer_checked(
             CpiContext::new_with_signer(
-                ctx.accounts.token_program.to_account_info(),
+                ctx.accounts.token_program.key(),
                 release,
                 signer,
             ),
@@ -134,7 +134,7 @@ pub mod escrow {
             authority: ctx.accounts.escrow.to_account_info(),
         };
         close_account(CpiContext::new_with_signer(
-            ctx.accounts.token_program.to_account_info(),
+            ctx.accounts.token_program.key(),
             close,
             signer,
         ))?;
@@ -164,7 +164,7 @@ pub mod escrow {
             authority: ctx.accounts.escrow.to_account_info(),
         };
         transfer_checked(
-            CpiContext::new_with_signer(ctx.accounts.token_program.to_account_info(), back, signer),
+            CpiContext::new_with_signer(ctx.accounts.token_program.key(), back, signer),
             vault_amount,
             ctx.accounts.mint_a.decimals,
         )?;
@@ -175,7 +175,7 @@ pub mod escrow {
             authority: ctx.accounts.escrow.to_account_info(),
         };
         close_account(CpiContext::new_with_signer(
-            ctx.accounts.token_program.to_account_info(),
+            ctx.accounts.token_program.key(),
             close,
             signer,
         ))?;

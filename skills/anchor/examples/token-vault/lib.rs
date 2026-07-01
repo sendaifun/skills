@@ -73,7 +73,7 @@ pub mod token_vault {
         // One CPI call for both token programs: pass the threaded `token_program`
         // as the CPI program, and `transfer_checked` enforces mint + decimals.
         let cpi_ctx = CpiContext::new(
-            ctx.accounts.token_program.to_account_info(),
+            ctx.accounts.token_program.key(),
             TransferChecked {
                 from: ctx.accounts.owner_ata.to_account_info(),
                 mint: ctx.accounts.mint.to_account_info(),
@@ -112,7 +112,7 @@ pub mod token_vault {
         ]];
 
         let cpi_ctx = CpiContext::new_with_signer(
-            ctx.accounts.token_program.to_account_info(),
+            ctx.accounts.token_program.key(),
             TransferChecked {
                 from: ctx.accounts.vault.to_account_info(),
                 mint: ctx.accounts.mint.to_account_info(),

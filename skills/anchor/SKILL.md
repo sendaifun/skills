@@ -356,7 +356,7 @@ use anchor_spl::token_interface::{self, TransferChecked, TokenInterface, Mint, T
 
 // Plain CPI (program signs as a normal signer):
 let cpi = CpiContext::new(
-    ctx.accounts.token_program.to_account_info(),
+    ctx.accounts.token_program.key(),          // 1.x: program id (Pubkey), NOT to_account_info()
     TransferChecked {
         from:      ctx.accounts.from.to_account_info(),
         mint:      ctx.accounts.mint.to_account_info(),
@@ -369,7 +369,7 @@ token_interface::transfer_checked(cpi, amount, ctx.accounts.mint.decimals)?;
 // PDA-signed CPI (the program signs on behalf of a PDA it controls):
 let seeds: &[&[u8]] = &[b"vault", authority_key.as_ref(), &[vault_bump]];
 let cpi = CpiContext::new_with_signer(
-    ctx.accounts.token_program.to_account_info(),
+    ctx.accounts.token_program.key(),          // 1.x: program id (Pubkey)
     TransferChecked { /* ... */ },
     &[seeds],
 );

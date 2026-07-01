@@ -21,11 +21,10 @@
 //! (i.e. `target/deploy` after `anchor build`). Run: `SBF_OUT_DIR=target/deploy cargo test`.
 
 // `Space` must be in scope to read `Counter::INIT_SPACE` (the const #[derive(InitSpace)] generates).
-use anchor_lang::{InstructionData, Space, ToAccountMetas};
+use anchor_lang::{solana_program::system_program, InstructionData, Space, ToAccountMetas};
 use mollusk_svm::{program::keyed_account_for_system_program, result::Check, Mollusk};
 use solana_sdk::{
     account::Account, instruction::Instruction, native_token::LAMPORTS_PER_SOL, pubkey::Pubkey,
-    system_program,
 };
 
 /// Build the `initialize` instruction the same way a client does: Anchor derives the

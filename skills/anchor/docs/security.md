@@ -194,7 +194,7 @@ pub struct Cpi<'info> {
 
 pub fn transfer(ctx: Context<Cpi>, amount: u64) -> Result<()> {
     let cpi = CpiContext::new(
-        ctx.accounts.token_program.to_account_info(),
+        ctx.accounts.token_program.key(),          // 1.x: program id (Pubkey), NOT to_account_info()
         TransferChecked {
             from: ctx.accounts.from.to_account_info(),
             mint: ctx.accounts.mint.to_account_info(),
