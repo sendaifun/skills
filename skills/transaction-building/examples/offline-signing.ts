@@ -20,7 +20,7 @@
  * signature into its positional slot. Here there are two required signers (sponsor + user).
  *
  * Stack:
- *   @solana/web3.js  1.98.4     tweetnacl 1.0.x (the ed25519 lib web3.js itself uses internally)
+ *   @solana/web3.js  1.98.4     tweetnacl 1.0.x (a standard ed25519 lib; its detached signature is byte-identical to web3.js's own @noble/curves/ed25519)
  *   npm i @solana/web3.js@1.98.4 tweetnacl
  *   npm i -D typescript tsx @types/node          # Node 20+
  *   npx tsx examples/offline-signing.ts
@@ -131,7 +131,8 @@ async function airGappedInjection(
   vtx.sign([sponsor]); // fee payer signs in-process
 
   // The air-gapped device signs the SAME bytes web3.js signs (message.serialize()) and returns 64
-  // bytes. nacl.sign.detached is exactly what web3.js uses under the hood. In production the key
+  // bytes. ed25519 is deterministic (RFC 8032), so nacl.sign.detached is byte-identical to web3.js's own
+  // signer (web3.js internally uses @noble/curves/ed25519, not tweetnacl). In production the key
   // lives only on the device; we derive from user.secretKey here purely to keep the demo runnable.
   const userSignature = nacl.sign.detached(vtx.message.serialize(), user.secretKey); // Uint8Array(64)
   vtx.addSignature(user.publicKey, userSignature); // inject — asserts exactly 64 bytes, matches the slot

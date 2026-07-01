@@ -230,9 +230,10 @@ Two ways this bites:
    error (the versioned overload has no signers arg), and forgetting to sign at all sends an unsigned
    packet that never lands. Always `vtx.sign([...])` first.
 
-> **`vtx.sign([...])` replaces existing signatures.** The docs warn "all the previous transaction
-> `signatures` will be fully replaced." For incremental / multisig signing, sign each party separately
-> and rely on positional slots, or use `addSignature` — see
+> **`vtx.sign([subset])` fills only the passed signers' slots** and leaves every other slot untouched —
+> unlike legacy `Transaction.sign(...)`, which rebuilds/replaces the whole `signatures` array. So you can
+> sign incrementally (one party at a time) or the full set at once; just never mutate the message after the
+> first signature. For multisig, each party signs their own slot (positional) or uses `addSignature` — see
 > [`signing-and-assembly.md`](./signing-and-assembly.md).
 
 ---

@@ -136,9 +136,9 @@ slots.
 
 ### Error: multisig tx fails after a cosigner signed
 **Symptom:** after collecting signatures, the tx is rejected as unsigned/invalid.
-**Cause:** a party called `vtx.sign([allSigners])` (which **replaces** all signatures) instead of
-signing only their slot, or the message bytes differed between signers (someone re-fetched a blockhash
-or reordered metas).
+**Cause:** the message bytes differed between signers — someone re-fetched a blockhash, reordered account
+metas, or otherwise mutated the message between signatures, so each signature was computed over a different
+message. (`vtx.sign([subset])` does NOT wipe other slots — that common misconception is not the cause.)
 **Solution:** distribute **one frozen wire**; each party signs only their own slot (`sign([theirKey])`
 or `addSignature`); merge positional slots. Never mutate the message after the first signature.
 
@@ -171,7 +171,7 @@ if (!supported)        { /* legacy-only wallet → build a legacy Transaction */
 else if (!supported.has(0)) { /* no v0 → fall back to legacy */ }
 // else: safe to send the VersionedTransaction
 ```
-Full feature-detection pattern: the **`wallet-adapter`** skill (`wa-usage.md`).
+Full feature-detection pattern: the **`wallet-adapter`** skill ([`sending-transactions.md`](../../wallet-adapter/docs/sending-transactions.md)).
 
 ### Error: `sendAndConfirmTransaction` type error / does nothing with a `VersionedTransaction`
 **Symptom:** TypeScript rejects the call, or a JS call misbehaves.
@@ -220,7 +220,7 @@ is a resolver warning, not a real incompatibility.
   https://solana.com/docs/advanced/lookup-tables
 - **Signing & assembly** — `signing-and-assembly.md`.
 - **Versioned transactions & wallet gating** — `versioned-transactions.md`; **`wallet-adapter`** skill
-  (`wa-usage.md`).
+  ([`sending-transactions.md`](../../wallet-adapter/docs/sending-transactions.md)).
 - **kit ALT peer-skew** — `npm view @solana-program/address-lookup-table peerDependencies`;
   https://www.npmjs.com/package/@solana-program/address-lookup-table
 - **Landing failures** (blockhash expiry, dropped/underpriced, confirmation) — **`transaction-landing`**

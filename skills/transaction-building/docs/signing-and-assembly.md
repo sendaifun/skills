@@ -86,10 +86,10 @@ vtx.addSignature(cosignerPubkey, precomputedSig64); // must be exactly 64 bytes;
 (`staticAccountKeys.slice(0, numRequiredSignatures).findIndex(pk === signer.publicKey)`; asserts `≥ 0`
 → `Cannot sign with non signer key`) and writes `sign(messageData, secretKey)` there.
 
-> **Footgun:** `vtx.sign([...])` takes an **array** (legacy `tx.sign(...)` is variadic), and calling
-> it with the full signer set **replaces all existing signatures**. For incremental multisig, call
-> `sign([oneSigner])` per party, or use `addSignature` — never re-`sign` the whole set after others
-> have signed.
+> **Footgun:** `vtx.sign([...])` takes an **array** (legacy `tx.sign(...)` is variadic). It fills only the
+> passed signers' positional slots and leaves other slots untouched (unlike legacy `Transaction.sign(...)`,
+> which rebuilds the whole `signatures` array), so you can sign incrementally — call `sign([oneSigner])` per
+> party, or use `addSignature`. Just never mutate the message after the first signature.
 
 ### Legacy Transaction
 
@@ -323,8 +323,8 @@ per nonce value — perfect for "sign now, submit much later." **Creating the no
 **DON'T**
 - **DON'T** mutate the message after signing — it invalidates every signature.
 - **DON'T** reorder account metas between signers — it changes the positional signature slots.
-- **DON'T** re-`vtx.sign([all])` after other parties have signed — the full-set call replaces existing
-  signatures; sign per party or use `addSignature`.
+- **DON'T** try to `vtx.sign([...])` with a key you don't hold — each party signs their own slot with
+  `sign([theirKey])` or `addSignature` (`sign` only fills the slots of the signers you pass, leaving the rest intact).
 - **DON'T** confuse the classes: `vtx.sign([...])` is an **array**; legacy `tx.sign(...)` is variadic.
 - **DON'T** expect transaction-level signing to give N-of-M thresholds — use an on-chain multisig
   (SPL Token multisig / Squads) for that.

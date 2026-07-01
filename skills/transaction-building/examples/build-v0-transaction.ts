@@ -95,7 +95,7 @@ async function main() {
     );
   }
 
-  // ── 5. Sign — ARRAY arg (vtx.sign([...]) replaces all signatures; not variadic like legacy) ──
+  // ── 5. Sign — ARRAY arg (vtx.sign([...]) fills only the passed signers' slots; not variadic like legacy) ──
   vtx.sign([payer]);
 
   // ── 6. Send the ALREADY-SIGNED transaction — NO signers argument on the versioned overload ──
