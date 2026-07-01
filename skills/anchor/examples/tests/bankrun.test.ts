@@ -51,7 +51,7 @@ describe("counter (bankrun / legacy 0.3x)", () => {
 
     await program.methods
       .initialize()
-      .accounts({ counter: counterPda, authority })
+      .accountsPartial({ counter: counterPda, authority }) // counter is a PDA → accountsPartial (strict since 0.30)
       .rpc();
 
     let counter = await program.account.counter.fetch(counterPda);
@@ -59,7 +59,7 @@ describe("counter (bankrun / legacy 0.3x)", () => {
 
     await program.methods
       .increment()
-      .accounts({ counter: counterPda, authority })
+      .accountsPartial({ counter: counterPda, authority }) // counter is a PDA → accountsPartial (strict since 0.30)
       .rpc();
 
     counter = await program.account.counter.fetch(counterPda);

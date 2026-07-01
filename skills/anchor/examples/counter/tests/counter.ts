@@ -31,7 +31,9 @@ describe("counter", () => {
   it("initializes the counter at zero", async () => {
     await program.methods
       .initialize()
-      .accounts({
+      // `.accountsPartial` (not `.accounts`): the counter PDA is auto-resolvable from its
+      // seeds, so the strict `.accounts()` type rejects it — pass it explicitly here.
+      .accountsPartial({
         authority: authority.publicKey,
         counter: counterPda,
         systemProgram: anchor.web3.SystemProgram.programId,
@@ -47,7 +49,9 @@ describe("counter", () => {
   it("increments and emits CountChanged", async () => {
     const signature = await program.methods
       .increment()
-      .accounts({
+      // `.accountsPartial` (not `.accounts`): the counter PDA is auto-resolvable from its
+      // seeds, so the strict `.accounts()` type rejects it — pass it explicitly here.
+      .accountsPartial({
         authority: authority.publicKey,
         counter: counterPda,
       })

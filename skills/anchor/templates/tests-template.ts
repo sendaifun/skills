@@ -42,7 +42,7 @@ describe("my_program", () => {
       .initialize()
       // `.accounts()` is strict about resolvable accounts; use `.accountsPartial()` if you must
       // pass an account Anchor could otherwise infer.
-      .accounts({ state: statePda, authority })
+      .accountsPartial({ state: statePda, authority })
       .rpc();
 
     const state = await program.account.state.fetch(statePda);
@@ -54,7 +54,7 @@ describe("my_program", () => {
   //
   // it("rejects an unauthorized update", async () => {
   //   try {
-  //     await program.methods.update(new anchor.BN(1)).accounts({ state: statePda, authority: attacker.publicKey })
+  //     await program.methods.update(new anchor.BN(1)).accountsPartial({ state: statePda, authority: attacker.publicKey })
   //       .signers([attacker]).rpc();
   //     assert.fail("should have thrown");
   //   } catch (err) {

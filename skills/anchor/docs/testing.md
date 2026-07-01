@@ -368,7 +368,7 @@ describe("counter", () => {
   it("initializes", async () => {
     await program.methods
       .initialize()
-      .accounts({ payer: authority, counter })          // .accounts() = strict resolution
+      .accountsPartial({ payer: authority, counter })   // counter is a PDA → pass it via accountsPartial
       .rpc();
     const state = await program.account.counter.fetch(counter);
     assert.strictEqual(state.count.toNumber(), 0);

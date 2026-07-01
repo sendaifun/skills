@@ -458,7 +458,7 @@ const program = anchor.workspace.Counter as Program<Counter>; // workspace = Pas
 
 await program.methods
   .increment()
-  .accounts({ counter, authority: program.provider.publicKey })
+  .accountsPartial({ counter, authority: program.provider.publicKey }) // counter is a PDA → accountsPartial
   .rpc();
 
 // Outside a workspace, construct from the IDL (program id comes from IDL.address):
