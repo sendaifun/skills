@@ -130,7 +130,7 @@ class VersionedTransaction {
   message: VersionedMessage;                // Message | MessageV0
   get version(): 'legacy' | 0;
   constructor(message: VersionedMessage, signatures?: Uint8Array[]); // throws if signatures.length !== header.numRequiredSignatures
-  sign(signers: Array<Signer>): void;       // ← ARRAY (not variadic!). REPLACES existing sigs
+  sign(signers: Array<Signer>): void;       // ← ARRAY (not variadic!). Fills ONLY the passed signers' slots; leaves others intact (enables incremental multisig/sponsor)
   addSignature(publicKey: PublicKey, signature: Uint8Array): void;    // inject external/HW sig (64 bytes)
   serialize(): Uint8Array;                   // does NOT enforce 1232 / never throws (2048-byte buffer) — MEASURE .length
   static deserialize(bytes: Uint8Array): VersionedTransaction;       // preserves prior signatures
