@@ -1,0 +1,81 @@
+# Anchor.toml — workspace config starter (Anchor 1.1.2).
+#
+# Sits at the workspace root. `anchor init` generates one of these from `Config::default()`;
+# this template documents every common section with verified 1.x values. Replace `my_program`
+# with your program name and the program ID with your own (run `anchor keys sync`).
+#
+# Key 1.x defaults to know:
+#   - default test template is LiteSVM (Rust) → `[scripts] test = "cargo test"`.
+#   - default local validator is Surfpool (mainnet-forking). Use `anchor test --validator legacy`
+#     to fall back to `solana-test-validator`.
+#   - the `[registry]` section was REMOVED in 1.0 — do not add it back.
+
+[toolchain]
+# Optional per-workspace version pins. These require avm to be installed; `anchor build`/`test`
+# fetch and use the named versions. Pinning makes builds reproducible across machines and CI.
+anchor_version = "1.1.2"     # Anchor 1.1.2 (current stable). 0.32.1 is legacy.
+solana_version = "3.1.10"    # Anchor-tested Solana CLI (Agave 3.x). `stable` currently installs Agave 4.1.0.
+# package_manager = "yarn"   # npm | yarn | pnpm | bun — only relevant for Node-based test templates.
+
+[features]
+resolution = true            # IDL-based account resolution in clients (default true).
+skip-lint = false            # set true to skip `anchor build`'s safety lints (not recommended).
+
+# One key=value per program, per cluster. The value is the program's on-chain address,
+# kept in sync with `target/deploy/<name>-keypair.json` by `anchor keys sync`.
+# TODO: rename `my_program` and replace the address with your own program ID.
+[programs.localnet]
+my_program = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+
+# Add per-cluster blocks as you deploy. The same program usually keeps ONE address across clusters:
+# [programs.devnet]
+# my_program = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+# [programs.mainnet]
+# my_program = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+
+[provider]
+# Required. `cluster`: localnet | devnet | testnet | mainnet | a custom RPC URL.
+# `wallet`: the keypair used to pay/sign during `anchor test`/`deploy`.
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+# `anchor test` runs the `test` script. The default LiteSVM/Mollusk (Rust) templates use `cargo test`.
+test = "cargo test"
+# If you scaffolded with `--test-template mocha`, use the TypeScript runner instead:
+# test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""
+# Add other named scripts and invoke with `anchor run <name>` (Anchor 1.1+):
+# deploy-idl = "anchor idl init --filepath target/idl/my_program.json"
+
+# `[test]` configures the local validator that `anchor test` boots for Node/RPC-based suites.
+# NOTE: the Rust LiteSVM/Mollusk templates run fully in-process, so `anchor init` sets
+# `skip_local_validator = true` and no validator starts. Uncomment for mocha/RPC tests.
+# [test]
+# skip_local_validator = false
+# startup_wait = 10000          # ms to wait for the validator to become ready
+# warp_slot = 1000              # start the validator at this slot
+
+# [test.validator]
+# url = "https://api.mainnet-beta.solana.com"   # upstream RPC to clone accounts/programs from
+# rpc_port = 8899
+# slots_per_epoch = 32
+
+# Clone an on-chain program (e.g. SPL Token / Token-2022) into your local validator so CPIs work:
+# [[test.validator.clone]]
+# address = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"   # Token-2022 program
+
+# Load a fixed account from a JSON file dumped via `solana account <addr> --output json-compact`:
+# [[test.validator.account]]
+# address = "..."
+# filename = "tests/fixtures/some_account.json"
+
+# Surfpool config (the default validator since 1.0). Uncomment to tune the mainnet-forking validator:
+# [surfpool]
+# rpc_port = 8899
+# ws_port = 8900
+# block_production_mode = "transaction"   # "clock" | "transaction"
+# datasource_rpc_url = "https://api.mainnet-beta.solana.com"
+
+# Lifecycle hooks (added 1.0): pre-build | post-build | pre-test | post-test | pre-deploy | post-deploy.
+# [hooks]
+# pre-deploy = "echo 'deploying my_program'"

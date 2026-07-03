@@ -1,0 +1,11 @@
+# rust-toolchain.toml — pins the Rust toolchain for reproducible Anchor 1.x builds.
+#
+# Place at the workspace root. rustup reads this automatically so everyone (and CI) compiles
+# with the same rustc. Anchor 1.1.2's MSRV is 1.89.0; `anchor init` writes exactly this file.
+#
+# This pins the HOST rustc used to build the crate. The on-chain SBF build itself uses the
+# platform-tools shipped with your Solana CLI (`avm`/`agave-install`); keep the Solana CLI at
+# the version named in Anchor.toml (`solana_version = "3.1.10"`) for reproducible program bytes.
+
+[toolchain]
+channel = "1.89.0"

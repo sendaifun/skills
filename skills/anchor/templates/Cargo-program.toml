@@ -1,0 +1,44 @@
+# Program-crate Cargo.toml starter (Anchor 1.1.2).
+#
+# Lives at programs/<your_program>/Cargo.toml. Copy this to that path and rename `my-program`.
+# The WORKSPACE Cargo.toml at the repo root should carry the release profile (see the block
+# at the bottom of this file) — `anchor init` puts `overflow-checks`, `lto`, etc. there.
+#
+# Rule: DO NOT add `solana-program` as a separate dependency. Use `anchor_lang::solana_program::*`
+# (and `anchor_lang::solana_program::pubkey::Pubkey`, etc.) so the Solana version stays pinned by
+# anchor-lang and you avoid "two versions of solana-program" link errors.
+
+[package]
+name = "my-program"          # TODO: rename (kebab-case). The lib name below is the snake_case form.
+version = "0.1.0"
+edition = "2021"             # Anchor 1.x MSRV is rustc 1.89.0 (see rust-toolchain.toml).
+
+[lib]
+crate-type = ["cdylib", "lib"]   # cdylib -> the deployable .so; lib -> so tests/other crates can import it.
+name = "my_program"              # TODO: snake_case; this is the name Mollusk/anchor look for (my_program.so).
+
+[features]
+default = []
+# `anchor build` enables `idl-build` to generate target/idl/<name>.json + target/types/<name>.ts.
+# Include anchor-spl/idl-build ONLY if you depend on anchor-spl (else remove that entry).
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+cpi = ["no-entrypoint"]      # enable when ANOTHER program calls this one via CPI (exposes cpi:: module).
+no-entrypoint = []           # drops the entrypoint so this crate can be imported as a dependency.
+# init-if-needed = ["anchor-lang/init-if-needed"]  # only if you use the init_if_needed constraint.
+# event-cpi = ["anchor-lang/event-cpi"]            # only if you use emit_cpi! (self-CPI events).
+
+[dependencies]
+anchor-lang = "1.1.2"
+# anchor-spl brings SPL Token + Token-2022 helpers (Interface<TokenInterface>, token_interface::*).
+# Its default features already include token, token_2022, associated_token, mint. Remove if unused.
+anchor-spl = "1.1.2"
+
+# ── Put this in the WORKSPACE (root) Cargo.toml, not here ────────────────────────────────
+# [profile.release]
+# overflow-checks = true   # REQUIRED for safety: makes +,-,* panic on overflow in release builds.
+# lto = "fat"
+# codegen-units = 1
+#
+# [workspace]
+# members = ["programs/*"]
+# resolver = "2"
