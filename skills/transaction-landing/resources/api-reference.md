@@ -223,7 +223,7 @@ append `?swqos_only=true` for SWQoS-only routing (skips the Jito leg, lower min 
 
 | Rule | Value |
 |---|---|
-| Jito tip | **≥ 0.0002 SOL = 200,000 lamports** — `SystemProgram.transfer` to a Jito tip account, **in the same tx** |
+| Jito tip | **≥ 0.001 SOL = 1,000,000 lamports** — `SystemProgram.transfer` to a Jito tip account, **in the same tx** |
 | Jito tip (`?swqos_only=true`) | **≥ 0.000005 SOL = 5,000 lamports** |
 | Priority fee | **Required** — a `setComputeUnitPrice` ix (the tip buys auction access; the priority fee improves validator queue position) |
 | `skipPreflight` | **`true`** (mandatory) |
@@ -231,7 +231,7 @@ append `?swqos_only=true` for SWQoS-only routing (skips the Jito leg, lower min 
 | Rate limit | **~50 TPS per region** per Helius docs (verify current quota before relying on an exact number) |
 
 **Request** (same JSON-RPC `sendTransaction` shape; tx must already contain `setComputeUnitLimit` +
-`setComputeUnitPrice` + a ≥200,000-lamport Jito tip transfer, signed and base64-serialized):
+`setComputeUnitPrice` + a ≥1,000,000-lamport (0.001 SOL) Jito tip transfer, signed and base64-serialized):
 
 ```ts
 await fetch("https://sender.helius-rpc.com/fast", {

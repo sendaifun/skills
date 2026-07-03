@@ -197,14 +197,14 @@ Regions, the single-tx `sendTransaction` path (`/api/v1/transactions?bundleOnly=
 | **Plain priority fee** (RPC + manual rebroadcast) | Low | No | No | Priority fee only | Low | Default for nearly all single, independent txns |
 | **Jito bundle** (`sendBundle`) | Low–med | **Yes** (≤5 tx, same slot) | **Yes** (all-or-nothing) | Jito tip (priority fee irrelevant to inclusion) | Med | Atomic multi-tx; ordering-sensitive MEV plays |
 | **Jito `sendTransaction`** (`/transactions`, `bundleOnly=true`) | Low | No (single tx) | **Yes** (tx-as-bundle) | ~70% priority fee / ~30% Jito tip | Med | One tx that must not land on revert; force-skips preflight |
-| **Helius Sender** (`/fast`) | **Lowest** | No | Via Jito auction leg | Jito tip **≥0.0002 SOL** + priority fee (both required) | Med | Max inclusion for a single tx under congestion |
+| **Helius Sender** (`/fast`) | **Lowest** | No | Via Jito auction leg | Jito tip **≥0.001 SOL** + priority fee (both required) | Med | Max inclusion for a single tx under congestion |
 | **Durable nonce** | N/A (tx never expires) | No | No | Nonce-account rent | Med–high | Offline / long-lived / multisig signing |
 
-Notes: a Jito **bundle** ignores your priority fee for inclusion (only the tip matters); the Jito **single-tx** path wants both (~70/30). The **Helius Sender** dual-routes to staked SWQoS validators *and* the Jito auction in parallel and **requires both** a Jito tip (≥200,000 lamports in dual-route mode, or 5,000 lamports with `?swqos_only=true`) **and** a `setComputeUnitPrice` priority fee, with `skipPreflight: true` and `maxRetries: 0` (you own retries). Endpoint `https://sender.helius-rpc.com/fast` (global, browser-safe), regional `http://<region>-sender.helius-rpc.com/fast`, ~50 TPS/region per Helius docs (verify current quota), 0 API credits.
+Notes: a Jito **bundle** ignores your priority fee for inclusion (only the tip matters); the Jito **single-tx** path wants both (~70/30). The **Helius Sender** dual-routes to staked SWQoS validators *and* the Jito auction in parallel and **requires both** a Jito tip (≥1,000,000 lamports = 0.001 SOL in dual-route mode, or 5,000 lamports = 0.000005 SOL with `?swqos_only=true`) **and** a `setComputeUnitPrice` priority fee, with `skipPreflight: true` and `maxRetries: 0` (you own retries). Endpoint `https://sender.helius-rpc.com/fast` (global, browser-safe), regional `http://<region>-sender.helius-rpc.com/fast`, ~50 TPS/region per Helius docs (verify current quota), 0 API credits.
 
 ```ts
 // tx must already include: setComputeUnitLimit, setComputeUnitPrice, AND a transfer of
-// >=200_000 lamports to a Jito tip account — then be signed and base64-serialized.
+// >=1_000_000 lamports (0.001 SOL) to a Jito tip account — then be signed and base64-serialized.
 await fetch("https://sender.helius-rpc.com/fast", {
   method: "POST",
   headers: { "Content-Type": "application/json" },

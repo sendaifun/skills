@@ -87,7 +87,7 @@ RPC's opaque auto-rebroadcast cannot compete.
 - Take control of sending: `skipPreflight: true` + `maxRetries: 0` + manual rebroadcast
   (`retries-and-confirmation.md`).
 - Escalate to a **staked path**: the **Helius Sender** (dual-routes to SWQoS validators + Jito;
-  requires both a ≥200,000-lamport Jito tip and a priority fee — see `resources/api-reference.md`)
+  requires both a ≥1,000,000-lamport (0.001 SOL) Jito tip and a priority fee — see `resources/api-reference.md`)
   or a **Jito bundle** (`jito-bundles.md`).
 - Shrink the tx: fewer instructions and Address Lookup Tables (v0 `VersionedTransaction`) mean
   fewer write locks and smaller bytes, both of which improve scheduling.
