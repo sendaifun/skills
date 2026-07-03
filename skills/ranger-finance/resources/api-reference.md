@@ -9,10 +9,10 @@ Complete reference for the Ranger SOR API endpoints.
 
 ## Authentication
 
-All requests require an API key in the Authorization header:
+All requests require an API key in the `x-api-key` header:
 
 ```
-Authorization: Bearer YOUR_API_KEY
+x-api-key: YOUR_API_KEY
 ```
 
 ## SOR API Endpoints
@@ -217,7 +217,7 @@ GET /positions?public_key=ABC123&platforms=DRIFT,FLASH&symbols=SOL-PERP
 
 ```bash
 curl -X POST "https://api.ranger.finance/v1/order_metadata" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "fee_payer": "YOUR_WALLET_ADDRESS",
@@ -235,7 +235,7 @@ curl -X POST "https://api.ranger.finance/v1/order_metadata" \
 
 ```bash
 curl -X POST "https://api.ranger.finance/v1/increase_position" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "fee_payer": "YOUR_WALLET_ADDRESS",
@@ -253,14 +253,14 @@ curl -X POST "https://api.ranger.finance/v1/increase_position" \
 
 ```bash
 curl -X GET "https://api.ranger.finance/v1/positions?public_key=YOUR_WALLET_ADDRESS" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "x-api-key: YOUR_API_KEY"
 ```
 
 ### Close Position
 
 ```bash
 curl -X POST "https://api.ranger.finance/v1/close_position" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "fee_payer": "YOUR_WALLET_ADDRESS",

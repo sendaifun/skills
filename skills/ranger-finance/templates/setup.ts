@@ -193,7 +193,7 @@ export class RangerClient {
     const response = await fetch(url, {
       method,
       headers: {
-        Authorization: `Bearer ${this.apiKey}`,
+        'x-api-key': this.apiKey,
         'Content-Type': 'application/json',
       },
       body: body ? JSON.stringify(body) : undefined,
