@@ -108,8 +108,8 @@ Benefits: depeg protection, accurate valuation, reduced manipulation risk.
 | CCTP Integration | `G1NTcMDYgNLpDwgnrpSZvoSKQuR9NXG7S3DmtNQCDmrK` | — |
 | Kamino Integration | `G1NTkDEUR3pkEqGCKZtmtmVzCUEdYa86pezHkwYbLyde` | `gstgKa2Gq9wf5hM3DFWx1TvUrGYzDYszyFGq3XBY9Uq` |
 | SPL Integration | `G1NTsQ36mjPe89HtPYqxKsjY5HmYsDR6CbD2gd2U2pta` | `gstgs9nJgX8PmRHWAAEP9H7xT3ZkaPWSGPYbj3mXdTa` |
-| Marinade Integration | — | `G1NTMNMgmgJAWAD9G3toFVMtNcc21dEyHf3fTXc3t74t` |
-| Stake Pool Integration | — | `G1NTstCVkEhGVQPnPe6r7yEyRTvnp3ta63AFkEKxqg25` |
+| Marinade Integration | `G1NTMNMgmgJAWAD9G3toFVMtNcc21dEyHf3fTXc3t74t` | `gstgmvM2o7h7GcScvXymH1oFgWskukWWxRHC1UJJ9FJ` |
+| Stake Pool Integration | `G1NTstCVkEhGVQPnPe6r7yEyRTvnp3ta63AFkEKxqg25` (not yet deployed on mainnet-beta) | `gstgS4dNeT3BTEQa1aaTS2b8CsAUz1SmwQDGosHSPsw` |
 
 ---
 
