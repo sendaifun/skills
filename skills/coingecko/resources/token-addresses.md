@@ -10,7 +10,6 @@ Reference for commonly used Solana token mint addresses.
 | Tether USD | USDT | `Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB` | 6 |
 | USDS | USDS | `USDSwr9ApdHk5bvJKMjzff41FfuX8bSxdKcR81vTwcA` | 6 |
 | PayPal USD | PYUSD | `2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo` | 6 |
-| DAI | DAI | `EjmyN6qEC1Tf1JxiG1ae7UTJhUxSwk1TCCi3gUvuJrcc` | 8 |
 
 ## Native & Wrapped SOL
 
