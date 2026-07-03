@@ -110,11 +110,13 @@ fn increment_rejects_wrong_authority() {
         (attacker, Account::new(1_000_000_000, 0, &solana_sdk::system_program::ID)),
     ];
 
-    // Anchor custom errors surface as ProgramError::Custom(6000 + n). `has_one` failure = ConstraintHasOne (2001).
+    // The has_one uses an @-override (`has_one = authority @ CounterError::Unauthorized`), so the
+    // violation surfaces as the custom code 6000 — NOT the default ConstraintHasOne (2001). (Without
+    // the @-override it would be 2001; custom `#[error_code]` codes start at 6000.)
     mollusk.process_and_validate_instruction(
         &ix,
         &accounts,
-        &[Check::err(ProgramError::Custom(2001))],
+        &[Check::err(ProgramError::Custom(6000))],
     );
 }
 ```

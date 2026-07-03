@@ -366,7 +366,7 @@ PDA design (signer seeds for CPI, seed-collision avoidance, domain-specific seed
 
 ---
 
-## 4. Custom discriminator (Anchor 1.0+)
+## 4. Custom discriminator (Anchor 0.31+)
 
 Overrides the default 8-byte account discriminator (`SHA256("account:<StructName>")[..8]`). Any const expression works; **all-zero discriminators are rejected** (pre-1.0, a zeroed discriminator let program-owned accounts be taken over via IDL instructions — 1.0 closes that). Non-8-byte discriminators are allowed, which is how you match a native/legacy on-chain layout.
 
@@ -376,7 +376,7 @@ Overrides the default 8-byte account discriminator (`SHA256("account:<StructName
 #[account(discriminator = MY_CONST_DISCRIMINATOR)]
 ```
 
-This is a **type-macro argument** (on `#[account(...)]` over the *struct*), not a field constraint. When a custom discriminator length differs from 8, size `init` with `T::DISCRIMINATOR.len() + T::INIT_SPACE` ([§5](#5-sizing-space-initspace-max_len)). Not available on 0.32.1 (it parses there as part of `#[account]` differently — treat as 1.0+).
+This is a **type-macro argument** (on `#[account(...)]` over the *struct*), not a field constraint. When a custom discriminator length differs from 8, size `init` with `T::DISCRIMINATOR.len() + T::INIT_SPACE` ([§5](#5-sizing-space-initspace-max_len)). Available since Anchor **0.31.0** (present in 0.31.1 and 0.32.1).
 
 ---
 
@@ -659,7 +659,7 @@ The constraint **syntax** is identical from 0.30 through 1.1.2, so every example
 
 | Item | 0.32.1 | 1.0+ |
 |---|---|---|
-| Custom account `discriminator = …` | not a stable macro arg | available (`#[account(discriminator = …)]`); all-zero rejected |
+| Custom account `discriminator = …` | available since 0.31.0 (`#[account(discriminator = …)]`) | same; all-zero rejected |
 | Duplicate `mut` accounts | allowed (silent footgun) | **rejected by default** (`ConstraintDuplicateMutableAccount`, 2040); opt in with `#[account(mut, dup)]` |
 | `close` revival sentinel | already assign-to-System + realloc(0) (0.30+) | same (no `CLOSED_ACCOUNT_DISCRIMINATOR`) |
 | `ctx.bumps` | struct field `ctx.bumps.name` (since 0.29) | same |
