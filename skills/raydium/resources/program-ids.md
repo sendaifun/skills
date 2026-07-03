@@ -11,9 +11,9 @@ All program addresses and constants for Raydium protocol integration.
 | AMM V4 | `675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8` |
 | CLMM | `CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK` |
 | CPMM | `CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C` |
-| Farm V3 | `9KEPoZmtHUrBbhWN1v1KWLMkkvwY6WLtAVUCPRtRjP4z` |
-| Farm V5 | `FarmqiPv5eAj3j1GMdMCMUGXqPUvmquZtMy86QH6rzhG` |
-| Farm V6 | `FarmNgYzMUpP4hK8Efmp83d5EB8oNS4sNhCNgEUxuPHX` |
+| Farm V3 | `EhhTKczWMGQt46ynNeRX1WfeagwwJd7ufHvCDjRxjo5Q` |
+| Farm V5 | `9KEPoZmtHUrBbhWN1v1KWLMkkvwY6WLtAVUCPRtRjP4z` |
+| Farm V6 | `FarmqiPv5eAj3j1GMdMCMUGXqPUvmquZtMy86QH6rzhG` |
 | Router | `routeUGWgWzqBWFcrCfv8tritsqukccJPu3q5GPP3xS` |
 | OpenBook | `srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX` |
 
@@ -68,9 +68,9 @@ export const RAYDIUM_PROGRAMS = {
   AMM_V4: new PublicKey('675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8'),
   CLMM: new PublicKey('CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK'),
   CPMM: new PublicKey('CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C'),
-  FARM_V3: new PublicKey('9KEPoZmtHUrBbhWN1v1KWLMkkvwY6WLtAVUCPRtRjP4z'),
-  FARM_V5: new PublicKey('FarmqiPv5eAj3j1GMdMCMUGXqPUvmquZtMy86QH6rzhG'),
-  FARM_V6: new PublicKey('FarmNgYzMUpP4hK8Efmp83d5EB8oNS4sNhCNgEUxuPHX'),
+  FARM_V3: new PublicKey('EhhTKczWMGQt46ynNeRX1WfeagwwJd7ufHvCDjRxjo5Q'),
+  FARM_V5: new PublicKey('9KEPoZmtHUrBbhWN1v1KWLMkkvwY6WLtAVUCPRtRjP4z'),
+  FARM_V6: new PublicKey('FarmqiPv5eAj3j1GMdMCMUGXqPUvmquZtMy86QH6rzhG'),
   ROUTER: new PublicKey('routeUGWgWzqBWFcrCfv8tritsqukccJPu3q5GPP3xS'),
 };
 
