@@ -262,6 +262,12 @@
       "category": "Oracles"
     },
     {
+      "name": "transaction-landing",
+      "source": "./skills/transaction-landing",
+      "description": "Reliably land Solana transactions on mainnet: compute-unit budgeting and priority fees, fee estimation (Helius getPriorityFeeEstimate, getRecentPrioritizationFees, QuickNode), fresh-blockhash + lastValidBlockHeight confirmation, manual rebroadcast, Jito bundles and tips, the Helius Sender endpoint, and durable nonces",
+      "category": "Client Development"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
