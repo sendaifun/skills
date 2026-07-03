@@ -27,8 +27,13 @@ Reference for all Kamino program and account addresses.
 | SOL | `d4A2prbA2whesmvHaL88BH6Ewn5N4bTSU2Ze8P6Bc4Q` | Check on-chain |
 | USDC | `D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59` | Check on-chain |
 | USDT | `H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S` | Check on-chain |
-| mSOL | `H6rHXmXoCQvq8Ue81MqNh4ovFYnWLCqF6Lpuqs1CY8qK` | Check on-chain |
+| mSOL | `FBSyPnxtHKLBZ4UeeUyAnbtFuAmTHLtso9YtsqRDRWpM` | Check on-chain |
 | JitoSOL | `EVbyPKrHG6WBfm4dLxLMJpUDY43cCAcHSpV3KYjKsktW` | Check on-chain |
+
+### Reserve Addresses (Altcoin Market)
+
+| Token | Reserve Address | cToken Mint |
+|-------|-----------------|-------------|
 | BONK | `CoFdsnQeCUyJefhKK6GQaAPT9PEx8Xcs2jejtp9jgn38` | Check on-chain |
 
 ### Scope Configuration
