@@ -59,13 +59,13 @@
 
 | Pool | Token A | Token B | Tick Spacing | Address |
 |------|---------|---------|--------------|---------|
-| SOL/USDC | SOL | USDC | 64 | `7qbRF6YsyGuLUVs6Y1sfC93Vulo2YBcmfkPHJmxRQWYL` |
-| SOL/USDT | SOL | USDT | 64 | `4GkRbcYg1VKsZropgai4dMf2Nj2PkXNLf43knFpavrSi` |
+| SOL/USDC | SOL | USDC | 4 | `Czfq3xZZDmsdGdUyrNLtRhGc47cXcZtLG4crryfu44zE` |
+| SOL/USDT | SOL | USDT | 2 | `FwewVm8u6tFPGewAyHmWAqad9hmF7mvqxK4mJ7iNqqGC` |
 | USDC/USDT | USDC | USDT | 1 | `4fuUiYxTQ6QCrdSq9ouBYcTM7bqSwYTSyLueGZLTy4T4` |
-| ORCA/SOL | ORCA | SOL | 64 | `2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a` |
-| BONK/SOL | BONK | SOL | 64 | `Bvk9dN2NWLNsNHsqrCEKAbDu1bcUXCHMQPHQUEWPRWV3` |
-| JUP/SOL | JUP | SOL | 64 | `BqnpCdDLPV2pFdAaLnVidmn3G93RP2p5oRdGEY2sJGez` |
-| WIF/SOL | WIF | SOL | 128 | `EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx` |
+| ORCA/SOL | SOL | ORCA | 64 | `HrvrhPtNq8JEGbi7dhMFuXy1Jms49nZrgC6GLjZ3cPyo` |
+| BONK/SOL | SOL | BONK | 64 | `3ne4mWqdYuNiYrYZC9TrA3FcfuFdErghH97vNPbjicr1` |
+| JUP/SOL | JUP | SOL | 8 | `C1MgLojNLWBKADvu9BHdtgzz1oZX4dZ5zGdGcgvvW8Wz` |
+| WIF/SOL | SOL | WIF | 4 | `D6NdKrKNQPmRZCCnG1GqXtF7MMoHB7qR6GU5TkG59Qz1` |
 
 ### Stablecoin Pools
 
@@ -77,9 +77,9 @@
 
 | Pool | Token A | Token B | Tick Spacing | Address |
 |------|---------|---------|--------------|---------|
-| mSOL/SOL | mSOL | SOL | 1 | `HJHdcP7xpvST5rhM5RqbUGMCYNE3hY4dMN4nfVMdZFYx` |
-| stSOL/SOL | stSOL | SOL | 1 | `2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a` |
-| bSOL/SOL | bSOL | SOL | 1 | `D68NB5JkzvyNCZAvi6EGtEcGvSoRNPanU9heYTAUFFRa` |
+| mSOL/SOL | SOL | mSOL | 1 | `HQcY5n2zP6rW74fyFEhWeBd3LnJpBcZechkvJpmdb8cx` |
+| stSOL/SOL | SOL | stSOL | 1 | `2AEWSvUds1wsufnsDPCXjFsJCMJH5SNNm7fSF4kxys9a` |
+| bSOL/SOL | SOL | bSOL | 1 | `8phK65jxmTPEN158xLgSr4oZvssw9SyTErpNZj3g7px4` |
 
 ---
 
