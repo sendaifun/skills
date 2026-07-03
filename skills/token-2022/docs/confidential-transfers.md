@@ -151,7 +151,7 @@ import { ElGamalKeypair, AeKey } from '@solana/zk-sdk';
 import {
   deriveElGamalKeypairForOwnerMint,
   deriveAeKeyForOwnerMint,
-} from '@solana-program/token-2022';
+} from '@solana-program/token-2022/confidential';
 
 // 0.12.0 takes a single options object. `signer` is a TransactionSigner (message-signing capable);
 // `owner` is its address. The same (owner, mint) deterministically yields the same keys — no key storage.
@@ -218,7 +218,7 @@ to the larger `getAccountDataSize`) and calls **`ConfigureAccount`**, supplying 
 and a **pubkey-validity proof** (`VerifyPubkeyValidity`). This sets the encrypted balances to zero.
 
 ```ts
-import { getCreateConfidentialTransferAccountInstructionPlan } from '@solana-program/token-2022';
+import { getCreateConfidentialTransferAccountInstructionPlan } from '@solana-program/token-2022/confidential';
 
 // Reallocate the token account for the extension, then ConfigureAccount with a pubkey-validity proof.
 const configurePlan = getCreateConfidentialTransferAccountInstructionPlan({
@@ -259,7 +259,7 @@ The owner moves pending credits into the spendable available balance. Re-encrypt
 `decryptable_available_balance` with the AES key. This is the front-running guard described above.
 
 ```ts
-import { getApplyConfidentialPendingBalanceInstructionFromToken } from '@solana-program/token-2022';
+import { getApplyConfidentialPendingBalanceInstructionFromToken } from '@solana-program/token-2022/confidential';
 
 const applyIx = await getApplyConfidentialPendingBalanceInstructionFromToken({
   rpc,
@@ -289,7 +289,7 @@ The kit client packages proof generation + the Token-2022 `Transfer` into an **i
 (multi-tx — see below):
 
 ```ts
-import { getConfidentialTransferInstructionPlan } from '@solana-program/token-2022';
+import { getConfidentialTransferInstructionPlan } from '@solana-program/token-2022/confidential';
 
 const transferPlan = await getConfidentialTransferInstructionPlan({
   rpc,
@@ -317,7 +317,7 @@ Move an **available** confidential balance back to a **public** balance. Require
 `ApplyPendingBalance` first if you need to spend recently received credits.
 
 ```ts
-import { getConfidentialWithdrawInstructionPlan } from '@solana-program/token-2022';
+import { getConfidentialWithdrawInstructionPlan } from '@solana-program/token-2022/confidential';
 
 const withdrawPlan = await getConfidentialWithdrawInstructionPlan({
   rpc,
@@ -339,27 +339,41 @@ Before you can `CloseAccount` a confidential account you must prove its availabl
 ```ts
 import { getEmptyConfidentialTransferAccountInstruction } from '@solana-program/token-2022';
 
-const emptyIx = await getEmptyConfidentialTransferAccountInstruction({
-  rpc, token: ownerAta, mint, authority: owner, elgamalKeypair: elgamal, aeKey,
+// This is the low-level GENERATED builder (0.12.0 ships no high-level plan helper for EmptyAccount).
+// It is SYNCHRONOUS and needs a VerifyCloseAccount (zero-balance) proof supplied via the
+// context-state pattern (see "Proof delivery" below). `proofInstructionOffset: 0` means "read the
+// proof from the context-state account."
+const emptyIx = getEmptyConfidentialTransferAccountInstruction({
+  token: ownerAta,                                            // holder's Token-2022 ATA
+  authority: owner,                                           // signer
+  instructionsSysvarOrContextState: closeAccountProofContext, // VerifyCloseAccount context-state account
+  proofInstructionOffset: 0,                                  // 0 → use the context-state account above
 });
 ```
 
 ### Reading your balance
 
 ```ts
-import { decryptAvailableBalance } from '@solana-program/token-2022';
+import { getDecryptableBalanceDecoder } from '@solana-program/token-2022';
 
-// Fetch the token account, then decrypt its confidential available balance with your AES key.
-// 0.12.0 exposes decryptAvailableBalance plus decryptable-/encrypted-balance codecs; confirm the
-// exact argument shapes against the installed package's .d.ts (this high-level surface is evolving).
-const available = await decryptAvailableBalance({ rpc, token: ownerAta, aeKey });
+// 0.12.0 has NO high-level `decryptAvailableBalance` export. Read the balance yourself: fetch the
+// token account, take the ConfidentialTransferAccount extension's `decryptableAvailableBalance`
+// ciphertext, decode it with the generated `getDecryptableBalanceDecoder()`, then decrypt it with
+// your AES key (`aeKey` from @solana/zk-sdk). Confirm the exact AES-decrypt call against your
+// installed zk-sdk `.d.ts` — this read-side surface is still evolving.
+const decryptable = getDecryptableBalanceDecoder().decode(decryptableAvailableBalanceBytes);
+const available = aeKey.decrypt(decryptable); // @solana/zk-sdk AeKey — verify method vs installed .d.ts
 ```
 
-> The high-level plan builders (`getConfidentialTransferInstructionPlan`, `getConfidentialWithdrawInstructionPlan`,
-> `getCreateConfidentialTransferAccountInstructionPlan`, `getApplyConfidentialPendingBalanceInstructionFromToken`)
-> and `getEmptyConfidentialTransferAccountInstruction` are verified exports of `@solana-program/token-2022` 0.12.0.
-> The confidential read-balance helpers (`decryptAvailableBalance` + balance codecs) are evolving — confirm exact
-> argument shapes against the installed `.d.ts`.
+> **Import paths (0.12.0):** the high-level plan helpers (`getConfidentialTransferInstructionPlan`,
+> `getConfidentialWithdrawInstructionPlan`, `getCreateConfidentialTransferAccountInstructionPlan`,
+> `getApplyConfidentialPendingBalanceInstructionFromToken`) and the key-derivation helpers
+> (`deriveElGamalKeypairForOwnerMint`, `deriveAeKeyForOwnerMint`) live under the
+> **`@solana-program/token-2022/confidential`** subpath — they are NOT re-exported from the package root.
+> The low-level generated builders (`getConfidentialDepositInstruction`,
+> `getEmptyConfidentialTransferAccountInstruction`) are root exports. There is **no** `decryptAvailableBalance`
+> export — read the balance with the `getDecryptableBalanceDecoder()` codec + your AES key. Confirm exact
+> shapes against the installed `.d.ts`; this surface is still evolving.
 
 ---
 

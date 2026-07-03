@@ -226,11 +226,13 @@ const plan = getCreateMintInstructionPlan({
 - **Confidential-transfer support (kit-only, + `@solana/zk-sdk` 0.4.2):** generated ixs
   `configureConfidentialTransferAccount(WithRegistry)`, `confidentialDeposit`,
   `applyConfidentialPendingBalance`, `confidentialTransfer(WithFee)`, `confidentialWithdraw`,
-  `emptyConfidentialTransferAccount`, `initializeConfidentialTransferMint`; high-level
+  `emptyConfidentialTransferAccount`, `initializeConfidentialTransferMint`; high-level plan helpers
+  (under the **`@solana-program/token-2022/confidential`** subpath)
   `getCreateConfidentialTransferAccountInstructionPlan`, `getConfidentialTransferInstructionPlan`,
-  `getConfidentialWithdrawInstructionPlan`, `getApplyConfidentialPendingBalanceInstructionFromToken`,
-  `getEmptyConfidentialTransferAccountInstruction`, `decryptAvailableBalance` (+ balance codecs);
-  key derivation `deriveElGamalKeypair[ForOwnerMint]`,
+  `getConfidentialWithdrawInstructionPlan`, `getApplyConfidentialPendingBalanceInstructionFromToken`;
+  read the balance via the `getDecryptableBalanceDecoder()` codec + your AES key (there is **no**
+  `decryptAvailableBalance` export); key derivation (also under `/confidential`)
+  `deriveElGamalKeypair[ForOwnerMint]`,
   `deriveAeKey[ForOwnerMint]` (import `ElGamalKeypair`, `AeKey` from `@solana/zk-sdk`). See
   [docs/confidential-transfers.md](../docs/confidential-transfers.md).
 
