@@ -1,270 +1,248 @@
 ---
 name: magicblock
-description: Complete guide for MagicBlock Ephemeral Rollups - high-performance Solana execution with sub-10ms latency, gasless transactions, and Solana Plugins. Use when building real-time games, high-frequency trading, or any application requiring ultra-low latency on Solana.
+description: Design, implement, and debug MagicBlock applications on Solana. Covers Ephemeral Rollups with delegated state; ER/PER architecture and settlement; private payments and token flows; oracles and randomness; scheduling and temporary authority; security and local validation. Use for MagicBlock product selection, integration, cross-product design, or production troubleshooting.
 ---
 
-# MagicBlock Ephemeral Rollups Guide
+# MagicBlock Development Skill
 
-A comprehensive guide for building high-performance Solana applications with MagicBlock Ephemeral Rollups - enabling sub-10ms latency and gasless transactions.
+## Pair with the `solana-dev` skill
 
-## Overview
-
-MagicBlock Ephemeral Rollups (ER) are specialized SVM runtimes that enhance Solana with:
-- **Sub-10ms latency** (vs ~400ms on base Solana)
-- **Gasless transactions** for seamless UX
-- **Full composability** with existing Solana programs
-- **Horizontal scaling** via on-demand rollups
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      Your Application                        │
-├─────────────────────────────────────────────────────────────┤
-│  Base Layer (Solana)          │  Ephemeral Rollup (ER)      │
-│  - Initialize accounts        │  - Execute operations       │
-│  - Delegate accounts          │  - Process at ~10-50ms      │
-│  - Final state commits        │  - Zero gas fees            │
-│  - ~400ms finality            │  - Commit state to Solana   │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Core Flow
-
-1. **Initialize** - Create accounts on Solana base layer
-2. **Delegate** - Transfer account ownership to delegation program
-3. **Execute** - Run fast operations on Ephemeral Rollup
-4. **Commit** - Sync state back to base layer
-5. **Undelegate** - Return ownership to your program
-
-## Prerequisites
-
-```bash
-# Required versions
-Solana: 2.3.13
-Rust: 1.85.0
-Anchor: 0.32.1
-Node: 24.10.0
-
-# Install Anchor (if needed)
-cargo install --git https://github.com/coral-xyz/anchor anchor-cli
-```
-
-## Quick Start
-
-### 1. Add Dependencies (Cargo.toml)
-
-```toml
-[dependencies]
-anchor-lang = "0.32.1"
-ephemeral-rollups-sdk = { version = "0.6.5", features = ["anchor", "disable-realloc"] }
-```
-
-### 2. Program Setup (lib.rs)
-
-```rust
-use anchor_lang::prelude::*;
-use ephemeral_rollups_sdk::anchor::{delegate_account, commit_accounts, ephemeral};
-use ephemeral_rollups_sdk::cpi::DelegationProgram;
-
-declare_id!("YourProgramId111111111111111111111111111111");
-
-#[ephemeral]  // Required: enables ER support
-#[program]
-pub mod my_program {
-    use super::*;
-
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        ctx.accounts.state.value = 0;
-        Ok(())
-    }
-
-    #[delegate]  // Auto-injects delegation accounts
-    pub fn delegate(ctx: Context<Delegate>) -> Result<()> {
-        Ok(())
-    }
-
-    pub fn increment(ctx: Context<Update>) -> Result<()> {
-        ctx.accounts.state.value += 1;
-        Ok(())
-    }
-
-    #[commit]  // Auto-injects commit accounts
-    pub fn undelegate(ctx: Context<Undelegate>) -> Result<()> {
-        Ok(())
-    }
-}
-```
-
-### 3. TypeScript Client Setup
-
-```typescript
-import { Connection, PublicKey } from "@solana/web3.js";
-import { AnchorProvider, Program } from "@coral-xyz/anchor";
-import { DELEGATION_PROGRAM_ID } from "@magicblock-labs/ephemeral-rollups-sdk";
-
-// CRITICAL: Separate connections for each layer
-const baseConnection = new Connection("https://api.devnet.solana.com");
-const erConnection = new Connection("https://devnet.magicblock.app");
-
-// Create providers
-const baseProvider = new AnchorProvider(baseConnection, wallet, { commitment: "confirmed" });
-const erProvider = new AnchorProvider(erConnection, wallet, {
-  commitment: "confirmed",
-  skipPreflight: true,  // Required for ER
-});
-
-// Check delegation status
-async function isDelegated(pubkey: PublicKey): Promise<boolean> {
-  const info = await baseConnection.getAccountInfo(pubkey);
-  return info?.owner.equals(DELEGATION_PROGRAM_ID) ?? false;
-}
-```
+Use this skill for MagicBlock-specific concerns: ER/PER, delegation, oracles, Session Keys, cranks, VRF,
+Magic Actions, eSPL, and private payments. For general Solana or Anchor work such as scaffolding, PDAs,
+account layouts, SPL tokens, clients, wallets, or LiteSVM/Mollusk testing, also load `solana-dev`.
 
 ## Key Concepts
 
-### Delegation
+**Ephemeral Rollups** enable high-performance, low-latency transactions by locking a delegated
+account on the base layer while an ER clone continues to execute under the account's original program
+owner. They are useful for gaming, real-time apps, and fast transaction throughput.
 
-Delegation transfers PDA ownership to the delegation program, allowing the Ephemeral Validator to process transactions.
+**Ephemeral Accounts** are born, used, and closed only inside an ER. They are useful for temporary
+high-frequency state, but they never commit to Solana and therefore cannot be the only copy of durable
+ownership, balances, rewards, or settlement results.
 
-```rust
-#[derive(Accounts)]
-pub struct Delegate<'info> {
-    #[account(mut)]
-    pub payer: Signer<'info>,
-    /// CHECK: Will be delegated
-    #[account(mut, del)]  // 'del' marks for delegation
-    pub state: AccountInfo<'info>,
-    pub delegation_program: Program<'info, DelegationProgram>,
-}
+**Delegation** temporarily assigns the base-layer account to the Delegation Program and clones it into
+the ER with its original program owner. Normal program ownership, signer, authority, and account
+constraints still apply on the ER; delegation status is a routing and lifecycle concern, not a new
+application authorization rule.
+
+**Delegation debugging invariant**: a properly delegated account looks owned by
+the delegation program on base, owned by the original program on the ER endpoint
+returned by router `getDelegationStatus`, and cloned into the ER with
+`delegated=true`.
+
+For the verified SDK v0.15.5 snapshot, use **MagicIntentBundleBuilder** to
+schedule commit and commit-and-undelegate intents. Do not use the deprecated
+free functions `commit_accounts` and `commit_and_undelegate_accounts`.
+
+**Private Ephemeral Rollups (PER)** gate a delegated account inside a TEE-backed validator with an ER-local `EphemeralPermission`. Delegate only the data account on the base layer, then create, update, and close its permission on the ER with `CreateEphemeralPermissionCpi`, `UpdateEphemeralPermissionCpi`, and `CloseEphemeralPermissionCpi`. Do not create or delegate a separate base-layer permission account.
+
+**Magic Actions** are base-layer instructions scheduled inside an ER transaction via
+`MagicIntentBundleBuilder.add_post_commit_actions(...)`. Each attempted base-layer transaction applies
+its commit and actions atomically. If any BaseAction fails, the committor removes every BaseAction in
+that affected `TransactionStrategy` before retrying its remaining commit strategy; actions in other
+transaction/finalize strategies are outside that removal scope. Observe and reconcile every originally
+scheduled action: scheduling or eventual commit success alone does not prove that any of them ran.
+
+**Commit sponsorship**: every delegated account gets 10 free commits to base layer by default. To lift
+the cap, either re-delegate (refreshes the quota) or attach the validator-scoped `magic_fee_vault` PDA
+and a delegated fee payer to the intent bundle. The delegated payer is debited; the fee vault is the
+validated destination credited with that commit fee.
+
+**Lamports top-up**: when a delegated account (e.g. a delegated fee payer) needs more lamports on the ER side, use `lamportsDelegatedTransferIx` from the SDK. The transaction is submitted on **base layer** — the Ephemeral SPL Token program creates a single-use lamports PDA, funds it, and delegates it so the ER credits the destination.
+
+**Ephemeral SPL Token** has two surfaces. In the SDK lifecycle model, clients use
+`delegateSpl`/`transferSpl`/`undelegateIx`/`withdrawSpl`, and the ER balance appears as a normal SPL token
+account at the owner's canonical ATA address, so Anchor programs can use plain SPL Token CPI. In the
+direct-program model, contracts use `ephemeral-spl-api` and explicitly work with the eATA/global-vault
+PDAs; do not apply the canonical-ATA model to that raw surface.
+
+**Pricing Oracle** republishes supported market feeds for Solana/ER consumers. A safe integration
+verifies the expected feed identity, upstream publish-time freshness, value domain, exponent, checked
+arithmetic, and user price bounds; successful deserialization alone is not price validation.
+
+**Session Keys** authorize a temporary signer for constrained application actions. Session validity is
+separate from SPL token authority: token spending also requires an explicit, bounded token delegate
+allowance.
+
+**Architecture**:
+```
+┌─────────────────┐     delegate      ┌─────────────────────┐
+│   Base Layer    │ ───────────────►  │  Ephemeral Rollup   │
+│    (Solana)     │                   │    (MagicBlock)     │
+│                 │  ◄───────────────  │                     │
+└─────────────────┘    undelegate     └─────────────────────┘
+     ~400ms                                  ~10-50ms
 ```
 
-### Commit
+## Default stack
 
-Commits update PDA state from ER to base layer without undelegating.
+### Programs
 
-```rust
-use ephemeral_rollups_sdk::anchor::commit_accounts;
+Use Anchor with `ephemeral-rollups-sdk`; native and Pinocchio are also supported.
 
-pub fn commit(ctx: Context<Commit>) -> Result<()> {
-    commit_accounts(
-        &ctx.accounts.payer,
-        vec![&ctx.accounts.state.to_account_info()],
-        &ctx.accounts.magic_context,
-        &ctx.accounts.magic_program,
-    )?;
-    Ok(())
-}
-```
+- Use the target repo's existing `ephemeral-rollups-sdk` / Anchor versions unless the task is an explicit upgrade
+- The SDK feature flag selects the Anchor range: `anchor` for Anchor 1.x programs, or `anchor-compat` for Anchor >=0.28,<1.0 programs
 
-### Undelegation
+**Required macros:**
 
-Returns PDA ownership to your program while committing final state.
+- `#[ephemeral]` on the program module, **before** `#[program]` — injects the `process_undelegation` callback (the delegation program CPIs into it to return the account) and the commit/undelegate intent builders. Commit and undelegation require it; delegation itself does not. Include it on any program that delegates so its accounts can later be undelegated.
+- `#[delegate]` and `#[commit]` on the respective delegation/commit account contexts.
+- `#[vrf]` on a VRF *request* context **and** `#[vrf_callback]` on the VRF *callback* context — the
+  callback macro authenticates fulfillment. Enable the `vrf` feature on `ephemeral-rollups-sdk`.
+  SDK v0.15.5 re-exports VRF, so new Anchor code does not need a direct
+  `ephemeral-vrf-sdk` dependency. See [vrf.md](references/vrf.md).
 
-```rust
-#[commit]  // Handles commit + undelegate
-pub fn undelegate(ctx: Context<Undelegate>) -> Result<()> {
-    Ok(())
-}
-```
+**Non-Anchor programs:** use the
+`ephemeral-rollups-pinocchio` crate (delegation, commit, and VRF have Pinocchio equivalents). The
+engine examples repo ships Anchor and Pinocchio variants of `roll-dice`; use Pinocchio when
+the target program is native rather than Anchor.
 
-## ER Validators (Devnet)
+Versions in this skill are known-good snapshots or compatibility markers. Before changing dependencies,
+inspect the target repository's manifests, toolchain files, lockfiles, and relevant upstream sources.
+See [resources.md](references/resources.md) for the dated snapshot and source links.
 
-| Region | Validator Identity |
-|--------|-------------------|
-| Asia | `MAS1Dt9qreoRMQ14YQuhg8UTZMMzDdKhmkZMECCzk57` |
-| EU | `MEUGGrYPxKk17hCr7wpT6s8dtNokZj5U2L57vjYMS8e` |
-| US | `MUS3hc9TCw4cGC12vHNoYcCGzJG1txjgQLZWVoeNHNd` |
-| TEE | `FnE6VJT5QNZdedZPnCoLsARgBwoE6DeJNjBs2H1gySXA` |
+### Connections
 
-**Magic Router** (auto-selects best): `https://devnet-router.magicblock.app`
+- Base layer connection for initialization and delegation:
+  `https://rpc.magicblock.app/devnet` or `https://rpc.magicblock.app/mainnet`
+- Router connection for delegation status:
+  `https://devnet-router.magicblock.app/` or `https://router.magicblock.app/`
+- Ephemeral rollup connection for operations on delegated accounts:
+  use the `fqdn` returned by router `getDelegationStatus`
 
-## Critical Rules
+### Transaction routing
 
-### DO:
-- Maintain separate connections for base layer and ER
-- Use `skipPreflight: true` for all ER transactions
-- Verify delegation status before sending to ER
-- Use `AccountInfo` for delegated accounts in Rust
-- Match PDA seeds exactly between Rust and TypeScript
+- Delegate transactions → Base Layer
+- Operations on delegated accounts → Ephemeral Rollup
+- Undelegate/commit transactions → Ephemeral Rollup
 
-### DON'T:
-- Send delegated account operations to base layer
-- Mix base layer and ER operations in single transaction
-- Assume account ownership without checking
-- Skip commitment verification before base layer reads
+## Operating procedure
 
-## Products
+### 0. Plan architecture when the design is not fixed
 
-| Product | Description |
-|---------|-------------|
-| **Ephemeral Rollup (ER)** | High-performance, gasless transactions |
-| **Private ER (PER)** | Privacy-preserving computation with Intel TDX |
-| **VRF** | Verifiable random function for on-chain randomness |
-| **BOLT Framework** | ECS architecture for fully on-chain games |
-| **Solana Plugins** | App-specific extensions for enhanced capabilities |
+For a new application, integration design, migration, or implementation plan, read
+[architecture-planning.md](references/architecture-planning.md) before writing code. Decide whether MagicBlock
+is needed, select the smallest product set, map accounts and transaction routing, define settlement
+and recovery, and choose validation environments. Ask at most three material questions per round;
+otherwise proceed with explicit assumptions.
 
-## Solana Plugins (New)
+### 1. Classify the operation type
 
-Solana Plugins are modular capabilities that can be added to your dApp to extend what's possible on Solana. Think of them as your custom toolkit: plug in what you need, when you need it.
+- Account initialization (base layer)
+- Delegation (base layer)
+- Operations on delegated accounts (ephemeral rollup)
+- Commit state (ephemeral rollup)
+- Undelegation (ephemeral rollup)
+- ER-only Ephemeral Account lifecycle (ephemeral rollup; never commits)
+- Asynchronous service work (VRF callback, crank, queued transfer, or Magic Action)
+- Hosted API transaction construction followed by client signing/submission
 
-### Available Plugins
+### 2. Pick the right connection
 
-| Plugin | Description | Use Cases |
-|--------|-------------|-----------|
-| **Verifiable Randomness (VRF)** | Provably fair on-chain randomness | Games, lotteries, NFT drops |
-| **Real-Time Price Feeds** | Up-to-the-millisecond market data | DEXs, trading bots, DeFi |
-| **AI Oracles** | Call AI models directly from smart contracts | Dynamic NFTs, AI agents |
+- Base layer: `https://rpc.magicblock.app/devnet` or `https://rpc.magicblock.app/mainnet`
+- Router: `https://devnet-router.magicblock.app/` or `https://router.magicblock.app/`
+- Ephemeral rollup: the `fqdn` returned by router `getDelegationStatus` for the account
 
-### Using VRF Plugin
+### 3. Implement with MagicBlock-specific correctness
 
-```typescript
-import { requestRandomness, getRandomnessResult } from "@magicblock-labs/vrf-sdk";
+For each implementation, record:
+- Which connection to use for each transaction
+- Router `getDelegationStatus` checks before operations
+- PDA seeds matching between delegate call and account definition
+- Preserving preflight for supported base transactions, and using `skipPreflight: true` only for an ER
+  path with a known simulation incompatibility (document the reason and inspect execution logs)
+- Waiting for state propagation after delegate/undelegate
+- For Ephemeral SPL Token flows, selecting the deposit and withdrawal builders independently: use the
+  default shuttle withdrawal, or explicitly run `undelegateIx`, wait for its base commit, and call the
+  legacy `withdrawSpl(..., { idempotent: false })`; use `ephemeral-spl-api` exports (not copied bytes
+  or guessed seeds) for direct CPI
+- For oracle flows, feed identity, maximum age, numeric conversion, user limits, and stale-feed behavior
+- For Session Keys, scope, expiry, optional one-time signer lamports top-up, revocation, application-
+  enforced spending limits, and any separate SPL delegate allowance
+- For asynchronous flows, the difference between acceptance/scheduling and completion, plus observation,
+  idempotency, timeout, retry, refund, and reconciliation
 
-// Request randomness
-const requestTx = await requestRandomness({
-  payer: wallet.publicKey,
-  seed: Buffer.from("my_game_seed"),
-});
+For security-sensitive designs, reviews, and implementations, read [security.md](references/security.md). Separate
+protocol guarantees from required integration validation, application policy, and ordinary Solana
+security. Do not present an application recommendation as a MagicBlock protocol guarantee.
 
-// Get result after confirmation
-const result = await getRandomnessResult(requestId);
-console.log("Random value:", result.randomness);
-```
+### 4. Debug live delegation/routing failures
 
-### Privacy with Intel TDX
+For `InvalidWritableAccount`, missing private balances, validator mismatch, or
+"account is delegated but ER rejects it" reports:
+- Start from the exact signature or account pubkey.
+- Query router `getDelegationStatus` and use its `fqdn` for ER reads/transactions.
+- Compare base ownership, router status, ER ownership, and recent ER transaction logs.
+- Treat base ownership by the delegation program as expected for a delegated account.
+- See [debugging.md](references/debugging.md) for the full runbook.
 
-MagicBlock enables privacy in any Solana program state account through Ephemeral Rollups running in Trusted Execution Environments (TEE) on Intel TDX. This allows:
-- Private computation without exposing state
-- Verifiable execution guarantees
-- Selective disclosure of results
+### 5. Diagnose possible service-side failures
 
-## Resources
+For unexpected RPC, routing, oracle, or transaction errors that could be service-side:
+- Always fetch current data; do not answer from remembered status. Use the direct JSON API `https://status.magicblock.app/api/services` as the source of truth.
+- Select the same network the code uses: JSON keys are `mainnet` and `devnet`.
+- Match the affected endpoint to the right region/server and service:
+  - Regions are `asia`, `europe`, `usa`, and `tee`.
+  - Service IDs are listed in `.meta.services`; currently `er` (Ephemeral Rollup), `rpc_router`, `pricing_oracle`, and `vrf_oracle`.
+  - Use the server entries under `.environments[network].regions[region].servers`; for mainnet Asia this includes `as.magicblock.app`.
+- Interpret `.live_status[service]`: `true` = Operational, `false` = Down, missing/undefined = N/A.
+- Interpret `.metrics[service]` as downtime minutes per day aligned with `.meta.days` in UTC.
+- When reporting findings, include the network, region, endpoint, service status, and relevant date range. Distinguish live status from historical downtime.
+- For direct ER RPC endpoints, optionally correlate with JSON-RPC `getHealth` or `getVersion`, but do not let a single RPC probe replace the status API.
 
-- **Documentation**: https://docs.magicblock.gg
-- **GitHub**: https://github.com/magicblock-labs
-- **Examples**: https://github.com/magicblock-labs/magicblock-engine-examples
-- **Starter Kits**: https://github.com/magicblock-labs/starter-kits
-- **BOLT Book**: https://book.boltengine.gg
-- **Discord**: Join for testnet access
+### 6. Add appropriate features
 
-## Skill Structure
+- Cranks for recurring automated transactions
+- VRF for verifiable randomness in games/lotteries
+- Private payments API for private transfers and swaps
+- Pricing Oracle for verified external market data
+- Session Keys for repeated low-friction user actions
+- Ephemeral Accounts for temporary state that is explicitly allowed to disappear
 
-```
-magicblock/
-├── SKILL.md                          # This file
-├── resources/
-│   ├── api-reference.md              # Complete API reference
-│   └── program-ids.md                # All program IDs and constants
-├── examples/
-│   ├── anchor-counter/README.md      # Basic counter with delegation
-│   ├── delegation-flow/README.md     # Full delegation lifecycle
-│   ├── vrf-randomness/README.md      # VRF integration
-│   └── crank-automation/README.md    # Scheduled tasks
-├── templates/
-│   ├── program-template.rs           # Rust program starter
-│   └── client-template.ts            # TypeScript client starter
-└── docs/
-    ├── advanced-patterns.md          # Complex patterns
-    └── troubleshooting.md            # Common issues
-```
+When combining products, read [composition-patterns.md](references/composition-patterns.md) and keep authority,
+token control, oracle validity, ER execution, base settlement, and asynchronous completion as separate
+guarantees.
+
+### 7. Deliverables expectations
+
+When you implement changes, provide:
+- Exact files changed + diffs
+- Commands to install/build/test
+- Risk notes for anything touching delegation/signing/state commits
+
+## Progressive disclosure (read when needed)
+
+- Architecture planning, output templates, and validation-environment selection: [architecture-planning.md](references/architecture-planning.md)
+- Cross-product selection and boundary design: [composition-patterns.md](references/composition-patterns.md)
+- MagicBlock-specific security boundaries and source standards: [security.md](references/security.md)
+- Debugging ER/delegation failures: [debugging.md](references/debugging.md)
+- Core delegation patterns: [delegation.md](references/delegation.md)
+- Ephemeral Accounts (ER-only temporary state): [ephemeral-accounts.md](references/ephemeral-accounts.md)
+- Magic Actions (post-commit base-layer instructions): [magic-actions.md](references/magic-actions.md)
+- Topping up a delegated account with lamports: [lamports-topup.md](references/lamports-topup.md)
+- Ephemeral SPL Token lifecycle (deposit, transfer, app-program CPI, undelegate, withdraw): [ephemeral-spl-token.md](references/ephemeral-spl-token.md)
+- TypeScript frontend setup: [typescript-setup.md](references/typescript-setup.md)
+- Cranks (scheduled tasks): [cranks.md](references/cranks.md)
+- VRF (randomness): [vrf.md](references/vrf.md)
+- Pricing Oracle (feed identity, freshness, and safe consumption): [pricing-oracle.md](references/pricing-oracle.md)
+- Session Keys (scoped temporary authority): [session-keys.md](references/session-keys.md)
+- Private Payments API: [private-payments.md](references/private-payments.md)
+- Local development and environment-specific validation: [local-development.md](references/local-development.md)
+- Reference links & versions: [resources.md](references/resources.md)
+
+## Terminal Self-Heal Proposal
+
+Before the final response, review the entire run against this skill's intended workflow.
+
+Check:
+- expected vs actual user-visible outputs
+- command, script, validation, and artifact results
+- missed coverage or skipped workflow steps
+- stale instructions or brittle wording
+- unexpected script/output mismatches
+- verification gaps
+- fallback or impromptu behavior
+
+If gaps are found, report them with evidence and request explicit approval for a separate maintenance
+task. Treat installed skill files as read-only during normal execution.
