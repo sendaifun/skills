@@ -12,7 +12,7 @@
     {
       "name": "arcium",
       "source": "./skills/arcium",
-      "description": "Arcium Network for encrypted computation via MPC — data stays private during processing, enabling dark pools, sealed-bid auctions, encrypted voting, confidential DeFi, and hidden game state on Solana",
+      "description": "Arcium Network for encrypted computation via MPC \u2014 data stays private during processing, enabling dark pools, sealed-bid auctions, encrypted voting, confidential DeFi, and hidden game state on Solana",
       "category": "Infrastructure"
     },
     {
@@ -24,7 +24,7 @@
     {
       "name": "carbium",
       "source": "./skills/carbium",
-      "description": "Full-stack Solana infrastructure — bare-metal RPC, Standard WebSocket pubsub, gRPC Full Block streaming, DEX aggregation via CQ1 engine, gasless swaps, and MEV-protected execution via Jito bundling",
+      "description": "Full-stack Solana infrastructure \u2014 bare-metal RPC, Standard WebSocket pubsub, gRPC Full Block streaming, DEX aggregation via CQ1 engine, gasless swaps, and MEV-protected execution via Jito bundling",
       "category": "Infrastructure"
     },
     {
@@ -78,7 +78,7 @@
     {
       "name": "jupiter",
       "source": "./skills/jupiter",
-      "description": "Jupiter APIs — Ultra Swap, Lend, Perps, Trigger, Recurring, Tokens, Price, Portfolio, routing, and production integration patterns",
+      "description": "Jupiter APIs \u2014 Ultra Swap, Lend, Perps, Trigger, Recurring, Tokens, Price, Portfolio, routing, and production integration patterns",
       "category": "DeFi"
     },
     {
@@ -90,7 +90,7 @@
     {
       "name": "lavarage",
       "source": "./skills/lavarage",
-      "description": "Lavarage Protocol for leveraged trading on Solana. Open long and short positions on any SPL token — crypto (BTC, ETH, SOL), memecoins, real-world assets (stocks like OPENAI, SPACEX), and commodities (gold). Permissionless markets with up to 12x leverage, partial sells, borrowing, and MEV-protected transaction submission.",
+      "description": "Lavarage Protocol for leveraged trading on Solana. Open long and short positions on any SPL token \u2014 crypto (BTC, ETH, SOL), memecoins, real-world assets (stocks like OPENAI, SPACEX), and commodities (gold). Permissionless markets with up to 12x leverage, partial sells, borrowing, and MEV-protected transaction submission.",
       "category": "DeFi"
     },
     {
@@ -156,13 +156,13 @@
     {
       "name": "phantom-connect",
       "source": "./skills/phantom-connect",
-      "description": "Build wallet-connected Solana apps with Phantom Connect SDK — social login (Google/Apple), transaction signing, token gating, and NFT minting across React, React Native, and Browser SDK",
+      "description": "Build wallet-connected Solana apps with Phantom Connect SDK \u2014 social login (Google/Apple), transaction signing, token gating, and NFT minting across React, React Native, and Browser SDK",
       "category": "Frontend"
     },
     {
       "name": "phantom-wallet-mcp",
       "source": "./skills/phantom-wallet-mcp",
-      "description": "Execute wallet operations via the Phantom MCP server — get addresses, sign transactions, transfer tokens, buy/swap tokens, and sign messages across Solana, Ethereum, Bitcoin, and Sui",
+      "description": "Execute wallet operations via the Phantom MCP server \u2014 get addresses, sign transactions, transfer tokens, buy/swap tokens, and sign messages across Solana, Ethereum, Bitcoin, and Sui",
       "category": "AI Agents"
     },
     {
@@ -262,9 +262,15 @@
       "category": "Oracles"
     },
     {
+      "name": "twzrd-trust",
+      "source": "./skills/twzrd-trust",
+      "description": "Check any Solana wallet or x402 seller BEFORE paying it. Free preflight returns allow/warn/block plus wash/sybil flags from the observed cross-facilitator payment corpus; paid calls return an Ed25519-signed receipt verifiable offline.",
+      "category": "Security"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
-      "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
+      "description": "Solana-first wallet analysis with Zerion API \u2014 portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
       "category": "Data & Analytics"
     },
     {
