@@ -148,7 +148,13 @@ import {
   appendTransactionMessageInstruction,
   compileTransaction,
   address,
+  lamports,
 } from "@solana/kit";
+import { getTransferSolInstruction } from "@solana-program/system";
+import {
+  getSetComputeUnitLimitInstruction,
+  getSetComputeUnitPriceInstruction,
+} from "@solana-program/compute-budget";
 import { getTransferInstruction } from "@solana-program/token";
 import {
   findAssociatedTokenPda,
@@ -156,6 +162,18 @@ import {
 } from "@solana-program/associated-token";
 
 const USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+const TIP_ACCOUNTS = [
+  "4ACfpUFoaSD9bfPdeu6DBt89gB6ENTeHBXCAi87NhDEE",
+  "D2L6yPZ2FmmmTKPgzaMKdhu6EWZcTpLy1Vhx8uvZe7NZ",
+  "9bnz4RShgq1hAnLnZbP8kbgBg1kEmcJBYQq3gQbmnSta",
+  "5VY91ws6B2hMmBFRsXkoAAdsPHBJwRfBht4DXox3xkwn",
+  "2nyhqdwKcJZR2vcqCyrYsaPVdAnFoJjiksCXJ7hfEYgD",
+  "2q5pghRs6arqVjRvT5gfgWfWcHWmw1ZuCzphgd5KfWGJ",
+  "wyvPkWjVZz1M8fHQnMMCDTQDbkManefNNhweYk5WkcF",
+  "3KCKozbAaF75qEU33jtzozcJ29yJuaLJTy2jFdzUY8bT",
+  "4vieeGHPYPG2MmyPRcYjdiDmmhN3ww7hsFNap8pVN3Ey",
+  "4TQLFNWK8AovT1gFvda5jfw2oJeRMKEmw7aH6MGBJ3or",
+];
 
 async function payWithUSDC(solana: any, recipient: string, amount: number) {
   const wallet = await solana.getPublicKey();
@@ -177,11 +195,25 @@ async function payWithUSDC(solana: any, recipient: string, amount: number) {
     }),
   });
   const { result: bhResult } = await bhRes.json();
+  const feeRes = await fetch("/api/rpc", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0", id: "1",
+      method: "getPriorityFeeEstimate",
+      params: [{ accountKeys: [wallet, USDC_MINT], options: { priorityLevel: "High" } }],
+    }),
+  });
+  const { result: feeResult } = await feeRes.json();
+  const priorityFee = Math.ceil((feeResult?.priorityFeeEstimate || 200_000) * 1.2);
+  const tipAccount = TIP_ACCOUNTS[Math.floor(Math.random() * TIP_ACCOUNTS.length)];
 
   const txMessage = pipe(
     createTransactionMessage({ version: 0 }),
     (m) => setTransactionMessageFeePayer(payer, m),
     (m) => setTransactionMessageLifetimeUsingBlockhash(bhResult.value, m),
+    (m) => appendTransactionMessageInstruction(getSetComputeUnitLimitInstruction({ units: 100_000 }), m),
+    (m) => appendTransactionMessageInstruction(getSetComputeUnitPriceInstruction({ microLamports: priorityFee }), m),
     // Ensure recipient ATA exists — creates if missing, skips if it exists
     (m) => appendTransactionMessageInstruction(getCreateAssociatedTokenIdempotentInstruction({
       payer,
@@ -195,6 +227,11 @@ async function payWithUSDC(solana: any, recipient: string, amount: number) {
       destination: toAta,
       authority: payer,
       amount: BigInt(Math.floor(amount * 1e6)),
+    }), m),
+    (m) => appendTransactionMessageInstruction(getTransferSolInstruction({
+      source: payer,
+      destination: address(tipAccount),
+      amount: lamports(200_000n), // Jito tip (minimum 0.0002 SOL)
     }), m),
   );
 
