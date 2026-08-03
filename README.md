@@ -122,6 +122,12 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [pinocchio-development](skills/pinocchio-development/) | Zero-copy framework for high-performance programs (88-95% CU reduction) |
 
+### Research
+
+| Skill | Description |
+|-------|-------------|
+| [learn-solana](skills/learn-solana/) | Beginner-safe Solana lessons, examples, diagrams, exercises, and HTML explainers |
+
 ### AI Agents
 
 | Skill | Description |
