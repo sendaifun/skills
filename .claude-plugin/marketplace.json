@@ -120,7 +120,7 @@
     {
       "name": "magicblock",
       "source": "./skills/magicblock",
-      "description": "MagicBlock Ephemeral Rollups for sub-10ms latency, gasless transactions, and real-time applications",
+      "description": "Design, implement, and debug MagicBlock applications with ER/PER architecture, delegation, payments, tokens, oracles, scheduling, security, and local validation",
       "category": "Infrastructure"
     },
     {

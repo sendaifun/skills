@@ -1,0 +1,4 @@
+interface:
+  display_name: "MagicBlock"
+  short_description: "Plan, build, and debug MagicBlock applications"
+  default_prompt: "Use $magicblock to design or implement this MagicBlock application, including its product selection, accounts, delegation, routing, settlement, and validation plan."
