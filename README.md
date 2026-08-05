@@ -72,6 +72,7 @@ npx skills add sendaifun/skills
 | [magicblock](skills/magicblock/) | Ephemeral Rollups, sub-10ms latency, gasless transactions |
 | [sol-incinerator](skills/sol-incinerator/) | Burn tokens, burn nfts, close token accounts |
 | [squads](skills/squads/) | Multisig wallets, smart accounts, account abstraction |
+| [uzproof](skills/uzproof/) | Proof-of-Use verification — verify wallets actually swapped, staked, held tokens, or traded NFTs across 14 Solana protocols; anti-fraud scoring; on-chain SAS attestation |
 
 ### Trading
 
