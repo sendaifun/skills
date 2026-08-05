@@ -82,6 +82,12 @@
       "category": "Frontend"
     },
     {
+      "name": "jito-bundles",
+      "source": "./skills/jito-bundles",
+      "description": "Land atomic, all-or-nothing transaction bundles on Solana via the Jito Block Engine with @solana/web3.js — fetch tip accounts, size the tip from the tip-floor feed, build versioned transactions, send via JSON-RPC, and poll bundle status to confirmation. Use when an agent needs MEV protection, guaranteed transaction ordering, or several transactions to execute together in one slot or not at all.",
+      "category": "Client Development"
+    },
+    {
       "name": "jupiter",
       "source": "./skills/jupiter",
       "description": "Jupiter APIs — Ultra Swap, Lend, Perps, Trigger, Recurring, Tokens, Price, Portfolio, routing, and production integration patterns",
