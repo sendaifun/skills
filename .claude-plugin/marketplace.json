@@ -244,6 +244,12 @@
       "category": "Client Development"
     },
     {
+      "name": "spl-token",
+      "source": "./skills/spl-token",
+      "description": "Create and manage classic SPL Token mints with @solana/spl-token: mints, associated token accounts (ATAs), minting, transfers (transferChecked), burning, delegates, authorities, freeze/thaw, wrapped SOL, and reading on-chain state. Use for standard SPL tokens that do not need Token-2022 extensions",
+      "category": "Infrastructure"
+    },
+    {
       "name": "svm",
       "source": "./skills/svm",
       "description": "Explore Solana's architecture and protocol internals including the SVM execution engine, account model, consensus, transactions, and validator economics",
