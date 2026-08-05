@@ -184,6 +184,12 @@
       "category": "Program Development"
     },
     {
+      "name": "priority-fees-and-transaction-building",
+      "source": "./skills/priority-fees-and-transaction-building",
+      "description": "Build reliable Solana transactions with @solana/web3.js — set a compute budget and priority fees, estimate compute units by simulation, compile versioned transactions with address lookup tables, and send/confirm/retry safely. Use when an agent needs transactions to land predictably without overpaying or hanging on expired blockhashes.",
+      "category": "Client Development"
+    },
+    {
       "name": "pumpfun",
       "source": "./skills/pumpfun",
       "description": "PumpFun Protocol for token launches, bonding curves, and PumpSwap AMM integration",
@@ -266,6 +272,12 @@
       "source": "./skills/switchboard",
       "description": "Switchboard Oracle for price feeds, on-demand data, VRF randomness, and Surge streaming",
       "category": "Oracles"
+    },
+    {
+      "name": "token-2022",
+      "source": "./skills/token-2022",
+      "description": "Complete guide for creating and managing Token-2022 (SPL Token Extensions) mints with @solana/spl-token. Covers transfer fees, interest-bearing, non-transferable (soulbound), metadata pointer + on-chain token metadata, default account state, permanent delegate, mint close authority, and transfer hooks. Use this when an agent needs to mint or manage SPL tokens that require extension behavior beyond the classic Token program.",
+      "category": "NFT & Tokens"
     },
     {
       "name": "wallet-analysis",
