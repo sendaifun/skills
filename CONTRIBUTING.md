@@ -79,6 +79,7 @@ The agent should:
 2. Test with various prompts
 3. Verify edge cases are handled
 4. Check outputs are correct and secure
+5. Test with OpenCode by running `./scripts/install-opencode.sh your-skill-name` and verifying it loads in `.opencode/instructions.md`
 
 ### Add to Marketplace
 
