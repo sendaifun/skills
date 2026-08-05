@@ -1,0 +1,6 @@
+{
+  "name": "program-security-audit",
+  "source": "./skills/program-security-audit",
+  "description": "Security audit skill for Solana programs. Covers threat modeling, vulnerability detection (12 patterns), signer verification, reentrancy prevention, safe math, and access control. Generates structured audit reports with severity ratings and code fixes.",
+  "category": "Security"
+}
