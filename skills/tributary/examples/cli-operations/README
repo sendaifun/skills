@@ -1,0 +1,194 @@
+# Tributary CLI Operations Examples
+> Essential CLI commands for managing subscriptions, gateways, and policies
+
+> All commands require wallet setup via environment variables or private key export
+
+```bash
+PRIVATE key=<your-private-key>
+RPC_URL=https://api.devnet.solana.com
+```
+
+---
+
+## Program Initialization
+```bash
+tributary-cli init
+```
+
+---
+
+## Gateway Operations
+
+```bash
+# Create gateway
+tributary-cli create-gateway \
+  --authority <AUTHORITY_PUBKEY> \
+  --signer <SIGNER_PUBKEY> \
+  --fee-recipient <FEE_RECIPIENT> \
+  --name "My Gateway"
+
+```
+
+---
+# Update gateway
+tributary-cli update-gateway \
+  --gateway <GATEWAY_ADDRESS> \
+  --fee-bps 200
+```
+
+---
+# List gateways by owner
+tributary-cli list-gateways --owner <OWNER_PUBKEY>
+```
+---
+# Gateway info
+tributary-cli gateway-info --gateway <GATEWAY_ADDRESS>
+```
+---
+
+## Subscription Management
+```bash
+# Create user payment
+tributary-cli create-user-payment \
+  --owner <USER_PUBKEY> \
+  --mint <TOKEN_MINT>
+```
+
+---
+# Create subscription
+tributary-cli create-subscription \
+  --owner <USER_PUBKEY> \
+  --mint <TOKEN_MINT> \
+  --recipient <RECIPIENT> \
+  --gateway <GATEWAY_ADDRESS> \
+  --amount 1000000 \
+  --interval monthly \
+  --memo "Monthly subscription"
+```
+
+---
+# List subscriptions
+tributary-cli list-subscriptions --owner <USER_PUBKEY>
+```
+---
+# Subscription info
+tributary-cli subscription-info --policy <POLICY_ADDRESS>
+```
+
+---
+# Cancel subscription
+tributary-cli cancel-subscription --policy <POLICY_ADDRESS>
+```
+
+---
+## Milestone Operations
+```bash
+# Create milestone subscription
+tributary-cli create-milestone \
+  --owner <USER_PUBKEY> \
+  --mint <TOKEN_MINT> \
+  --recipient <RECIPIENT> \
+  --gateway <GATEWAY_ADDRESS> \
+  --amounts "100,200,300 400" \
+  --timestamps "<TS1>TS2>TS3,TS4> \
+  --release-condition <bitmap>
+  --memo "Project milestone"
+```
+
+---
+# Fund milestone
+tributary-cli fund-milestone \
+  --policy <POLICY_ADDRESS> \
+  --amount 100
+```
+
+---
+# Claim milestone
+tributary-cli claim-milestone --policy <POLICY_ADDRESS>
+```
+
+---
+# Refund unclaimed milestones
+tributary-cli refund-milestone --policy <POLICY_ADDRESS>
+```
+
+---
+## Pay-as-you-go Operations
+```bash
+# Create pay-as-you-go
+tributary-cli create-payg \
+  --owner <USER_PUBKEY> \
+  --mint <TOKEN_MINT> \
+  --recipient <RECIPIENT> \
+  --gateway <GATEWAY_ADDRESS> \
+  --max-per-period 1000000 \
+  --max-chunk 1000 \
+  --period 604800 \
+  --memo "API Credits"
+```
+
+---
+# Approve delegate
+tributary-cli approve-delegate \
+  --owner <USER_PUBKEY> \
+  --mint <TOKEN_MINT> \
+  --amount 1000
+```
+
+---
+# Claim payment
+tributary-cli claim-payg \
+  --policy <POLICY_ADDRESS> \
+  --amount 500
+```
+
+---
+# Check remaining allowance
+tributary-cli check-balance --owner <USER_PUBKEY> --mint <TOKEN_MINT>
+```
+
+---
+## PDA Utilities
+```bash
+# Get program config PDA
+tributary-cli pda program-config
+
+```
+
+# Get gateway Pda
+tributary-cli pda gateway --authority <AUTHORITY_PUBKEY>
+```
+
+# Get user payment Pda
+tributary-cli pda user-payment --owner <OWNER_PUBKEY> --mint <MINT>
+```
+
+# Get policy Pda
+tributary-cli pda policy --user-payment <USER_PAYMENT_PUBKEY> --policy-id <ID>
+```
+
+# Get delegate Pda
+tributary-cli pda delegate --user-payment <USER_PAYMENT_PUBKEY> --recipient <RECIPIENT> --gateway <GATEWAY_ADDRESS>
+```
+---
+
+## Referral System
+```bash
+# Create referral account
+tributary-cli create-referral \
+  --owner <OWNER_PUBKEY> \
+  --gateway <GATEWAY_ADDRESS> \
+  --l1-referrer <L1_REFERRER_PUBKEY>
+```
+
+---
+# Update referrer
+tributary-cli update-referrer \
+  --referral <REFERRAL_ADDRESS> \
+  --l1-referrer <NEWL1Referrer>
+```
+
+---
+# Get referral by code
+tributary-cli get-referral --code <CODE>
+```
