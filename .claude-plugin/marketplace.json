@@ -268,6 +268,12 @@
       "category": "Oracles"
     },
     {
+      "name": "tnt-risk-api",
+      "source": "./skills/tnt-risk-api",
+      "description": "Solana token risk scoring for AI trading agents — insider wallet cluster detection, mint/freeze authority checks, honeypot risk, and LP-lock status via a single API call before a trade",
+      "category": "Security"
+    },
+    {
       "name": "wallet-analysis",
       "source": "./skills/wallet-analysis",
       "description": "Solana-first wallet analysis with Zerion API — portfolio value, token positions, transactions, charts, and wallet PnL across Solana and multichain wallets. API-first, with hosted MCP and x402 on Solana as no-key options for agents.",
