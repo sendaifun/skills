@@ -250,6 +250,12 @@
       "category": "Research"
     },
     {
+      "name": "solenrich",
+      "source": "./skills/solenrich",
+      "description": "Solana onchain intelligence pay-per-call over x402: token due diligence verdicts, wallet risk, smart-money and whale flow, memecoin entry/exit signals, cross-venue perps funding, StonkFun reward-coin gems. No API key.",
+      "category": "Data & Analytics"
+    },
+    {
       "name": "squads",
       "source": "./skills/squads",
       "description": "Squads Protocol for multisig wallets, smart accounts, account abstraction, and Grid stablecoin rails",
