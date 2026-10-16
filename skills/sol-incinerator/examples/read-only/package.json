@@ -1,0 +1,1 @@
+{"name":"sol-incinerator-read-only-example","private":true,"type":"module","engines":{"node":">=22"},"scripts":{"test":"node --test scan.test.mjs","scan":"node scan.mjs"},"dependencies":{"@kairos_elpis/sol-rent-check":"0.1.1"}}
