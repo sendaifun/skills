@@ -19,6 +19,22 @@ Sol-Incinerator API v2 provides:
 - Transaction relay endpoints to broadcast already-signed payloads
 - Partner/referral monetization inputs with built-in validation
 
+## Optional: diagnose empty accounts before API provisioning
+
+For a request such as “show SOL held in my empty token accounts; do not sign or burn anything”, use the [read-only RPC example](./examples/read-only/scan.mjs). It queries classic Token and Token-2022 through the host's RPC, without an Incinerator API key, wallet connection or hosted diagnostic service. This optional example uses the third-party MIT package `@kairos_elpis/sol-rent-check`, pinned to 0.1.1; it is not an Incinerator SDK or fee quote.
+
+```sh
+cd skills/sol-incinerator/examples/read-only
+npm ci --ignore-scripts
+# Set SOLANA_RPC_URL through your environment/secret manager, then:
+node scan.mjs PUBLIC_WALLET_ADDRESS
+npm test
+```
+
+Read `complete` before interpreting the report. Exit code 2 means incomplete RPC coverage; preserve the partial findings and do not report missing accounts as zero. JSON lamport amounts are decimal strings. `candidate` means further verification is needed, `excluded` gives a reason, and `review` means the parser or extension is not supported. Gross account lamports are not a net refund or guaranteed recoverable balance. This conservative classifier supports only ImmutableOwner among extended Token-2022 account layouts; it does not burn balances, unwrap SOL or harvest withheld fees.
+
+For a later cleanup request, re-read account state and use the API preview/build flow below (or native CloseAccount with no protocol fee). Do not treat this diagnostic as permission to sign or submit. The two RPC queries may observe different slots; neither parsed data nor a complete report proves a future close will succeed.
+
 ## Core Endpoint Groups
 
 | Group | Endpoints |
