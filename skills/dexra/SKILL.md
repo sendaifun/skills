@@ -97,11 +97,11 @@ See [examples/pre-buy/gate.ts](examples/pre-buy/gate.ts): it batches the mints a
 ## Common Errors
 
 ### 402 Payment Required
-**Cause**: no key and no x402 payment, a key not recognized (keys start with `dxr_`), today's credits spent (`X-Dexra-Subscription: quota_exceeded`), or a call the plan does not cover such as a feed over an hour on Free (`plan_required`).
-**Fix**: check the key; pay the x402 challenge; or move to a plan at https://dexra.dev/#pricing.
+**Cause**: no key and no x402 payment, today's credits spent (`X-Dexra-Subscription: quota_exceeded`), or a call the plan does not cover such as a feed over an hour on Free (`plan_required`).
+**Fix**: pay the x402 challenge, or move to a plan at https://dexra.dev/#pricing.
 
 ### 401 Unauthorized
-**Cause**: a `dxr_` key that was revoked.
+**Cause**: a revoked key, or a credential that is not a Dexra key at all (keys start with `dxr_`).
 **Fix**: create a new key at https://dexra.dev/app/keys.
 
 ### 400 on a well-known token

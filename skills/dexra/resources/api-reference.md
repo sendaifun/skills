@@ -75,8 +75,8 @@ Both answer `400` for tokens with millions of holders (SOL, USDC, USDT): RPC lis
 |---|---|---|
 | `402` | `X-Dexra-Subscription: quota_exceeded` | today's credits spent; pay per call or upgrade |
 | `402` | `X-Dexra-Subscription: plan_required` | the call needs a plan (e.g. a feed over an hour on Free) |
-| `402` | `Payment-Required` | x402 challenge for a call without a key (or with a key that is not recognized) |
-| `401` | | revoked key |
+| `402` | `Payment-Required` | x402 challenge for a call without a key |
+| `401` | | revoked key, or a credential that does not start with `dxr_` |
 | `429` | `Retry-After` | per-second limit: 2 on Free, 5–20 on plans |
 
 Webhook watches (`POST /account/watches`) push changes for a token, wallet, pool or the launch feed instead of polling.
