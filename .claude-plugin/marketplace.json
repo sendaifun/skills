@@ -52,6 +52,12 @@
       "category": "Cross-Chain"
     },
     {
+      "name": "dexra",
+      "source": "./skills/dexra",
+      "description": "Risk verdicts (ok, caution, avoid, unknown) with reasons for Solana launches, tokens, wallets, pools and swaps — pre-buy gates for sniper and copy-trading bots, rug and honeypot checks for agents. REST, hosted MCP and x402 pay-per-call.",
+      "category": "Data & Analytics"
+    },
+    {
       "name": "dflow",
       "source": "./skills/dflow",
       "description": "DFlow trading protocol for spot trading, prediction markets, Swap API, and WebSocket streaming",
