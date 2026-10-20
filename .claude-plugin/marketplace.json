@@ -244,6 +244,12 @@
       "category": "Client Development"
     },
     {
+      "name": "solana-pulse",
+      "source": "./skills/solana-pulse",
+      "description": "Check a Solana transaction before an AI agent signs it: dry run with OK/REVIEW/BLOCK and every balance change, match it to the user's request, and vet tokens. MCP, HTTP or Agent Kit plugin; free daily calls, then x402.",
+      "category": "Security"
+    },
+    {
       "name": "svm",
       "source": "./skills/svm",
       "description": "Explore Solana's architecture and protocol internals including the SVM execution engine, account model, consensus, transactions, and validator economics",
