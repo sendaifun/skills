@@ -82,6 +82,12 @@
       "category": "Frontend"
     },
     {
+      "name": "insight-pre-trade-safety",
+      "source": "./skills/insight-pre-trade-safety",
+      "description": "Oracle-manipulation-aware price-integrity assessment for one proposed onchain action before signing",
+      "category": "Oracles"
+    },
+    {
       "name": "jupiter",
       "source": "./skills/jupiter",
       "description": "Jupiter APIs — Ultra Swap, Lend, Perps, Trigger, Recurring, Tokens, Price, Portfolio, routing, and production integration patterns",
