@@ -134,6 +134,7 @@ npx skills add sendaifun/skills
 |-------|-------------|
 | [vulnhunter](skills/vulnhunter/) | Vulnerability detection, dangerous API hunting, variant analysis |
 | [code-recon](skills/zz-code-recon/) | Deep architectural context building for security audits |
+| [sealguard](skills/sealguard/) | Check Solana transactions before signing (simulated approvals, owner and authority changes, what leaves and arrives) and scan wallets for risky approvals |
 
 ### DevOps
 
