@@ -10,6 +10,12 @@
   },
   "plugins": [
     {
+      "name": "agent402-pay",
+      "source": "./skills/agent402-pay",
+      "description": "Pay x402 endpoints in USDC on Solana and buy jobs backed by an Agent402 Bond, using the @agent402-dev/pay-mcp MCP server. Quote first (endpoint, price and payTo are shown before signing), with spend limits and an allowlist of hosts and receiving addresses.",
+      "category": "Infrastructure"
+    },
+    {
       "name": "animation-reverse-engineering",
       "source": "./skills/animation-reverse-engineering",
       "description": "Reverse-engineer any motion reference (video, GIF, X/Dribbble link) into production animation code — frame-level ffmpeg dissection, measured timing/easing/stagger, and a faithful React/TypeScript framer-motion port",
